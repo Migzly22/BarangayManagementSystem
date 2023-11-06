@@ -53,7 +53,7 @@ function Dashboard() {
                 percentage={{
                   color: "success",
                   amount: "+55%",
-                  label: "than lask week",
+                  label: "than lask weekqeqweq",
                 }}
               />
             </MDBox>
