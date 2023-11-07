@@ -12,7 +12,7 @@ public class ResidentsService {
     @Autowired
     private ResidentsRepository residentsRepository;
 
-    public String saveOfficials(ResidentsEntity residentsEntity){
+    public String addResident(ResidentsEntity residentsEntity){
         try{
             residentsRepository.save(residentsEntity);
             return "Success";
@@ -21,7 +21,7 @@ public class ResidentsService {
             return e.getMessage();
         }
     }
-    public ArrayList<ResidentsEntity> getOfficials(){
+    public ArrayList<ResidentsEntity> showAllResidents(){
         return (ArrayList<ResidentsEntity>) residentsRepository.findAll();
     }
 }

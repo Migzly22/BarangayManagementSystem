@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
+import java.util.List;
 @Service
 public class DocumentsService {
     @Autowired
     private DocumentsRepository documentsRepository;
 
-    public String saveOfficials(DocumentsEntity documentsEntity){
+    public String saveRequestDocuments(DocumentsEntity documentsEntity){
         try{
             documentsRepository.save(documentsEntity);
             return "Success";
@@ -21,7 +21,17 @@ public class DocumentsService {
             return e.getMessage();
         }
     }
-    public ArrayList<DocumentsEntity> getOfficials(){
+    public ArrayList<DocumentsEntity> getAllRequestDocuments(){
         return (ArrayList<DocumentsEntity>) documentsRepository.findAll();
     }
+
+    public Object getAllRequestDocuments1(DocumentsEntity documentsEntity){
+        List<DocumentsEntity> docuser = documentsRepository.findByResidentId(documentsEntity.getResidentId());
+        if (docuser != null) {
+            return docuser;
+        }else{
+            return "{\"message\": \"User not found\"}";
+        }
+    }
+
 }

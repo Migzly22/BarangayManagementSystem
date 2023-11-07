@@ -12,7 +12,7 @@ public class IncidentReportService {
     @Autowired
     private IncidentReportRepository incidentReportRepository;
 
-    public String saveOfficials(IncidentReportEntity incidentReportEntity){
+    public String addNewIncident(IncidentReportEntity incidentReportEntity){
         try{
             incidentReportRepository.save(incidentReportEntity);
             return "Success";
@@ -21,7 +21,7 @@ public class IncidentReportService {
             return e.getMessage();
         }
     }
-    public ArrayList<IncidentReportEntity> getOfficials(){
+    public ArrayList<IncidentReportEntity> getAllOftheIncident(){
         return (ArrayList<IncidentReportEntity>) incidentReportRepository.findAll();
     }
 }

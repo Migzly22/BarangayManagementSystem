@@ -12,7 +12,7 @@ public class HouseholdInformationService {
     @Autowired
     private HouseholdInformationRepository householdInformationRepository;
 
-    public String saveOfficials(HouseholdInformationEntity householdInformationEntity){
+    public String addNewHousehold(HouseholdInformationEntity householdInformationEntity){
         try{
             householdInformationRepository.save(householdInformationEntity);
             return "Success";
@@ -21,7 +21,7 @@ public class HouseholdInformationService {
             return e.getMessage();
         }
     }
-    public ArrayList<HouseholdInformationEntity> getOfficials(){
+    public ArrayList<HouseholdInformationEntity> getAllHousehold(){
         return (ArrayList<HouseholdInformationEntity>) householdInformationRepository.findAll();
     }
 }
