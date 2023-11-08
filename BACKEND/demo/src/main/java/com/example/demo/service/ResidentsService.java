@@ -1,11 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.ResidentsEntity;
+import com.example.demo.model.SearchModel;
 import com.example.demo.repository.ResidentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ResidentsService {
@@ -36,4 +38,15 @@ public class ResidentsService {
             return "{\"message\": \"User not found\"}";
         }
     }
+
+    public Object showSearchItem(SearchModel searchModel){
+        List<ResidentsEntity> seachedItem = residentsRepository.searchCustomQuery(searchModel.getCustomSubstring(), searchModel.getCustomLong());
+        if (!seachedItem.isEmpty()) {
+            return seachedItem;
+        }else{
+            return "{\"message\": \"Data not found\"}";
+        }
+    }
+
+
 }

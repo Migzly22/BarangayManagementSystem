@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.ResidentsEntity;
+import com.example.demo.model.SearchModel;
 import com.example.demo.service.ResidentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,4 +29,11 @@ public class ResidentsController {
     public ResponseEntity<ResidentsEntity> getSpecificUser(@RequestBody ResidentsEntity residentsEntity) {
         return new ResponseEntity(residentsService.showSpecificUser(residentsEntity), HttpStatus.OK);
     }
+
+
+    @GetMapping("showSearchedItem")
+    public ResponseEntity<ResidentsEntity> getSearchItem(@RequestBody SearchModel searchModel) {
+        return new ResponseEntity(residentsService.showSearchItem(searchModel), HttpStatus.OK);
+    }
+
 }
