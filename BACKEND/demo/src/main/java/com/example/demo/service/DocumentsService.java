@@ -27,10 +27,10 @@ public class DocumentsService {
 
     public Object getAllRequestDocuments1(DocumentsEntity documentsEntity){
         List<DocumentsEntity> docuser = documentsRepository.findByResidentId(documentsEntity.getResidentId());
-        if (docuser != null) {
+        if (!docuser.isEmpty() ) {
             return docuser;
         }else{
-            return "{\"message\": \"User not found\"}";
+            return "{\"message\": \"No Request found\"}";
         }
     }
 

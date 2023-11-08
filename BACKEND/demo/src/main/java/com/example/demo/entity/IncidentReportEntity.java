@@ -11,7 +11,7 @@ public class IncidentReportEntity {
     private String description;
     private String dateTimeOccured;
     private String dateReported;
-    private long complainantId;
+    private long residentId;
     private String status;
 
     public long getIncidentId() {
@@ -46,12 +46,12 @@ public class IncidentReportEntity {
         this.dateReported = dateReported;
     }
 
-    public long getComplainantId() {
-        return complainantId;
+    public long getResidentId() {
+        return residentId;
     }
 
-    public void setComplainantId(long complainantId) {
-        this.complainantId = complainantId;
+    public void setResidentId(long residentId) {
+        this.residentId = residentId;
     }
 
     public String getStatus() {

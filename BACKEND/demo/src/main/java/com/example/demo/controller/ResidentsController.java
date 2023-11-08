@@ -1,8 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.BarangayOfficialsEntity;
 import com.example.demo.entity.ResidentsEntity;
-import com.example.demo.service.BarangayOfficialsService;
 import com.example.demo.service.ResidentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,5 +22,10 @@ public class ResidentsController {
     @GetMapping("showAllResidents")
     public ResponseEntity getallhousehold(@RequestBody ResidentsEntity residentsEntity){
         return new ResponseEntity(residentsService.showAllResidents(), HttpStatus.OK);
+    }
+
+    @GetMapping("showSpecificUser")
+    public ResponseEntity<ResidentsEntity> getSpecificUser(@RequestBody ResidentsEntity residentsEntity) {
+        return new ResponseEntity(residentsService.showSpecificUser(residentsEntity), HttpStatus.OK);
     }
 }

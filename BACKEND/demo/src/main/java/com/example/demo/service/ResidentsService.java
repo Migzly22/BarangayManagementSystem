@@ -21,7 +21,19 @@ public class ResidentsService {
             return e.getMessage();
         }
     }
+
+    //Admin side
     public ArrayList<ResidentsEntity> showAllResidents(){
         return (ArrayList<ResidentsEntity>) residentsRepository.findAll();
+    }
+
+    //Per User side
+    public Object showSpecificUser(ResidentsEntity residentsEntity){
+        ResidentsEntity user = residentsRepository.findByUserId(residentsEntity.getUserId());
+        if (user != null) {
+            return user;
+        }else{
+            return "{\"message\": \"User not found\"}";
+        }
     }
 }

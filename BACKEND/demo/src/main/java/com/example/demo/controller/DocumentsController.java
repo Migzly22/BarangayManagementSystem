@@ -1,9 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.DocumentsEntity;
-import com.example.demo.entity.UserAccountsEntity;
 import com.example.demo.service.DocumentsService;
-import com.example.demo.service.UserAccountsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

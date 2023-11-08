@@ -12,7 +12,7 @@ public class HouseholdInformationEntity {
     private String address;
     private String householdHeadId;
     private long totalResidents;
-    private String purok;
+    private String streets;
 
     public long getHouseholdId() {
         return householdId;
@@ -46,11 +46,11 @@ public class HouseholdInformationEntity {
         this.totalResidents = totalResidents;
     }
 
-    public String getPurok() {
-        return purok;
+    public String getStreets() {
+        return streets;
     }
 
-    public void setPurok(String purok) {
-        this.purok = purok;
+    public void setStreets(String streets) {
+        this.streets = streets;
     }
 }
