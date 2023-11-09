@@ -17,6 +17,16 @@ public class UserAccountController {
     public ResponseEntity addUser(@RequestBody UserAccountsEntity userAccountsEntity){
         return new ResponseEntity(userAccountsService.saveUserCredentials(userAccountsEntity), HttpStatus.OK);
     }
+
+    @PatchMapping("updateUser")
+    public ResponseEntity updateUser(@RequestBody UserAccountsEntity userAccountsEntity){
+        return new ResponseEntity(userAccountsService.updateUserCredentials(userAccountsEntity), HttpStatus.OK);
+    }
+
+    @GetMapping("showAllUser")
+    public ResponseEntity getallUser(@RequestBody UserAccountsEntity userAccountsEntity){
+        return new ResponseEntity(userAccountsService.showAllUser(), HttpStatus.OK);
+    }
     @GetMapping("getUserAuth")
     public ResponseEntity<UserAccountsEntity> getUserAuth(@RequestBody UserAccountsEntity userAccountsEntity) {
         return new ResponseEntity(userAccountsService.gettingCredits1(userAccountsEntity), HttpStatus.OK);

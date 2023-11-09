@@ -24,6 +24,10 @@ public class IncidentReportController {
     public ResponseEntity deleteFunction(@RequestBody IncidentReportEntity incidentReportEntity){
         return new ResponseEntity(incidentReportService.deleteIncident(incidentReportEntity), HttpStatus.OK);
     }
+    @PatchMapping("updateReport")
+    public ResponseEntity updateReport(@RequestBody IncidentReportEntity incidentReportEntity){
+        return new ResponseEntity(incidentReportService.updateIncident(incidentReportEntity), HttpStatus.OK);
+    }
 
     @GetMapping("showIncidentReports")
     public ResponseEntity showIncidentReports(@RequestBody IncidentReportEntity incidentReportEntity){

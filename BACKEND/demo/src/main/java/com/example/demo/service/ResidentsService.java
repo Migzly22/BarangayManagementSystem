@@ -35,6 +35,26 @@ public class ResidentsService {
             return e.getMessage();
         }
     }
+    public String updateResident(ResidentsEntity residentsEntity){
+        try{
+            residentsRepository.updateData(
+                    residentsEntity.getResidentId(),
+                    residentsEntity.getFirstName(),
+                    residentsEntity.getMiddleName(),
+                    residentsEntity.getLastName(),
+                    residentsEntity.getDateOfBirth(),
+                    residentsEntity.getGender(),
+                    residentsEntity.getPhoneNumber(),
+                    residentsEntity.getEmail(),
+                    residentsEntity.getHouseholdId(),
+                    residentsEntity.getUserId()
+            );
+            return "Deleted Successfully";
+        }
+        catch (Exception e){
+            return e.getMessage();
+        }
+    }
 
     //Admin side
     public ArrayList<ResidentsEntity> showAllResidents(){

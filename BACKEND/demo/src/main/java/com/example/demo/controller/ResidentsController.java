@@ -24,6 +24,11 @@ public class ResidentsController {
     public ResponseEntity deleteResidents(@RequestBody ResidentsEntity residentsEntity){
         return new ResponseEntity(residentsService.deleteResident(residentsEntity), HttpStatus.OK);
     }
+    @PatchMapping("updateResident")
+    public ResponseEntity updateResident(@RequestBody ResidentsEntity residentsEntity){
+        return new ResponseEntity(residentsService.updateResident(residentsEntity), HttpStatus.OK);
+    }
+
 
     @GetMapping("showAllResidents")
     public ResponseEntity getallhousehold(@RequestBody ResidentsEntity residentsEntity){

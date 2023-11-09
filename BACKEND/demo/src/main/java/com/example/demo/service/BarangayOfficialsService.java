@@ -21,6 +21,32 @@ public class BarangayOfficialsService {
             return e.getMessage();
         }
     }
+
+    public String deleteOfficials(BarangayOfficialsEntity barangayOfficialsEntity){
+        try{
+            barangayOfficialsRepository.deleteByOfficialId(barangayOfficialsEntity.getOfficialId());
+            return "Deleted Successfully";
+        }
+        catch (Exception e){
+            return e.getMessage();
+        }
+    }
+    public String updateOfficials(BarangayOfficialsEntity barangayOfficialsEntity){
+        try{
+            barangayOfficialsRepository.updateData(
+                    barangayOfficialsEntity.getOfficialId(),
+                    barangayOfficialsEntity.getResidentId(),
+                    barangayOfficialsEntity.getPosition(),
+                    barangayOfficialsEntity.getStartDate(),
+                    barangayOfficialsEntity.getEndDate(),
+                    barangayOfficialsEntity.getElectedOrAppointed()
+            );
+            return "Updated Successfully";
+        }
+        catch (Exception e){
+            return e.getMessage();
+        }
+    }
     public ArrayList<BarangayOfficialsEntity> getOfficials(){
         return (ArrayList<BarangayOfficialsEntity>) barangayOfficialsRepository.findAll();
     }

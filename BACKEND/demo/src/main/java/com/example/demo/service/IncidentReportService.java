@@ -33,6 +33,23 @@ public class IncidentReportService {
             return e.getMessage();
         }
     }
+
+    public String updateIncident(IncidentReportEntity incidentReportEntity){
+        try{
+            incidentReportRepository.updateData(
+                    incidentReportEntity.getIncidentId(),
+                    incidentReportEntity.getDescription(),
+                    incidentReportEntity.getDateTimeOccured(),
+                    incidentReportEntity.getDateReported(),
+                    incidentReportEntity.getResidentId(),
+                    incidentReportEntity.getStatus()
+            );
+            return "Updated Successfully";
+        }
+        catch (Exception e){
+            return e.getMessage();
+        }
+    }
     public ArrayList<IncidentReportEntity> getAllOftheIncident(){
         return (ArrayList<IncidentReportEntity>) incidentReportRepository.findAll();
     }

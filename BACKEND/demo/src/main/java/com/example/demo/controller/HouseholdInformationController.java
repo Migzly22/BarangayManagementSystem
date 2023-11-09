@@ -25,6 +25,11 @@ public class HouseholdInformationController {
         return new ResponseEntity(householdInformationService.deleteHousehold(householdInformationEntity), HttpStatus.OK);
     }
 
+    @PatchMapping("updateHousehold")
+    public ResponseEntity updateHousehold(@RequestBody HouseholdInformationEntity householdInformationEntity){
+        return new ResponseEntity(householdInformationService.updateHousehold(householdInformationEntity), HttpStatus.OK);
+    }
+
     @GetMapping("showAllHousehold")
     public ResponseEntity getallhousehold(@RequestBody HouseholdInformationEntity householdInformationEntity){
         return new ResponseEntity(householdInformationService.getAllHousehold(), HttpStatus.OK);

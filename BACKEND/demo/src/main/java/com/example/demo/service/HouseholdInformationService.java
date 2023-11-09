@@ -33,6 +33,21 @@ public class HouseholdInformationService {
             return e.getMessage();
         }
     }
+    public String updateHousehold(HouseholdInformationEntity householdInformationEntity){
+        try{
+            householdInformationRepository.updateData(
+                    householdInformationEntity.getHouseholdId(),
+                    householdInformationEntity.getAddress(),
+                    householdInformationEntity.getHouseholdHeadId(),
+                    householdInformationEntity.getTotalResidents(),
+                    householdInformationEntity.getStreets()
+            );
+            return "Updated Successfully";
+        }
+        catch (Exception e){
+            return e.getMessage();
+        }
+    }
     public ArrayList<HouseholdInformationEntity> getAllHousehold(){
         return (ArrayList<HouseholdInformationEntity>) householdInformationRepository.findAll();
     }

@@ -35,6 +35,24 @@ public class DocumentsService {
         }
     }
 
+    public String updateRequestDocuments(DocumentsEntity documentsEntity){
+        try{
+            documentsRepository.updateData(
+                    documentsEntity.getDocumentId(),
+                    documentsEntity.getDocumentType(),
+                    documentsEntity.getDocumentName(),
+                    documentsEntity.getDateRequested(),
+                    documentsEntity.getDateReleased(),
+                    documentsEntity.getResidentId(),
+                    documentsEntity.getStatus()
+            );
+            return "Updated Successfully";
+        }
+        catch (Exception e){
+            return e.getMessage();
+        }
+    }
+
 
     public ArrayList<DocumentsEntity> getAllRequestDocuments(){
         return (ArrayList<DocumentsEntity>) documentsRepository.findAll();

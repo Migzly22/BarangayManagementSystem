@@ -24,6 +24,10 @@ public class DocumentsController {
         return new ResponseEntity(documentsService.deleteRequestDocuments(documentsEntity), HttpStatus.OK);
     }
 
+    @PatchMapping("updateRequestDocument")
+    public ResponseEntity updateRequestDocument(@RequestBody DocumentsEntity documentsEntity){
+        return new ResponseEntity(documentsService.updateRequestDocuments(documentsEntity), HttpStatus.OK);
+    }
     @GetMapping("getUserRequestDocuments")
     public ResponseEntity<DocumentsEntity> getUserAuth(@RequestBody DocumentsEntity documentsEntity) {
         return new ResponseEntity(documentsService.getAllRequestDocuments1(documentsEntity), HttpStatus.OK);
