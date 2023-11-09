@@ -19,4 +19,6 @@ public interface ResidentsRepository extends JpaRepository<ResidentsEntity,Long>
             "u.householdId = :customLong OR u.userId = :customLong")
     List<ResidentsEntity> searchCustomQuery(@Param("customSubstring") String customSubstring, @Param("customLong") Long customLong);
 
+
+    void deleteByResidentId(long residentId);
 }

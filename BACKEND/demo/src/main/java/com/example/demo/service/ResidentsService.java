@@ -5,11 +5,13 @@ import com.example.demo.model.SearchModel;
 import com.example.demo.repository.ResidentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class ResidentsService {
     @Autowired
     private ResidentsRepository residentsRepository;
@@ -17,7 +19,17 @@ public class ResidentsService {
     public String addResident(ResidentsEntity residentsEntity){
         try{
             residentsRepository.save(residentsEntity);
-            return "Success";
+            return "Added Successfully";
+        }
+        catch (Exception e){
+            return e.getMessage();
+        }
+    }
+
+    public String deleteResident(ResidentsEntity residentsEntity){
+        try{
+            residentsRepository.deleteByResidentId(residentsEntity.getResidentId());
+            return "Deleted Successfully";
         }
         catch (Exception e){
             return e.getMessage();

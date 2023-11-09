@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.IncidentReportEntity;
+import com.example.demo.model.SearchModel;
 import com.example.demo.service.IncidentReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,18 @@ public class IncidentReportController {
         return new ResponseEntity(incidentReportService.addNewIncident(incidentReportEntity), HttpStatus.OK);
     }
 
+    @DeleteMapping("deleteReport")
+    public ResponseEntity deleteFunction(@RequestBody IncidentReportEntity incidentReportEntity){
+        return new ResponseEntity(incidentReportService.deleteIncident(incidentReportEntity), HttpStatus.OK);
+    }
+
     @GetMapping("showIncidentReports")
     public ResponseEntity showIncidentReports(@RequestBody IncidentReportEntity incidentReportEntity){
         return new ResponseEntity(incidentReportService.getAllOftheIncident(), HttpStatus.OK);
+    }
+
+    @GetMapping("showSearchedItem")
+    public ResponseEntity<IncidentReportEntity> getSearchItem(@RequestBody SearchModel searchModel) {
+        return new ResponseEntity(incidentReportService.showSearchItem(searchModel), HttpStatus.OK);
     }
 }

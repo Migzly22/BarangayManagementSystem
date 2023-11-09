@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.DocumentsEntity;
+import com.example.demo.model.SearchModel;
 import com.example.demo.service.DocumentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,12 @@ public class DocumentsController {
     public ResponseEntity addUser(@RequestBody DocumentsEntity documentsEntity){
         return new ResponseEntity(documentsService.saveRequestDocuments(documentsEntity), HttpStatus.OK);
     }
+
+    @DeleteMapping("deleteRequestDocument")
+    public ResponseEntity deleteFunction(@RequestBody DocumentsEntity documentsEntity){
+        return new ResponseEntity(documentsService.deleteRequestDocuments(documentsEntity), HttpStatus.OK);
+    }
+
     @GetMapping("getUserRequestDocuments")
     public ResponseEntity<DocumentsEntity> getUserAuth(@RequestBody DocumentsEntity documentsEntity) {
         return new ResponseEntity(documentsService.getAllRequestDocuments1(documentsEntity), HttpStatus.OK);
@@ -25,5 +32,9 @@ public class DocumentsController {
     @GetMapping("getAllRequestDocuments")
     public ResponseEntity<DocumentsEntity> getAllRequest(@RequestBody DocumentsEntity documentsEntity) {
         return new ResponseEntity(documentsService.getAllRequestDocuments(), HttpStatus.OK);
+    }
+    @GetMapping("showSearchedItem")
+    public ResponseEntity<DocumentsEntity> getSearchItem(@RequestBody SearchModel searchModel) {
+        return new ResponseEntity(documentsService.showSearchItem(searchModel), HttpStatus.OK);
     }
 }
