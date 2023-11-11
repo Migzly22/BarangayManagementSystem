@@ -39,6 +39,7 @@ Coded by www.creative-tim.com
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import ResidentAndHousehold from "layouts/residentandhousehold";
+import Documents from "layouts/barangaydocument";
 import Billing from "layouts/billing";
 import RTL from "layouts/rtl";
 import Notifications from "layouts/notifications";
@@ -65,6 +66,14 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/residentandhousehold",
     component: <ResidentAndHousehold />,
+  },
+  {
+    type: "collapse",
+    name: "Documents",
+    key: "barangaydocument",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/barangaydocument",
+    component: <Documents />,
   },
   {
     type: "collapse",

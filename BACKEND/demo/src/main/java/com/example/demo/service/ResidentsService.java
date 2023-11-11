@@ -49,7 +49,7 @@ public class ResidentsService {
                     residentsEntity.getHouseholdId(),
                     residentsEntity.getUserId()
             );
-            return "Deleted Successfully";
+            return "Updated Successfully";
         }
         catch (Exception e){
             return e.getMessage();
