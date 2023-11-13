@@ -31,4 +31,9 @@ public class UserAccountController {
     public ResponseEntity<UserAccountsEntity> getUserAuth(@RequestBody UserAccountsEntity userAccountsEntity) {
         return new ResponseEntity(userAccountsService.gettingCredits1(userAccountsEntity), HttpStatus.OK);
     }
+
+    @GetMapping("getUserAuth2")
+    public ResponseEntity<UserAccountsEntity> getUserAuth2(@RequestBody UserAccountsEntity userAccountsEntity) {
+        return new ResponseEntity(userAccountsService.getAllUserAndResidentData(userAccountsEntity), HttpStatus.OK);
+    }
 }

@@ -54,5 +54,7 @@ public class UserAccountsService {
         }
     }
 
-
+    public List<Object[]> getAllUserAndResidentData(UserAccountsEntity userAccountsEntity) {
+        return userAccountsRepository.selectAllFromUserAndResident(userAccountsEntity.getUserId());
+    }
 }

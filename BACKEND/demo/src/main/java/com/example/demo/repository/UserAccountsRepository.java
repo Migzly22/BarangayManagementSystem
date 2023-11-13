@@ -7,10 +7,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+
 @Repository
 public interface UserAccountsRepository extends JpaRepository<UserAccountsEntity,Long> {
     UserAccountsEntity findByEmailAndPasswordHash(String email, String passwordHash);
 
+    @Query("Select u, a FROM UserAccountsEntity u LEFT JOIN ResidentsEntity a ON u.userId = a.userId WHERE u.userId = :id")
+    List<Object[]> selectAllFromUserAndResident(@Param("id") long userId);
+    
     @Modifying
     @Query("UPDATE UserAccountsEntity u SET u.email = :email, u.passwordHash = :passwordHash, " +
             "u.access = :access WHERE u.userId = :id")
