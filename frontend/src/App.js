@@ -1,18 +1,3 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { useState, useEffect, useMemo } from "react";
 
 // react-router components
@@ -44,7 +29,7 @@ import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 
 // Material Dashboard 2 React routes
-import routes from "routes";
+import { routes, sidebarroutes } from "routes";
 
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
@@ -52,6 +37,8 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "co
 // Images
 import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
+
+import { useNavigate } from "react-router-dom";
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -146,7 +133,46 @@ export default function App() {
     </MDBox>
   );
 
-  return (
+  // login function
+  const handlingLogin = (jsondata) => {
+    setAuthInfo(jsondata);
+  };
+  const handlingLogout = () => {
+    setAuthInfo(null);
+  };
+  const [authInfo, setAuthInfo] = useState(null); //will contain the jsondata of the users data
+  const [authCheck, setAuth] = useState(false); // check if the user is logged in
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const currentPathname = location.pathname;
+
+    console.log(currentPathname);
+
+    if (authInfo === null) {
+      if (
+        currentPathname !== "/authentication/sign-in" &&
+        currentPathname !== "/authentication/sign-up"
+      ) {
+        <Route path="*" element={<Navigate to="/authentication/sign-in" />} />;
+        navigate("./authentication/sign-in");
+        console.log(1);
+      }
+    } else {
+      if (
+        currentPathname === "/authentication/sign-in" ||
+        currentPathname === "/authentication/sign-up"
+      ) {
+        <Route path="*" element={<Navigate to="/dashboard" />} />;
+        navigate("./dashboard");
+        console.log(2);
+      }
+    }
+  }, [authInfo, navigate]);
+
+  const MainDiv = (
     <ThemeProvider theme={darkMode ? themeDark : theme}>
       <CssBaseline />
       {layout === "dashboard" && (
@@ -155,7 +181,7 @@ export default function App() {
             color={sidenavColor}
             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
             brandName="BMS"
-            routes={routes}
+            routes={sidebarroutes(handlingLogout)}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           />
@@ -165,9 +191,10 @@ export default function App() {
       )}
       {layout === "vr" && <Configurator />}
       <Routes>
-        {getRoutes(routes)}
+        {getRoutes(routes(handlingLogin, handlingLogout))}
         <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
       </Routes>
     </ThemeProvider>
   );
+  return MainDiv;
 }

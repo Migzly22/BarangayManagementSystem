@@ -46,11 +46,12 @@ import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
+import Logout from "layouts/authentication/sign-in";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
 
-const routes = [
+const routes = (handlingLogin, handlingLogout) => [
   {
     type: "collapse",
     name: "Dashboard",
@@ -105,7 +106,15 @@ const routes = [
     key: "sign-in",
     icon: <Icon fontSize="small">login</Icon>,
     route: "/authentication/sign-in",
-    component: <SignIn />,
+    component: <SignIn handlingLogin={handlingLogin} />,
+  },
+  {
+    type: "collapse",
+    name: "Logout",
+    key: "logout",
+    icon: <Icon fontSize="small">login</Icon>,
+    route: "/authentication/logout",
+    component: <Logout handlingLogout={handlingLogout} />,
   },
   {
     type: "collapse",
@@ -117,4 +126,63 @@ const routes = [
   },
 ];
 
-export default routes;
+const sidebarroutes = (handlingLogout) => [
+  {
+    type: "collapse",
+    name: "Dashboard",
+    key: "dashboard",
+    icon: <Icon fontSize="small">dashboard</Icon>,
+    route: "/dashboard",
+    component: <Dashboard />,
+  },
+  {
+    type: "collapse",
+    name: "Resident & Household",
+    key: "residentandhousehold",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/residentandhousehold",
+    component: <ResidentAndHousehold />,
+  },
+  {
+    type: "collapse",
+    name: "Documents",
+    key: "barangaydocument",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/barangaydocument",
+    component: <Documents />,
+  },
+  {
+    type: "collapse",
+    name: "Tables",
+    key: "tables",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/tables",
+    component: <Tables />,
+  },
+  {
+    type: "collapse",
+    name: "Notifications",
+    key: "notifications",
+    icon: <Icon fontSize="small">notifications</Icon>,
+    route: "/notifications",
+    component: <Notifications />,
+  },
+  {
+    type: "collapse",
+    name: "Profile",
+    key: "profile",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/profile",
+    component: <Profile />,
+  },
+  {
+    type: "collapse",
+    name: "Logout",
+    key: "logout",
+    icon: <Icon fontSize="small">login</Icon>,
+    route: "/authentication/logout",
+    component: <Logout handlingLogout={handlingLogout} />,
+  },
+];
+
+export { routes, sidebarroutes };

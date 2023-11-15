@@ -37,14 +37,45 @@ import MDButton from "components/MDButton";
 
 // Authentication layout components
 import BasicLayout from "layouts/authentication/components/BasicLayout";
-
+import PropTypes from "prop-types";
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
-function Basic() {
+function Basic({ handlingLogin }) {
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
+
+  //value container of inputs
+  const [loginEmail, setLEmail] = useState("");
+  const [loginPassword, setLPassword] = useState("");
+
+  const LoginSubmit = async () => {
+    const data = {
+      email: loginEmail,
+      password: loginPassword,
+    };
+
+    //code here related to API and Session
+    let example1 = "admin";
+    let example2 = "pass";
+    if (loginEmail === example1 && loginPassword === example2) {
+      handlingLogin(data);
+    }
+
+    //Reset back the Input Forms
+    setLEmail("");
+    setLPassword("");
+  };
+
+  //start of onchange per value
+  const changeEmail = (event) => {
+    setLEmail(event.target.value);
+  };
+  const changePassword = (event) => {
+    setLPassword(event.target.value);
+  };
+  //end of onchange per value
 
   return (
     <BasicLayout image={bgImage}>
@@ -67,10 +98,22 @@ function Basic() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="email" label="Email" fullWidth />
+              <MDInput
+                type="email"
+                label="Email"
+                fullWidth
+                onChange={changeEmail}
+                value={loginEmail}
+              />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="password" label="Password" fullWidth />
+              <MDInput
+                type="password"
+                label="Password"
+                fullWidth
+                onChange={changePassword}
+                value={loginPassword}
+              />
             </MDBox>
             <MDBox display="flex" alignItems="center" ml={-1}>
               <Switch checked={rememberMe} onChange={handleSetRememberMe} />
@@ -85,7 +128,7 @@ function Basic() {
               </MDTypography>
             </MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
+              <MDButton variant="gradient" color="info" fullWidth onClick={LoginSubmit}>
                 sign in
               </MDButton>
             </MDBox>
@@ -110,5 +153,7 @@ function Basic() {
     </BasicLayout>
   );
 }
-
+Basic.propTypes = {
+  handlingLogin: PropTypes.func,
+};
 export default Basic;
