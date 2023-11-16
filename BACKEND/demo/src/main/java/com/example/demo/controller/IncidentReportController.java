@@ -30,11 +30,11 @@ public class IncidentReportController {
     }
 
     @GetMapping("showIncidentReports")
-    public ResponseEntity showIncidentReports(@RequestBody IncidentReportEntity incidentReportEntity){
+    public ResponseEntity showIncidentReports(){
         return new ResponseEntity(incidentReportService.getAllOftheIncident(), HttpStatus.OK);
     }
 
-    @GetMapping("showSearchedItem")
+    @PostMapping("showSearchedItem")
     public ResponseEntity<IncidentReportEntity> getSearchItem(@RequestBody SearchModel searchModel) {
         return new ResponseEntity(incidentReportService.showSearchItem(searchModel), HttpStatus.OK);
     }

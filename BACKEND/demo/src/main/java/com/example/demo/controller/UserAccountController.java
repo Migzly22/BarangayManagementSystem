@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("UserAccount")
 public class UserAccountController {
@@ -24,15 +25,15 @@ public class UserAccountController {
     }
 
     @GetMapping("showAllUser")
-    public ResponseEntity getallUser(@RequestBody UserAccountsEntity userAccountsEntity){
+    public ResponseEntity getallUser(){
         return new ResponseEntity(userAccountsService.showAllUser(), HttpStatus.OK);
     }
-    @GetMapping("getUserAuth")
+    @PostMapping("getUserAuth")
     public ResponseEntity<UserAccountsEntity> getUserAuth(@RequestBody UserAccountsEntity userAccountsEntity) {
         return new ResponseEntity(userAccountsService.gettingCredits1(userAccountsEntity), HttpStatus.OK);
     }
 
-    @GetMapping("getUserAuth2")
+    @PostMapping("getUserAuth2")
     public ResponseEntity<UserAccountsEntity> getUserAuth2(@RequestBody UserAccountsEntity userAccountsEntity) {
         return new ResponseEntity(userAccountsService.getAllUserAndResidentData(userAccountsEntity), HttpStatus.OK);
     }

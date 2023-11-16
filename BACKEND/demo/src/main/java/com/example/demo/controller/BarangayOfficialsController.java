@@ -29,7 +29,7 @@ public class BarangayOfficialsController {
         return new ResponseEntity(barangayOfficialsService.updateOfficials(BarangayOfficialsEntity), HttpStatus.OK);
     }
     @GetMapping("showAllOfficials")
-    public ResponseEntity showAllOfficials(@RequestBody BarangayOfficialsEntity barangayOfficialsEntity){
+    public ResponseEntity showAllOfficials(){
         return new ResponseEntity(barangayOfficialsService.getOfficials(), HttpStatus.OK);
     }
 }

@@ -34,10 +34,10 @@ public class DocumentsController {
     }
 
     @GetMapping("getAllRequestDocuments")
-    public ResponseEntity<DocumentsEntity> getAllRequest(@RequestBody DocumentsEntity documentsEntity) {
+    public ResponseEntity<DocumentsEntity> getAllRequest() {
         return new ResponseEntity(documentsService.getAllRequestDocuments(), HttpStatus.OK);
     }
-    @GetMapping("showSearchedItem")
+    @PostMapping("showSearchedItem")
     public ResponseEntity<DocumentsEntity> getSearchItem(@RequestBody SearchModel searchModel) {
         return new ResponseEntity(documentsService.showSearchItem(searchModel), HttpStatus.OK);
     }

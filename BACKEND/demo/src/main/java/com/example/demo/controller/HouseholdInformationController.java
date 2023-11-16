@@ -31,11 +31,11 @@ public class HouseholdInformationController {
     }
 
     @GetMapping("showAllHousehold")
-    public ResponseEntity getallhousehold(@RequestBody HouseholdInformationEntity householdInformationEntity){
+    public ResponseEntity getallhousehold(){
         return new ResponseEntity(householdInformationService.getAllHousehold(), HttpStatus.OK);
     }
 
-    @GetMapping("showSearchedItem")
+    @PostMapping("showSearchedItem")
     public ResponseEntity<HouseholdInformationEntity> getSearchItem(@RequestBody SearchModel searchModel) {
         return new ResponseEntity(householdInformationService.showSearchItem(searchModel), HttpStatus.OK);
     }

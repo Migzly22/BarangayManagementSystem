@@ -31,17 +31,17 @@ public class ResidentsController {
 
 
     @GetMapping("showAllResidents")
-    public ResponseEntity getallhousehold(@RequestBody ResidentsEntity residentsEntity){
+    public ResponseEntity getallhousehold(){
         return new ResponseEntity(residentsService.showAllResidents(), HttpStatus.OK);
     }
 
-    @GetMapping("showSpecificUser")
+    @PostMapping("showSpecificUser")
     public ResponseEntity<ResidentsEntity> getSpecificUser(@RequestBody ResidentsEntity residentsEntity) {
         return new ResponseEntity(residentsService.showSpecificUser(residentsEntity), HttpStatus.OK);
     }
 
 
-    @GetMapping("showSearchedItem")
+    @PostMapping("showSearchedItem")
     public ResponseEntity<ResidentsEntity> getSearchItem(@RequestBody SearchModel searchModel) {
         return new ResponseEntity(residentsService.showSearchItem(searchModel), HttpStatus.OK);
     }
