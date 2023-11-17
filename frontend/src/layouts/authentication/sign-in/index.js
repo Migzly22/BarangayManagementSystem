@@ -38,52 +38,7 @@ function Basic({ handlingLogin }) {
   const [loginEmail, setLEmail] = useState("");
   const [loginPassword, setLPassword] = useState("");
 
-  const handlingDatafromAPI = () => {
-    const postdata = {};
-    fetch("http://192.168.18.108:9090/UserAccount/showAllUser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postdata),
-    })
-      .then((response) => {
-        if (response.ok) {
-          console.log(response.json());
-          console.log("Data posted successfully");
-        } else {
-          console.error("Failed to post data");
-        }
-      })
-      .catch((error) => {
-        console.error("Error posting data:", error);
-      });
-  };
-  const handlingDatafromAPI2 = () => {
-    fetch("http://192.168.18.108:9090/UserAccount/showAllUser", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        // Add any other headers as needed
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        // Return the parsed JSON data
-        return response.json();
-      })
-      .then((data) => {
-        // Handle the fetched data
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  };
   const LoginSubmit = async () => {
-    handlingDatafromAPI2();
     const data = {
       email: loginEmail,
       password: loginPassword,
