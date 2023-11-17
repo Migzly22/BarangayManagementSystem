@@ -3,9 +3,9 @@ import axios from "axios";
  * postData is the request body in json format
  */
 
-const GETAPI = async () => {
+const GETAPI = async (RESTCONTROLLER, METHODFUNCTION, postData = "") => {
   return await axios
-    .get(`http://${TARGETLOCALHOST}/${RESTCONTROLLER}/${METHODFUNCTION}`)
+    .get(`${process.env.REACT_APP_API_URL}/${RESTCONTROLLER}/${METHODFUNCTION}${postData}`)
     .then(function (response) {
       // Handle the successful response
       console.log("Data:", response.data);
@@ -16,9 +16,9 @@ const GETAPI = async () => {
     });
 };
 
-const POSTAPI = async (TARGETLOCALHOST, RESTCONTROLLER, METHODFUNCTION, postData) => {
+const POSTAPI = async (RESTCONTROLLER, METHODFUNCTION, postData) => {
   return await axios
-    .post(`http://${TARGETLOCALHOST}/${RESTCONTROLLER}/${METHODFUNCTION}`, postData)
+    .post(`${process.env.REACT_APP_API_URL}/${RESTCONTROLLER}/${METHODFUNCTION}`, postData)
     .then((response) => {
       // Handle the successful response
       console.log("Post successful. Response:", response.data);
@@ -29,9 +29,9 @@ const POSTAPI = async (TARGETLOCALHOST, RESTCONTROLLER, METHODFUNCTION, postData
     });
 };
 
-const PATCHAPI = async (postData) => {
+const PATCHAPI = async (RESTCONTROLLER, METHODFUNCTION, postData) => {
   return await axios
-    .patch(`http://${TARGETLOCALHOST}/${RESTCONTROLLER}/${METHODFUNCTION}`, postData)
+    .patch(`${process.env.REACT_APP_API_URL}/${RESTCONTROLLER}/${METHODFUNCTION}`, postData)
     .then((response) => {
       // Handle the successful response
       console.log("Post successful. Response:", response.data);
@@ -42,9 +42,9 @@ const PATCHAPI = async (postData) => {
     });
 };
 
-const DELETEAPI = async (postData) => {
+const DELETEAPI = async (RESTCONTROLLER, METHODFUNCTION, postData = "") => {
   return await axios
-    .delete(`http://${TARGETLOCALHOST}/${RESTCONTROLLER}/${METHODFUNCTION}`, postData)
+    .delete(`${process.env.REACT_APP_API_URL}/${RESTCONTROLLER}/${METHODFUNCTION}${postData}`)
     .then((response) => {
       // Handle the successful response
       console.log("Post successful. Response:", response.data);

@@ -26,6 +26,9 @@ import PropTypes from "prop-types";
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
+//Axios
+import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
+
 function Basic({ handlingLogin }) {
   const [rememberMe, setRememberMe] = useState(false);
 
