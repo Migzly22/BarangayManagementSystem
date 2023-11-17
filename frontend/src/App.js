@@ -40,6 +40,9 @@ import brandDark from "assets/images/logo-ct-dark.png";
 
 import { useNavigate } from "react-router-dom";
 
+// Import SweetAlert2
+import Swal from "sweetalert2";
+
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
   const {
@@ -134,17 +137,19 @@ export default function App() {
   );
 
   // login function
+
+  const [authInfo, setAuthInfo] = useState(null); //will contain the jsondata of the users data
+  const [authCheck, setAuth] = useState(false); // check if the user is logged in
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handlingLogin = (jsondata) => {
     setAuthInfo(jsondata);
   };
   const handlingLogout = () => {
     setAuthInfo(null);
   };
-  const [authInfo, setAuthInfo] = useState(null); //will contain the jsondata of the users data
-  const [authCheck, setAuth] = useState(false); // check if the user is logged in
-
-  const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     const currentPathname = location.pathname;

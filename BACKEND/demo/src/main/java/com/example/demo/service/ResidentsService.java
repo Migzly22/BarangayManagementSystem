@@ -71,8 +71,8 @@ public class ResidentsService {
         }
     }
 
-    public Object showSearchItem(SearchModel searchModel){
-        List<ResidentsEntity> seachedItem = residentsRepository.searchCustomQuery(searchModel.getCustomSubstring(), searchModel.getCustomLong());
+    public Object showSearchItem(String customSubstring, long customLong){
+        List<ResidentsEntity> seachedItem = residentsRepository.searchCustomQuery(customSubstring,customLong);
         if (!seachedItem.isEmpty()) {
             return seachedItem;
         }else{
