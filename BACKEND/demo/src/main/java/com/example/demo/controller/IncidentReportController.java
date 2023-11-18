@@ -21,8 +21,8 @@ public class IncidentReportController {
     }
 
     @DeleteMapping("deleteReport")
-    public ResponseEntity deleteFunction(@RequestBody IncidentReportEntity incidentReportEntity){
-        return new ResponseEntity(incidentReportService.deleteIncident(incidentReportEntity), HttpStatus.OK);
+    public ResponseEntity deleteFunction(@RequestParam(required = true) long incidentId){
+        return new ResponseEntity(incidentReportService.deleteIncident(incidentId), HttpStatus.OK);
     }
     @PatchMapping("updateReport")
     public ResponseEntity updateReport(@RequestBody IncidentReportEntity incidentReportEntity){
@@ -34,8 +34,8 @@ public class IncidentReportController {
         return new ResponseEntity(incidentReportService.getAllOftheIncident(), HttpStatus.OK);
     }
 
-    @PostMapping("showSearchedItem")
-    public ResponseEntity<IncidentReportEntity> getSearchItem(@RequestBody SearchModel searchModel) {
-        return new ResponseEntity(incidentReportService.showSearchItem(searchModel), HttpStatus.OK);
+    @GetMapping("showSearchedItem")
+    public ResponseEntity<IncidentReportEntity> getSearchItem(@RequestParam(required = false) String customSubstring,@RequestParam(required = false) long customLong) {
+        return new ResponseEntity(incidentReportService.showSearchItem(customSubstring, customLong), HttpStatus.OK);
     }
 }

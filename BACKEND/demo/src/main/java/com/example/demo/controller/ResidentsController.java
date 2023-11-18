@@ -21,8 +21,8 @@ public class ResidentsController {
     }
 
     @DeleteMapping("deleteResident")
-    public ResponseEntity deleteResidents(@RequestBody ResidentsEntity residentsEntity){
-        return new ResponseEntity(residentsService.deleteResident(residentsEntity), HttpStatus.OK);
+    public ResponseEntity deleteResidents(@RequestParam(required = true) long residentId){
+        return new ResponseEntity(residentsService.deleteResident(residentId), HttpStatus.OK);
     }
     @PatchMapping("updateResident")
     public ResponseEntity updateResident(@RequestBody ResidentsEntity residentsEntity){
@@ -35,14 +35,14 @@ public class ResidentsController {
         return new ResponseEntity(residentsService.showAllResidents(), HttpStatus.OK);
     }
 
-    @PostMapping("showSpecificUser")
-    public ResponseEntity<ResidentsEntity> getSpecificUser(@RequestBody ResidentsEntity residentsEntity) {
-        return new ResponseEntity(residentsService.showSpecificUser(residentsEntity), HttpStatus.OK);
+    @GetMapping("showSpecificUser")
+    public ResponseEntity<ResidentsEntity> getSpecificUser(@RequestParam(required = true) long userId) {
+        return new ResponseEntity(residentsService.showSpecificUser(userId), HttpStatus.OK);
     }
 
 
     @GetMapping("showSearchedItem")
-    public ResponseEntity<ResidentsEntity> getSearchItem(@RequestParam(required = false) String customSubstring,
+    public ResponseEntity<ResidentsEntity> getSearchItem(@RequestParam(required = true) String customSubstring,
                                                          @RequestParam(required = false) long customLong) {
         System.out.println("customLong " + customLong);
         return new ResponseEntity(residentsService.showSearchItem(customSubstring,customLong), HttpStatus.OK);

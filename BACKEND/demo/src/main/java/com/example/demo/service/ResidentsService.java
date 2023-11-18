@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.ResidentsEntity;
-import com.example.demo.model.SearchModel;
 import com.example.demo.repository.ResidentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,20 +18,24 @@ public class ResidentsService {
     public String addResident(ResidentsEntity residentsEntity){
         try{
             residentsRepository.save(residentsEntity);
-            return "Added Successfully";
+            return "{\"message\": \"Added Successfullyy\"," +
+                    "\"icon\": \"success\"}";
         }
         catch (Exception e){
-            return e.getMessage();
+            return "{\"message\": \""+e.getMessage()+"\"," +
+                    "\"icon\": \"error\"}";
         }
     }
 
-    public String deleteResident(ResidentsEntity residentsEntity){
+    public String deleteResident(long residentId){
         try{
-            residentsRepository.deleteByResidentId(residentsEntity.getResidentId());
-            return "Deleted Successfully";
+            residentsRepository.deleteByResidentId(residentId);
+            return "{\"message\": \"Deleted Successfullyy\"," +
+                    "\"icon\": \"success\"}";
         }
         catch (Exception e){
-            return e.getMessage();
+            return "{\"message\": \""+e.getMessage()+"\"," +
+                    "\"icon\": \"error\"}";
         }
     }
     public String updateResident(ResidentsEntity residentsEntity){
@@ -49,10 +52,12 @@ public class ResidentsService {
                     residentsEntity.getHouseholdId(),
                     residentsEntity.getUserId()
             );
-            return "Updated Successfully";
+            return "{\"message\": \"Updated Successfullyy\"," +
+                    "\"icon\": \"success\"}";
         }
         catch (Exception e){
-            return e.getMessage();
+            return "{\"message\": \""+e.getMessage()+"\"," +
+                    "\"icon\": \"error\"}";
         }
     }
 
@@ -62,8 +67,8 @@ public class ResidentsService {
     }
 
     //Per User side
-    public Object showSpecificUser(ResidentsEntity residentsEntity){
-        ResidentsEntity user = residentsRepository.findByUserId(residentsEntity.getUserId());
+    public Object showSpecificUser(long userId){
+        ResidentsEntity user = residentsRepository.findByUserId(userId);
         if (user != null) {
             return user;
         }else{

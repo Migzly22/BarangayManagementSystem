@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.DocumentsEntity;
-import com.example.demo.model.SearchModel;
 import com.example.demo.repository.DocumentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,20 +17,24 @@ public class DocumentsService {
     public String saveRequestDocuments(DocumentsEntity documentsEntity){
         try{
             documentsRepository.save(documentsEntity);
-            return "Success";
+            return "{\"message\": \"Added Successfullyy\"," +
+                    "\"icon\": \"success\"}";
         }
         catch (Exception e){
-            return e.getMessage();
+            return "{\"message\": \""+e.getMessage()+"\"," +
+                    "\"icon\": \"error\"}";
         }
     }
 
-    public String deleteRequestDocuments(DocumentsEntity documentsEntity){
+    public String deleteRequestDocuments(long documentId){
         try{
-            documentsRepository.deleteByDocumentId(documentsEntity.getDocumentId());
-            return "Deleted Successfully";
+            documentsRepository.deleteByDocumentId(documentId);
+            return "{\"message\": \"Deleted Successfullyy\"," +
+                    "\"icon\": \"success\"}";
         }
         catch (Exception e){
-            return e.getMessage();
+            return "{\"message\": \""+e.getMessage()+"\"," +
+                    "\"icon\": \"error\"}";
         }
     }
 
@@ -46,10 +49,12 @@ public class DocumentsService {
                     documentsEntity.getResidentId(),
                     documentsEntity.getStatus()
             );
-            return "Updated Successfully";
+            return "{\"message\": \"Updated Successfullyy\"," +
+                    "\"icon\": \"success\"}";
         }
         catch (Exception e){
-            return e.getMessage();
+            return "{\"message\": \""+e.getMessage()+"\"," +
+                    "\"icon\": \"error\"}";
         }
     }
 
@@ -58,8 +63,8 @@ public class DocumentsService {
         return (ArrayList<DocumentsEntity>) documentsRepository.findAll();
     }
 
-    public Object getAllRequestDocuments1(DocumentsEntity documentsEntity){
-        List<DocumentsEntity> docuser = documentsRepository.findByResidentId(documentsEntity.getResidentId());
+    public Object getAllRequestDocuments1(long residentId){
+        List<DocumentsEntity> docuser = documentsRepository.findByResidentId(residentId);
         if (!docuser.isEmpty() ) {
             return docuser;
         }else{
@@ -67,8 +72,8 @@ public class DocumentsService {
         }
     }
 
-    public Object showSearchItem(SearchModel searchModel){
-        List<DocumentsEntity> docuser = documentsRepository.searchCustomQuery(searchModel.getCustomSubstring(), searchModel.getCustomLong());
+    public Object showSearchItem(String customSubstring, long customLong){
+        List<DocumentsEntity> docuser = documentsRepository.searchCustomQuery( customSubstring, customLong);
         if (!docuser.isEmpty() ) {
             return docuser;
         }else{

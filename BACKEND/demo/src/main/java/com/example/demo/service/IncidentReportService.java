@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.IncidentReportEntity;
-import com.example.demo.model.SearchModel;
 import com.example.demo.repository.IncidentReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,20 +18,24 @@ public class IncidentReportService {
     public String addNewIncident(IncidentReportEntity incidentReportEntity){
         try{
             incidentReportRepository.save(incidentReportEntity);
-            return "Success";
+            return "{\"message\": \"Added Successfullyy\"," +
+                    "\"icon\": \"success\"}";
         }
         catch (Exception e){
-            return e.getMessage();
+            return "{\"message\": \""+e.getMessage()+"\"," +
+                    "\"icon\": \"error\"}";
         }
     }
 
-    public String deleteIncident(IncidentReportEntity incidentReportEntity){
+    public String deleteIncident(long incidentId){
         try{
-            incidentReportRepository.deleteByIncidentId(incidentReportEntity.getIncidentId());
-            return "Deleted Successfully";
+            incidentReportRepository.deleteByIncidentId(incidentId);
+            return "{\"message\": \"Added Successfullyy\"," +
+                    "\"icon\": \"success\"}";
         }
         catch (Exception e){
-            return e.getMessage();
+            return "{\"message\": \""+e.getMessage()+"\"," +
+                    "\"icon\": \"error\"}";
         }
     }
 
@@ -46,18 +49,20 @@ public class IncidentReportService {
                     incidentReportEntity.getResidentId(),
                     incidentReportEntity.getStatus()
             );
-            return "Updated Successfully";
+            return "{\"message\": \"Updated Successfullyy\"," +
+                    "\"icon\": \"success\"}";
         }
         catch (Exception e){
-            return e.getMessage();
+            return "{\"message\": \""+e.getMessage()+"\"," +
+                    "\"icon\": \"error\"}";
         }
     }
     public ArrayList<IncidentReportEntity> getAllOftheIncident(){
         return (ArrayList<IncidentReportEntity>) incidentReportRepository.findAll();
     }
 
-    public Object showSearchItem(SearchModel searchModel){
-        List<IncidentReportEntity> docuser = incidentReportRepository.searchCustomQuery(searchModel.getCustomSubstring(), searchModel.getCustomLong());
+    public Object showSearchItem(String customSubstring, long customLong){
+        List<IncidentReportEntity> docuser = incidentReportRepository.searchCustomQuery(customSubstring, customLong);
         if (!docuser.isEmpty() ) {
             return docuser;
         }else{

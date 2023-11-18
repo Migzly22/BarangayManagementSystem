@@ -21,8 +21,8 @@ public class HouseholdInformationController {
     }
 
     @DeleteMapping("deleteHousehold")
-    public ResponseEntity deleteFunction(@RequestBody HouseholdInformationEntity householdInformationEntity){
-        return new ResponseEntity(householdInformationService.deleteHousehold(householdInformationEntity), HttpStatus.OK);
+    public ResponseEntity deleteFunction(@RequestParam(required = true) long householdId){
+        return new ResponseEntity(householdInformationService.deleteHousehold(householdId), HttpStatus.OK);
     }
 
     @PatchMapping("updateHousehold")
@@ -35,8 +35,8 @@ public class HouseholdInformationController {
         return new ResponseEntity(householdInformationService.getAllHousehold(), HttpStatus.OK);
     }
 
-    @PostMapping("showSearchedItem")
-    public ResponseEntity<HouseholdInformationEntity> getSearchItem(@RequestBody SearchModel searchModel) {
-        return new ResponseEntity(householdInformationService.showSearchItem(searchModel), HttpStatus.OK);
+    @GetMapping("showSearchedItem")
+    public ResponseEntity<HouseholdInformationEntity> getSearchItem(@RequestParam(required = false) String customSubstring,@RequestParam(required = false) long customLong) {
+        return new ResponseEntity(householdInformationService.showSearchItem(customSubstring,customLong), HttpStatus.OK);
     }
 }

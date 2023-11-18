@@ -19,10 +19,12 @@ public class UserAccountsService {
     public String saveUserCredentials(UserAccountsEntity userAccountsEntity){
         try{
             userAccountsRepository.save(userAccountsEntity);
-            return "Added Successfully";
+            return "{\"message\": \"Added Successfullyy\"," +
+                    "\"icon\": \"success\"}";
         }
         catch (Exception e){
-            return e.getMessage();
+            return "{\"message\": \""+e.getMessage()+"\"," +
+                    "\"icon\": \"error\"}";
         }
     }
 
@@ -34,10 +36,12 @@ public class UserAccountsService {
                     userAccountsEntity.getEmail(),
                     userAccountsEntity.getAccess()
             );
-            return "Updated Successfully";
+            return "{\"message\": \"Updated Successfullyy\"," +
+                    "\"icon\": \"success\"}";
         }
         catch (Exception e){
-            return e.getMessage();
+            return "{\"message\": \""+e.getMessage()+"\"," +
+                    "\"icon\": \"error\"}";
         }
     }
 

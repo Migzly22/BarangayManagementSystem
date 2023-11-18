@@ -28,6 +28,7 @@ public class UserAccountController {
     public ResponseEntity getallUser(){
         return new ResponseEntity(userAccountsService.showAllUser(), HttpStatus.OK);
     }
+
     @PostMapping("getUserAuth")
     public ResponseEntity<UserAccountsEntity> getUserAuth(@RequestBody UserAccountsEntity userAccountsEntity) {
         return new ResponseEntity(userAccountsService.gettingCredits1(userAccountsEntity), HttpStatus.OK);

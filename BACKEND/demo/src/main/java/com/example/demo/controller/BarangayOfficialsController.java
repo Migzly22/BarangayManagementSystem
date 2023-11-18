@@ -20,8 +20,8 @@ public class BarangayOfficialsController {
         return new ResponseEntity(barangayOfficialsService.saveOfficials(barangayOfficialsEntity), HttpStatus.OK);
     }
     @DeleteMapping("deleteOfficials")
-    public ResponseEntity deleteOfficials(@RequestBody BarangayOfficialsEntity BarangayOfficialsEntity){
-        return new ResponseEntity(barangayOfficialsService.deleteOfficials(BarangayOfficialsEntity), HttpStatus.OK);
+    public ResponseEntity deleteOfficials(@RequestParam(required = true) long OfficialId){
+        return new ResponseEntity(barangayOfficialsService.deleteOfficials(OfficialId), HttpStatus.OK);
     }
 
     @PatchMapping("updateOfficials")

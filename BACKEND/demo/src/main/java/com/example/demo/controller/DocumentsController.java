@@ -20,25 +20,27 @@ public class DocumentsController {
     }
 
     @DeleteMapping("deleteRequestDocument")
-    public ResponseEntity deleteFunction(@RequestBody DocumentsEntity documentsEntity){
-        return new ResponseEntity(documentsService.deleteRequestDocuments(documentsEntity), HttpStatus.OK);
+    public ResponseEntity deleteFunction(@RequestParam(required = true) long documentId){
+        return new ResponseEntity(documentsService.deleteRequestDocuments(documentId), HttpStatus.OK);
     }
 
     @PatchMapping("updateRequestDocument")
     public ResponseEntity updateRequestDocument(@RequestBody DocumentsEntity documentsEntity){
         return new ResponseEntity(documentsService.updateRequestDocuments(documentsEntity), HttpStatus.OK);
     }
+
+
     @GetMapping("getUserRequestDocuments")
-    public ResponseEntity<DocumentsEntity> getUserAuth(@RequestBody DocumentsEntity documentsEntity) {
-        return new ResponseEntity(documentsService.getAllRequestDocuments1(documentsEntity), HttpStatus.OK);
+    public ResponseEntity<DocumentsEntity> getUserAuth(@RequestParam(required = true) long residentId) {
+        return new ResponseEntity(documentsService.getAllRequestDocuments1(residentId), HttpStatus.OK);
     }
 
     @GetMapping("getAllRequestDocuments")
     public ResponseEntity<DocumentsEntity> getAllRequest() {
         return new ResponseEntity(documentsService.getAllRequestDocuments(), HttpStatus.OK);
     }
-    @PostMapping("showSearchedItem")
-    public ResponseEntity<DocumentsEntity> getSearchItem(@RequestBody SearchModel searchModel) {
-        return new ResponseEntity(documentsService.showSearchItem(searchModel), HttpStatus.OK);
+    @GetMapping("showSearchedItem")
+    public ResponseEntity<DocumentsEntity> getSearchItem(@RequestParam(required = false) String customSubstring,@RequestParam(required = false)  long customLong) {
+        return new ResponseEntity(documentsService.showSearchItem(customSubstring,customLong), HttpStatus.OK);
     }
 }

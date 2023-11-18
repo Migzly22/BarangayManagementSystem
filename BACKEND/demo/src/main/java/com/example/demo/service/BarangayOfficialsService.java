@@ -17,20 +17,24 @@ public class BarangayOfficialsService {
     public String saveOfficials(BarangayOfficialsEntity barangayOfficialsEntity){
         try{
             barangayOfficialsRepository.save(barangayOfficialsEntity);
-            return "Success";
+            return "{\"message\": \"Added Successfullyy\"," +
+                    "\"icon\": \"success\"}";
         }
         catch (Exception e){
-            return e.getMessage();
+            return "{\"message\": \""+e.getMessage()+"\"," +
+                    "\"icon\": \"error\"}";
         }
     }
 
-    public String deleteOfficials(BarangayOfficialsEntity barangayOfficialsEntity){
+    public String deleteOfficials(long OfficialId){
         try{
-            barangayOfficialsRepository.deleteByOfficialId(barangayOfficialsEntity.getOfficialId());
-            return "Deleted Successfully";
+            barangayOfficialsRepository.deleteByOfficialId(OfficialId);
+            return "{\"message\": \"Deleted Successfullyy\"," +
+                    "\"icon\": \"success\"}";
         }
         catch (Exception e){
-            return e.getMessage();
+            return "{\"message\": \""+e.getMessage()+"\"," +
+                    "\"icon\": \"error\"}";
         }
     }
     public String updateOfficials(BarangayOfficialsEntity barangayOfficialsEntity){
@@ -43,10 +47,12 @@ public class BarangayOfficialsService {
                     barangayOfficialsEntity.getEndDate(),
                     barangayOfficialsEntity.getElectedOrAppointed()
             );
-            return "Updated Successfully";
+            return "{\"message\": \"Updated Successfullyy\"," +
+                    "\"icon\": \"success\"}";
         }
         catch (Exception e){
-            return e.getMessage();
+            return "{\"message\": \""+e.getMessage()+"\"," +
+                    "\"icon\": \"error\"}";
         }
     }
     public ArrayList<BarangayOfficialsEntity> getOfficials(){
