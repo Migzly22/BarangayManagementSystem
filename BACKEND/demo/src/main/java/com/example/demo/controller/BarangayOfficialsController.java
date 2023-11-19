@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.BarangayOfficialsEntity;
-import com.example.demo.entity.DocumentsEntity;
 import com.example.demo.service.BarangayOfficialsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

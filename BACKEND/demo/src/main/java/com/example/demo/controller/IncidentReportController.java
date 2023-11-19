@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.IncidentReportEntity;
-import com.example.demo.model.SearchModel;
 import com.example.demo.service.IncidentReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

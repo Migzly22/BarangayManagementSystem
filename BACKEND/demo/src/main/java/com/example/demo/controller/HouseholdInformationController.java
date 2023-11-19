@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.HouseholdInformationEntity;
-import com.example.demo.model.SearchModel;
 import com.example.demo.service.HouseholdInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
