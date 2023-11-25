@@ -8,7 +8,7 @@ const GETAPI = async (RESTCONTROLLER, METHODFUNCTION, postData = "") => {
     .get(`${process.env.REACT_APP_API_URL}/${RESTCONTROLLER}/${METHODFUNCTION}${postData}`)
     .then(function (response) {
       // Handle the successful response
-      return response.json()
+      return response.json();
     })
     .catch(function (error) {
       // Handle errors
@@ -21,7 +21,7 @@ const POSTAPI = async (RESTCONTROLLER, METHODFUNCTION, postData) => {
     .post(`${process.env.REACT_APP_API_URL}/${RESTCONTROLLER}/${METHODFUNCTION}`, postData)
     .then((response) => {
       // Handle the successful response
-      return response.json()
+      return response.json();
     })
     .catch((error) => {
       // Handle errors
@@ -34,7 +34,7 @@ const PATCHAPI = async (RESTCONTROLLER, METHODFUNCTION, postData) => {
     .patch(`${process.env.REACT_APP_API_URL}/${RESTCONTROLLER}/${METHODFUNCTION}`, postData)
     .then((response) => {
       // Handle the successful response
-      return response.json()
+      return response.json();
     })
     .catch((error) => {
       // Handle errors
@@ -47,7 +47,7 @@ const DELETEAPI = async (RESTCONTROLLER, METHODFUNCTION, postData = "") => {
     .delete(`${process.env.REACT_APP_API_URL}/${RESTCONTROLLER}/${METHODFUNCTION}${postData}`)
     .then((response) => {
       // Handle the successful response
-      return response.json()
+      return response.json();
     })
     .catch((error) => {
       // Handle errors

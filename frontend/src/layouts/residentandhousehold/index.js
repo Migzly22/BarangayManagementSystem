@@ -30,13 +30,15 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DataTable from "examples/Tables/DataTable";
 
+import MDButton from "components/MDButton";
+// @mui icons
+import Icon from "@mui/material/Icon";
+
 // Data
-import authorsTableData from "layouts/residentandhousehold/data/authorsTableData";
-import residentTableData from "layouts/residentandhousehold/data/residentTableData";
-import projectsTableData from "layouts/residentandhousehold/data/projectsTableData";
+import documentTableData from "layouts/barangayofficial/data/TableData";
 
 function ResidentAndHousehold() {
-  const { columns: rColumns, rows: rRows } = residentTableData();
+  const { columns: rColumns, rows: rRows } = documentTableData();
 
   const buttonStyles = {
     color: "black",
@@ -49,13 +51,15 @@ function ResidentAndHousehold() {
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
-              <MDBox py={3} px={3}>
-                <Stack spacing={2} direction="row">
+              <MDBox py={2} px={3}>
+                <Stack spacing={2} direction="row" justifyContent="flex-end">
                   <TextField id="outlined-basic" label="Search" variant="outlined" />
-                  <Button variant="contained">Add</Button>
-                  <Button variant="contained" style={buttonStyles}>
-                    Edit
-                  </Button>
+                  <MDButton variant="contained" size="medium" color="success">
+                    <Icon fontSize="large">search</Icon>
+                  </MDButton>
+                  <MDButton variant="contained" size="medium" color="success">
+                    <Icon fontSize="large">add</Icon>
+                  </MDButton>
                 </Stack>
               </MDBox>
             </Card>
@@ -77,7 +81,7 @@ function ResidentAndHousehold() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Barangay Resident & Household
+                  Barangay Officials
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>

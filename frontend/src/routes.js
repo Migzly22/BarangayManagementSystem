@@ -40,6 +40,8 @@ import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import ResidentAndHousehold from "layouts/residentandhousehold";
 import Documents from "layouts/barangaydocument";
+import IncidentsReport from "layouts/incidentreport";
+import Officials from "layouts/barangayofficial";
 import Billing from "layouts/billing";
 import RTL from "layouts/rtl";
 import Notifications from "layouts/notifications";
@@ -124,6 +126,22 @@ const routes = (handlingLogin, handlingLogout) => [
     route: "/authentication/sign-up",
     component: <SignUp />,
   },
+  {
+    type: "collapse",
+    name: "Barangay Officials",
+    key: "barangayofficial",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/barangayofficial",
+    component: <Officials />,
+  },
+  {
+    type: "collapse",
+    name: "Incident Report",
+    key: "incidentreport",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/incidentreport",
+    component: <IncidentsReport />,
+  },
 ];
 
 const sidebarroutes = (handlingLogout) => [
@@ -153,19 +171,19 @@ const sidebarroutes = (handlingLogout) => [
   },
   {
     type: "collapse",
-    name: "Tables",
-    key: "tables",
+    name: "Barangay Officials",
+    key: "barangayofficial",
     icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/tables",
-    component: <Tables />,
+    route: "/barangayofficial",
+    component: <Officials />,
   },
   {
     type: "collapse",
-    name: "Notifications",
-    key: "notifications",
-    icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/notifications",
-    component: <Notifications />,
+    name: "Incident Report",
+    key: "incidentreport",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/incidentreport",
+    component: <IncidentsReport />,
   },
   {
     type: "collapse",
