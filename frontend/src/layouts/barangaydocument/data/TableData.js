@@ -52,25 +52,33 @@ export default function data() {
 
   return {
     columns: [
+      { Header: "#", accessor: "idnum", align: "left" },
+      { Header: "Document", accessor: "documentname", align: "left" },
       { Header: "Name", accessor: "name", align: "left" },
-      { Header: "Position", accessor: "position", align: "left" },
-      { Header: "Contact #", accessor: "phonenum", align: "center" },
-      { Header: "Address", accessor: "address", width: "100px", align: "center" },
+      { Header: "Date of Request", accessor: "drequest", align: "left" },
+      { Header: "Date of Release", accessor: "drelease", align: "center" },
+      { Header: "Status", accessor: "status", width: "100px", align: "center" },
       { Header: "action", accessor: "action", align: "center" },
     ],
 
     rows: [
       {
+        idnum: <Job title="1" />,
+        documentname: <Job title="Manager" />,
         name: <ProfileOfficials name="John Michael" email="john@creative-tim.com" />,
-        position: <Job title="Manager" />,
-        phonenum: (
+        drequest: (
           <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
             09999999999
           </MDTypography>
         ),
-        address: (
+        drelease: (
           <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Somewhere Street i dunno purok somehting
+            09999999999
+          </MDTypography>
+        ),
+        status: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Requesting
           </MDTypography>
         ),
         action: (

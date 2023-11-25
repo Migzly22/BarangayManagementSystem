@@ -35,7 +35,7 @@ import MDButton from "components/MDButton";
 import Icon from "@mui/material/Icon";
 
 // Data
-import documentTableData from "layouts/barangayofficial/data/TableData";
+import documentTableData from "layouts/incidentreport/data/TableData";
 
 function ResidentAndHousehold() {
   const { columns: rColumns, rows: rRows } = documentTableData();
@@ -81,7 +81,7 @@ function ResidentAndHousehold() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Barangay Officials
+                  Incident Report
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>

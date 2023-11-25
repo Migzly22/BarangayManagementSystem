@@ -52,25 +52,27 @@ export default function data() {
 
   return {
     columns: [
-      { Header: "Name", accessor: "name", align: "left" },
-      { Header: "Position", accessor: "position", align: "left" },
-      { Header: "Contact #", accessor: "phonenum", align: "center" },
-      { Header: "Address", accessor: "address", width: "100px", align: "center" },
+      { Header: "#", accessor: "idnum", align: "left" },
+      { Header: "Reported by ", accessor: "reportedname", align: "left" },
+      { Header: "Incident", accessor: "description", align: "left" },
+      { Header: "Date Reported", accessor: "dreport", align: "left" },
+      { Header: "Status", accessor: "status", width: "100px", align: "center" },
       { Header: "action", accessor: "action", align: "center" },
     ],
 
     rows: [
       {
-        name: <ProfileOfficials name="John Michael" email="john@creative-tim.com" />,
-        position: <Job title="Manager" />,
-        phonenum: (
+        idnum: <Job title="1" />,
+        reportedname: <Job title="Manager" />,
+        description: <ProfileOfficials name="John Michael" email="john@creative-tim.com" />,
+        dreport: (
           <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
             09999999999
           </MDTypography>
         ),
-        address: (
+        status: (
           <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Somewhere Street i dunno purok somehting
+            Requesting
           </MDTypography>
         ),
         action: (

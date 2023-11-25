@@ -42,6 +42,7 @@ function Basic({ handlingLogin }) {
     const data = {
       email: loginEmail,
       password: loginPassword,
+      access: "STAFF",
     };
 
     //code here related to API and Session

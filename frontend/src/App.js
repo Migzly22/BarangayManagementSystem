@@ -29,7 +29,7 @@ import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 
 // Material Dashboard 2 React routes
-import { routes, sidebarroutes } from "routes";
+import { routes, sidebarroutes, sidebarroutesforassist } from "routes";
 
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
@@ -139,7 +139,6 @@ export default function App() {
   // login function
 
   const [authInfo, setAuthInfo] = useState(null); //will contain the jsondata of the users data
-  const [authCheck, setAuth] = useState(false); // check if the user is logged in
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -151,11 +150,9 @@ export default function App() {
     setAuthInfo(null);
   };
 
+  //Redirection
   useEffect(() => {
     const currentPathname = location.pathname;
-
-    console.log(currentPathname);
-
     if (authInfo === null) {
       if (
         currentPathname !== "/authentication/sign-in" &&
@@ -201,5 +198,31 @@ export default function App() {
       </Routes>
     </ThemeProvider>
   );
+
+  const StaffDiv = (
+    <ThemeProvider theme={darkMode ? themeDark : theme}>
+      <CssBaseline />
+      {layout === "dashboard" && (
+        <>
+          <Sidenav
+            color={sidenavColor}
+            brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+            brandName="BMS"
+            routes={sidebarroutesforassist(handlingLogout)}
+            onMouseEnter={handleOnMouseEnter}
+            onMouseLeave={handleOnMouseLeave}
+          />
+          <Configurator />
+          {configsButton}
+        </>
+      )}
+      {layout === "vr" && <Configurator />}
+      <Routes>
+        {getRoutes(routes(handlingLogin, handlingLogout))}
+        <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
+      </Routes>
+    </ThemeProvider>
+  );
+
   return MainDiv;
 }

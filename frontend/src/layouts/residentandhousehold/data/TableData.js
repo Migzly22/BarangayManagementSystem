@@ -53,24 +53,22 @@ export default function data() {
   return {
     columns: [
       { Header: "Name", accessor: "name", align: "left" },
-      { Header: "Position", accessor: "position", align: "left" },
-      { Header: "Contact #", accessor: "phonenum", align: "center" },
-      { Header: "Address", accessor: "address", width: "100px", align: "center" },
+      { Header: "Address", accessor: "address", align: "left" },
+      { Header: "Contact", accessor: "phonenum", align: "center" },
       { Header: "action", accessor: "action", align: "center" },
     ],
 
     rows: [
       {
         name: <ProfileOfficials name="John Michael" email="john@creative-tim.com" />,
-        position: <Job title="Manager" />,
-        phonenum: (
+        address: (
           <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
             09999999999
           </MDTypography>
         ),
-        address: (
+        phonenum: (
           <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Somewhere Street i dunno purok somehting
+            09999999999
           </MDTypography>
         ),
         action: (
