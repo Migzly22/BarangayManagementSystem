@@ -30,6 +30,10 @@ import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 
+import Swal from "sweetalert2";
+//Axios
+import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
+
 export default function data() {
   const ProfileOfficials = ({ name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
@@ -49,6 +53,10 @@ export default function data() {
       </MDTypography>
     </MDBox>
   );
+  let dataintable = "";
+  const a = async () => {
+    dataintable = await GETAPI("Residents", "showAllResidents", data);
+  };
 
   return {
     columns: [

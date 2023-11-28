@@ -25,7 +25,7 @@ import BasicLayout from "layouts/authentication/components/BasicLayout";
 import PropTypes from "prop-types";
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
-
+import Swal from "sweetalert2";
 //Axios
 import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
 
@@ -41,15 +41,19 @@ function Basic({ handlingLogin }) {
   const LoginSubmit = async () => {
     const data = {
       email: loginEmail,
-      password: loginPassword,
+      passwordHash: loginPassword,
       access: "STAFF",
     };
 
-    //code here related to API and Session
-    let example1 = "admin";
-    let example2 = "pass";
-    if (loginEmail === example1 && loginPassword === example2) {
-      handlingLogin(data);
+    let enteringresonse = await POSTAPI("UserAccount", "getUserAuth", data);
+
+    if (enteringresonse.data.message === undefined) {
+      handlingLogin(enteringresonse.data);
+    } else {
+      Swal.fire({
+        text: "Wrong Password ",
+        icon: "error",
+      });
     }
 
     //Reset back the Input Forms
