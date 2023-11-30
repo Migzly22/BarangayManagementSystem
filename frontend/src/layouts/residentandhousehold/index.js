@@ -36,13 +36,15 @@ import Icon from "@mui/material/Icon";
 
 // Data
 import documentTableData from "layouts/residentandhousehold/data/TableData";
+import { useEffect } from "react";
 
-function ResidentAndHousehold() {
+function ResidentAndHousehold({ BodyLoad }) {
   const { columns: rColumns, rows: rRows } = documentTableData();
 
   const buttonStyles = {
     color: "black",
   };
+
 
   return (
     <DashboardLayout>

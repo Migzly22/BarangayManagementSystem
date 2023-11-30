@@ -14,7 +14,7 @@ import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 
-export default function data() {
+export default async function data() {
   const ProfileOfficials = ({ name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDBox ml={2} lineHeight={1}>
@@ -33,6 +33,8 @@ export default function data() {
       </MDTypography>
     </MDBox>
   );
+
+  let dataoftable = await POSTAPI("Documents", "getAllRequestDocuments");
 
   return {
     columns: [

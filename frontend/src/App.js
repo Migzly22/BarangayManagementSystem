@@ -42,6 +42,7 @@ import { useNavigate } from "react-router-dom";
 
 // Import SweetAlert2
 import Swal from "sweetalert2";
+import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -144,32 +145,46 @@ export default function App() {
   const location = useLocation();
 
   const handlingLogin = (jsondata) => {
+    sessionStorage.setItem("UserToken", JSON.stringify(jsondata));
     setAuthInfo(jsondata);
   };
-  const handlingLogout = () => {
+  const handlingLogout = async () => {
+    sessionStorage.clear();
     setAuthInfo(null);
   };
 
   //Redirection
   useEffect(() => {
     const currentPathname = location.pathname;
-    if (authInfo === null) {
-      if (
-        currentPathname !== "/authentication/sign-in" &&
-        currentPathname !== "/authentication/sign-up"
-      ) {
-        <Route path="*" element={<Navigate to="/authentication/sign-in" />} />;
-        navigate("./authentication/sign-in");
-        console.log(1);
-      }
-    } else {
+    var userToken = sessionStorage.getItem("UserToken");
+
+    if (userToken) {
+      setAuthInfo(JSON.stringify(userToken));
       if (
         currentPathname === "/authentication/sign-in" ||
         currentPathname === "/authentication/sign-up"
       ) {
         <Route path="*" element={<Navigate to="/dashboard" />} />;
         navigate("./dashboard");
-        console.log(2);
+      }
+    } else if (authInfo == null) {
+      console.log(12322);
+      if (
+        currentPathname !== "/authentication/sign-in" &&
+        currentPathname !== "/authentication/sign-up"
+      ) {
+        <Route path="*" element={<Navigate to="/authentication/sign-in" />} />;
+        navigate("./authentication/sign-in");
+      }
+    } else {
+      console.log(authInfo == null);
+      console.log(1232123);
+      if (
+        currentPathname === "/authentication/sign-in" ||
+        currentPathname === "/authentication/sign-up"
+      ) {
+        <Route path="*" element={<Navigate to="/dashboard" />} />;
+        navigate("./dashboard");
       }
     }
   }, [authInfo, navigate]);
@@ -183,7 +198,7 @@ export default function App() {
             color={sidenavColor}
             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
             brandName="BMS"
-            routes={sidebarroutes(handlingLogout)}
+            routes={sidebarroutes(handlingLogout, BodyLoad)}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           />

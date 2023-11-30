@@ -30,6 +30,11 @@ import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 
+import Swal from "sweetalert2";
+import { useState, useEffect, useMemo } from "react";
+//Axios
+import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
+
 export default function data() {
   const ProfileOfficials = ({ name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
@@ -50,7 +55,53 @@ export default function data() {
     </MDBox>
   );
 
-  return {
+  const hehez = async () => {
+    let enteringresonse = await GETAPI("Residents", "showAllResidents");
+    let dataArray = enteringresonse.data;
+
+    const resultdata = dataArray.map((jsonObject) => {
+      const name = `${jsonObject.firstName} ${jsonObject.middleName} ${jsonObject.lastName}`;
+      return {
+        name: <ProfileOfficials name={name} email={jsonObject.email} />,
+        address: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            09999999999
+          </MDTypography>
+        ),
+        phonenum: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            {jsonObject.phoneNumber}
+          </MDTypography>
+        ),
+        action: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            <Stack spacing={2} direction="row" justifyContent="flex-end">
+              <MDButton variant="contained" size="medium" color="info">
+                <Icon fontSize="large">edit</Icon>
+              </MDButton>
+              <MDButton variant="contained" size="medium" color="error">
+                <Icon fontSize="medium">delete</Icon>
+              </MDButton>
+            </Stack>
+          </MDTypography>
+        ),
+      };
+    });
+
+    console.log(resultdata);
+  };
+
+  const [tableData, setTableData] = useState({
+    columns: [
+      { Header: "Name", accessor: "name", align: "left" },
+      { Header: "Address", accessor: "address", align: "left" },
+      { Header: "Contact", accessor: "phonenum", align: "center" },
+      { Header: "action", accessor: "action", align: "center" },
+    ],
+    rows: [],
+  });
+
+  const tabledatas = {
     columns: [
       { Header: "Name", accessor: "name", align: "left" },
       { Header: "Address", accessor: "address", align: "left" },
@@ -86,4 +137,6 @@ export default function data() {
       },
     ],
   };
+
+  return tableData;
 }

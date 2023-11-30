@@ -19,6 +19,8 @@ import { Link } from "react-router-dom";
 // @mui material components
 import Card from "@mui/material/Card";
 import Checkbox from "@mui/material/Checkbox";
+import Grid from "@mui/material/Grid";
+import Divider from "@mui/material/Divider";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -41,10 +43,10 @@ function Cover() {
           bgColor="info"
           borderRadius="lg"
           coloredShadow="success"
-          mx={2}
+          mx={5}
           mt={-3}
           p={3}
-          mb={1}
+          mb={2}
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
@@ -58,6 +60,9 @@ function Cover() {
           <MDBox component="form" role="form">
             <MDBox mb={2}>
               <MDInput type="text" label="Name" variant="standard" fullWidth />
+            </MDBox>
+            <MDBox mb={2}>
+              <MDInput type="text" label="Address" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="email" label="Email" variant="standard" fullWidth />
