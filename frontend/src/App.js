@@ -149,8 +149,6 @@ export default function App() {
     setAuthInfo(jsondata);
   };
   const handlingLogout = async () => {
-    let a = { data: await GETAPI("Residents", "showAllResidents") };
-    console.log(a);
     sessionStorage.clear();
     setAuthInfo(null);
   };
@@ -200,7 +198,7 @@ export default function App() {
             color={sidenavColor}
             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
             brandName="BMS"
-            routes={sidebarroutes(handlingLogout)}
+            routes={sidebarroutes(handlingLogout, BodyLoad)}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           />
