@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -66,6 +68,13 @@ public class ResidentsService {
         return (ArrayList<ResidentsEntity>) residentsRepository.findAll();
     }
 
+    public Map<String,Object> testing123(){
+        Map<String,Object> data = new HashMap<>();
+        List<ResidentsEntity> datarespo =  residentsRepository.findAll();
+        data.put("data","Success");
+        data.put("data",datarespo);
+        return data;
+    }
     //Per User side
     public Object showSpecificUser(long userId){
         ResidentsEntity user = residentsRepository.findByUserId(userId);
