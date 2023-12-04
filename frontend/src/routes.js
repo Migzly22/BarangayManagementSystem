@@ -53,7 +53,7 @@ import Logout from "layouts/authentication/logout";
 // @mui icons
 import Icon from "@mui/material/Icon";
 
-const routes = (handlingLogin, handlingLogout, BodyLoad) => [
+const routes = (handlingLogin, handlingLogout) => [
   {
     type: "collapse",
     name: "Dashboard",
@@ -68,7 +68,7 @@ const routes = (handlingLogin, handlingLogout, BodyLoad) => [
     key: "residentandhousehold",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/residentandhousehold",
-    component: <ResidentAndHousehold BodyLoad={BodyLoad} />,
+    component: <ResidentAndHousehold />,
   },
   {
     type: "collapse",
@@ -144,7 +144,7 @@ const routes = (handlingLogin, handlingLogout, BodyLoad) => [
   },
 ];
 
-const sidebarroutes = (handlingLogout, BodyLoad) => [
+const sidebarroutes = (handlingLogout) => [
   {
     type: "collapse",
     name: "Dashboard",
@@ -159,7 +159,7 @@ const sidebarroutes = (handlingLogout, BodyLoad) => [
     key: "residentandhousehold",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/residentandhousehold",
-    component: <ResidentAndHousehold BodyLoad={BodyLoad} />,
+    component: <ResidentAndHousehold />,
   },
   {
     type: "collapse",

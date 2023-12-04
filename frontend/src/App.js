@@ -189,6 +189,8 @@ export default function App() {
     }
   }, [authInfo, navigate]);
 
+  const [userAccessLevel, setAccessLevel] = useState("Guest");
+
   const MainDiv = (
     <ThemeProvider theme={darkMode ? themeDark : theme}>
       <CssBaseline />
@@ -198,32 +200,13 @@ export default function App() {
             color={sidenavColor}
             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
             brandName="BMS"
-            routes={sidebarroutes(handlingLogout, BodyLoad)}
-            onMouseEnter={handleOnMouseEnter}
-            onMouseLeave={handleOnMouseLeave}
-          />
-          <Configurator />
-          {configsButton}
-        </>
-      )}
-      {layout === "vr" && <Configurator />}
-      <Routes>
-        {getRoutes(routes(handlingLogin, handlingLogout))}
-        <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
-      </Routes>
-    </ThemeProvider>
-  );
-
-  const StaffDiv = (
-    <ThemeProvider theme={darkMode ? themeDark : theme}>
-      <CssBaseline />
-      {layout === "dashboard" && (
-        <>
-          <Sidenav
-            color={sidenavColor}
-            brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-            brandName="BMS"
-            routes={sidebarroutesforassist(handlingLogout)}
+            routes={
+              userAccessLevel === "Staff"
+                ? sidebarroutesforassist(handlingLogout)
+                : userAccessLevel === "Admin"
+                ? sidebarroutes(handlingLogout) // Replace with your admin routes function
+                : sidebarroutesforassist(handlingLogout)
+            }
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           />
