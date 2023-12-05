@@ -42,10 +42,8 @@ public class ResidentsController {
 
 
     @GetMapping("showSearchedItem")
-    public ResponseEntity<ResidentsEntity> getSearchItem(@RequestParam(required = true) String customSubstring,
-                                                         @RequestParam(required = false) long customLong) {
-        System.out.println("customLong " + customLong);
-        return new ResponseEntity(residentsService.showSearchItem(customSubstring,customLong), HttpStatus.OK);
+    public ResponseEntity<ResidentsEntity> getSearchItem(@RequestParam(required = true) String customSubstring) {
+        return new ResponseEntity(residentsService.showSearchItem(customSubstring), HttpStatus.OK);
     }
 
 }

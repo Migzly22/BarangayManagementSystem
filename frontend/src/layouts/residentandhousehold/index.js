@@ -42,6 +42,7 @@ import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
 function ResidentAndHousehold() {
   const helloworld = { data: "123" };
   const [dbData, setDbData] = useState({ data: null });
+  const [searchData, setSearchData] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,7 +59,20 @@ function ResidentAndHousehold() {
     console.log(dbData.data);
   }, [dbData]); // This useEffect runs whenever dbData changes
 
-  const { columns: rColumns, rows: rRows } = documentTableData(dbData);
+  const SearchFunction = async () => {
+    console.log("hello");
+    const result = await GETAPI("Residents", `showSearchedItem?customSubstring=${searchData}`);
+    console.log(result);
+    setDbData(result);
+  };
+
+  //start of onchange per value
+  const changeValue = (event, data) => {
+    data(event.target.value);
+  };
+  //end of onchange per value
+
+  const { columns: rColumns, rows: rRows } = documentTableData(dbData, SearchFunction);
 
   return (
     <DashboardLayout>
@@ -69,8 +83,19 @@ function ResidentAndHousehold() {
             <Card>
               <MDBox py={2} px={3}>
                 <Stack spacing={2} direction="row" justifyContent="flex-end">
-                  <TextField id="outlined-basic" label="Search" variant="outlined" />
-                  <MDButton variant="contained" size="medium" color="success">
+                  <TextField
+                    id="outlined-basic"
+                    label="Search"
+                    variant="outlined"
+                    value={searchData}
+                    onChange={(event) => changeValue(event, setSearchData)}
+                  />
+                  <MDButton
+                    variant="contained"
+                    size="medium"
+                    color="success"
+                    onClick={SearchFunction}
+                  >
                     <Icon fontSize="large">search</Icon>
                   </MDButton>
                   <MDButton variant="contained" size="medium" color="success">

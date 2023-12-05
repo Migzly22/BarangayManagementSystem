@@ -13,12 +13,11 @@ import java.util.List;
 public interface ResidentsRepository extends JpaRepository<ResidentsEntity,Long> {
     ResidentsEntity findByUserId(long userId);
 
-    @Query("SELECT u FROM ResidentsEntity u WHERE u.firstName LIKE %:customSubstring% OR " +
+    @Query("SELECT u, a  FROM ResidentsEntity u LEFT JOIN HouseholdInformationEntity a ON u.householdId = a.householdId WHERE u.firstName LIKE %:customSubstring% OR " +
             "u.middleName LIKE %:customSubstring% OR u.lastName LIKE %:customSubstring% OR " +
             "u.dateOfBirth LIKE %:customSubstring% OR u.gender LIKE %:customSubstring% OR " +
-            "u.phoneNumber LIKE %:customSubstring% OR u.email LIKE %:customSubstring% OR " +
-            "u.householdId = :customLong OR u.userId = :customLong")
-    List<ResidentsEntity> searchCustomQuery(@Param("customSubstring") String customSubstring, @Param("customLong") Long customLong);
+            "u.phoneNumber LIKE %:customSubstring% OR u.email LIKE %:customSubstring% OR a.address LIKE %:customSubstring%")
+    List<Object[]> searchCustomQuery(@Param("customSubstring") String customSubstring);
 
     @Modifying
     @Query("UPDATE ResidentsEntity u SET " +
@@ -40,4 +39,7 @@ public interface ResidentsRepository extends JpaRepository<ResidentsEntity,Long>
                     @Param("userId") long userId);
 
     void deleteByResidentId(long residentId);
+
+    @Query("Select u, a  FROM ResidentsEntity u LEFT JOIN HouseholdInformationEntity a ON u.householdId = a.householdId ")
+    List<Object[]> selectAll();
 }

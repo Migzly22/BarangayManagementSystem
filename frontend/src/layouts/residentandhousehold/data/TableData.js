@@ -48,18 +48,18 @@ export default function data(datafromdb) {
     const transformedData = residents.map((resident) => ({
       name: (
         <ProfileOfficials
-          name={`${resident.firstName} ${resident.middleName} ${resident.lastName}`}
-          email={`${resident.email}`}
+          name={`${resident[0].firstName} ${resident[0].middleName} ${resident[0].lastName}`}
+          email={`${resident[0].email}`}
         />
       ),
       address: (
         <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-          {resident.address}
+          {resident[1].address}
         </MDTypography>
       ),
       phonenum: (
         <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-          {resident.phoneNumber}
+          {resident[0].phoneNumber}
         </MDTypography>
       ),
       action: (
@@ -76,8 +76,6 @@ export default function data(datafromdb) {
       ),
     }));
 
-    console.log(transformedData);
-    console.log(tabledatas.rows);
     setRowValues(transformedData);
     setDbData1(datafromdb);
   }, [datafromdb]); // This useEffect runs only once for initialization

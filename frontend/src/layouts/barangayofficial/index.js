@@ -18,6 +18,7 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
 // Material Dashboard 2 React components
@@ -34,14 +35,44 @@ import MDButton from "components/MDButton";
 import Icon from "@mui/material/Icon";
 
 // Data
-import documentTableData from "layouts/barangayofficial/data/TableData";
+import documentTableData from "layouts/residentandhousehold/data/TableData";
+import { useEffect, useState } from "react";
+import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
 
 function ResidentAndHousehold() {
-  const { columns: rColumns, rows: rRows } = documentTableData();
+  const helloworld = { data: "123" };
+  const [dbData, setDbData] = useState({ data: null });
+  const [searchData, setSearchData] = useState("");
 
-  const buttonStyles = {
-    color: "black",
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await GETAPI("Residents", "showAllResidents");
+      setDbData(result);
+    };
+
+    if (dbData.data === null) {
+      fetchData();
+    }
+  }, []); // This useEffect runs only once for initialization
+
+  useEffect(() => {
+    console.log(dbData.data);
+  }, [dbData]); // This useEffect runs whenever dbData changes
+
+  const SearchFunction = async () => {
+    console.log("hello");
+    const result = await GETAPI("Residents", `showSearchedItem?customSubstring=${searchData}`);
+    console.log(result);
+    setDbData(result);
   };
+
+  //start of onchange per value
+  const changeValue = (event, data) => {
+    data(event.target.value);
+  };
+  //end of onchange per value
+
+  const { columns: rColumns, rows: rRows } = documentTableData(dbData, SearchFunction);
 
   return (
     <DashboardLayout>
@@ -52,8 +83,19 @@ function ResidentAndHousehold() {
             <Card>
               <MDBox py={2} px={3}>
                 <Stack spacing={2} direction="row" justifyContent="flex-end">
-                  <TextField id="outlined-basic" label="Search" variant="outlined" />
-                  <MDButton variant="contained" size="medium" color="success">
+                  <TextField
+                    id="outlined-basic"
+                    label="Search"
+                    variant="outlined"
+                    value={searchData}
+                    onChange={(event) => changeValue(event, setSearchData)}
+                  />
+                  <MDButton
+                    variant="contained"
+                    size="medium"
+                    color="success"
+                    onClick={SearchFunction}
+                  >
                     <Icon fontSize="large">search</Icon>
                   </MDButton>
                   <MDButton variant="contained" size="medium" color="success">
@@ -80,7 +122,7 @@ function ResidentAndHousehold() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Barangay Officials
+                  Residents
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>

@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -17,31 +14,30 @@ public class ResidentsService {
     @Autowired
     private ResidentsRepository residentsRepository;
 
-    public String addResident(ResidentsEntity residentsEntity){
-        try{
+    public String addResident(ResidentsEntity residentsEntity) {
+        try {
             residentsRepository.save(residentsEntity);
             return "{\"message\": \"Added Successfullyy\"," +
                     "\"icon\": \"success\"}";
-        }
-        catch (Exception e){
-            return "{\"message\": \""+e.getMessage()+"\"," +
+        } catch (Exception e) {
+            return "{\"message\": \"" + e.getMessage() + "\"," +
                     "\"icon\": \"error\"}";
         }
     }
 
-    public String deleteResident(long residentId){
-        try{
+    public String deleteResident(long residentId) {
+        try {
             residentsRepository.deleteByResidentId(residentId);
             return "{\"message\": \"Deleted Successfullyy\"," +
                     "\"icon\": \"success\"}";
-        }
-        catch (Exception e){
-            return "{\"message\": \""+e.getMessage()+"\"," +
+        } catch (Exception e) {
+            return "{\"message\": \"" + e.getMessage() + "\"," +
                     "\"icon\": \"error\"}";
         }
     }
-    public String updateResident(ResidentsEntity residentsEntity){
-        try{
+
+    public String updateResident(ResidentsEntity residentsEntity) {
+        try {
             residentsRepository.updateData(
                     residentsEntity.getResidentId(),
                     residentsEntity.getFirstName(),
@@ -52,47 +48,50 @@ public class ResidentsService {
                     residentsEntity.getPhoneNumber(),
                     residentsEntity.getEmail(),
                     residentsEntity.getHouseholdId(),
-                    residentsEntity.getUserId()
-            );
+                    residentsEntity.getUserId());
             return "{\"message\": \"Updated Successfullyy\"," +
                     "\"icon\": \"success\"}";
-        }
-        catch (Exception e){
-            return "{\"message\": \""+e.getMessage()+"\"," +
+        } catch (Exception e) {
+            return "{\"message\": \"" + e.getMessage() + "\"," +
                     "\"icon\": \"error\"}";
         }
     }
 
-    //Admin side
-    public ArrayList<ResidentsEntity> showAllResidents(){
+    // Admin side
+    public ArrayList<ResidentsEntity> showAllResidents1() {
         return (ArrayList<ResidentsEntity>) residentsRepository.findAll();
     }
 
-    public Map<String,Object> testing123(){
-        Map<String,Object> data = new HashMap<>();
-        List<ResidentsEntity> datarespo =  residentsRepository.findAll();
-        data.put("data","Success");
-        data.put("data",datarespo);
+    public List<Object[]> showAllResidents() {
+        return residentsRepository.selectAll();
+    }
+
+    public Map<String, Object> testing123() {
+        Map<String, Object> data = new HashMap<>();
+        List<ResidentsEntity> datarespo = residentsRepository.findAll();
+        data.put("data", "Success");
+        data.put("data", datarespo);
         return data;
     }
-    //Per User side
-    public Object showSpecificUser(long userId){
+
+    // Per User side
+    public Object showSpecificUser(long userId) {
         ResidentsEntity user = residentsRepository.findByUserId(userId);
         if (user != null) {
             return user;
-        }else{
+        } else {
             return "{\"message\": \"User not found\"}";
         }
     }
 
-    public Object showSearchItem(String customSubstring, long customLong){
-        List<ResidentsEntity> seachedItem = residentsRepository.searchCustomQuery(customSubstring,customLong);
+    public List<Object[]> showSearchItem(String customSubstring) {
+        List<Object[]> seachedItem = residentsRepository.searchCustomQuery(customSubstring);
         if (!seachedItem.isEmpty()) {
             return seachedItem;
-        }else{
-            return "{\"message\": \"Data not found\"}";
+        } else {
+            // Return a JSON string representing an object with a "message" property
+            return Collections.singletonList(new Object[]{"{\"data\": null}"});
         }
     }
-
 
 }
