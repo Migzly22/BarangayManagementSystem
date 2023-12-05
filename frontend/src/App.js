@@ -146,10 +146,12 @@ export default function App() {
 
   const handlingLogin = (jsondata) => {
     sessionStorage.setItem("UserToken", JSON.stringify(jsondata));
+    setAccessLevel(jsondata.access);
     setAuthInfo(jsondata);
   };
   const handlingLogout = async () => {
     sessionStorage.clear();
+    setAccessLevel(null);
     setAuthInfo(null);
   };
 
@@ -159,7 +161,10 @@ export default function App() {
     var userToken = sessionStorage.getItem("UserToken");
 
     if (userToken) {
-      setAuthInfo(JSON.stringify(userToken));
+      let jsonObject = JSON.parse(userToken);
+      setAuthInfo(jsonObject);
+      setAccessLevel(jsonObject.access);
+
       if (
         currentPathname === "/authentication/sign-in" ||
         currentPathname === "/authentication/sign-up"
@@ -168,7 +173,6 @@ export default function App() {
         navigate("./dashboard");
       }
     } else if (authInfo == null) {
-      console.log(12322);
       if (
         currentPathname !== "/authentication/sign-in" &&
         currentPathname !== "/authentication/sign-up"
@@ -177,8 +181,6 @@ export default function App() {
         navigate("./authentication/sign-in");
       }
     } else {
-      console.log(authInfo == null);
-      console.log(1232123);
       if (
         currentPathname === "/authentication/sign-in" ||
         currentPathname === "/authentication/sign-up"
@@ -201,9 +203,9 @@ export default function App() {
             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
             brandName="BMS"
             routes={
-              userAccessLevel === "Staff"
+              userAccessLevel === "STAFF"
                 ? sidebarroutesforassist(handlingLogout)
-                : userAccessLevel === "Admin"
+                : userAccessLevel === "ADMIN"
                 ? sidebarroutes(handlingLogout) // Replace with your admin routes function
                 : sidebarroutesforassist(handlingLogout)
             }
