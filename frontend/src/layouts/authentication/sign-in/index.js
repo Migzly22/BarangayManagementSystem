@@ -24,7 +24,8 @@ import MDButton from "components/MDButton";
 import BasicLayout from "layouts/authentication/components/BasicLayout";
 import PropTypes from "prop-types";
 // Images
-import bgImage from "assets/images/bg-sign-in-basic.jpeg";
+import bgImage from "assets/images/brgyhall.png";
+import logo from "assets/images/logo.png";
 import Swal from "sweetalert2";
 //Axios
 import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
@@ -79,7 +80,7 @@ function Basic({ handlingLogin }) {
           borderRadius="lg"
           coloredShadow="info"
           mx={2}
-          mt={-3}
+          mt={-4}
           p={2}
           mb={1}
           textAlign="center"
@@ -88,7 +89,8 @@ function Basic({ handlingLogin }) {
             Sign in
           </MDTypography>
         </MDBox>
-        <MDBox pt={4} pb={3} px={3}>
+        <BasicLayout logo={logo}></BasicLayout>
+        <MDBox pt={2} pb={-10} px={3} mt={-64}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
               <MDInput
@@ -120,12 +122,12 @@ function Basic({ handlingLogin }) {
                 &nbsp;&nbsp;Remember me
               </MDTypography>
             </MDBox>
-            <MDBox mt={4} mb={1}>
+            <MDBox mt={4} mb={-1}>
               <MDButton variant="gradient" color="info" fullWidth onClick={LoginSubmit}>
                 sign in
               </MDButton>
             </MDBox>
-            <MDBox mt={3} mb={1} textAlign="center">
+            <MDBox mt={3} mb={2} textAlign="center">
               <MDTypography variant="button" color="text">
                 Don&apos;t have an account?{" "}
                 <MDTypography
