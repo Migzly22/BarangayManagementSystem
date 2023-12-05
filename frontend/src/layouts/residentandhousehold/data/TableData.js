@@ -31,10 +31,57 @@ import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 
 import Swal from "sweetalert2";
-//Axios
-import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
+import { useState, useEffect, useMemo } from "react";
 
-export default function data() {
+export default function data(datafromdb) {
+  const [dbData1, setDbData1] = useState(datafromdb);
+  const [rowValues, setRowValues] = useState([{}]);
+
+  useEffect(() => {
+    console.log("test", datafromdb.data);
+    //setDbData1(datafromdb);
+    const residents = datafromdb.data;
+    if (residents === null) {
+      return;
+    }
+
+    const transformedData = residents.map((resident) => ({
+      name: (
+        <ProfileOfficials
+          name={`${resident.firstName} ${resident.middleName} ${resident.lastName}`}
+          email={`${resident.email}`}
+        />
+      ),
+      address: (
+        <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+          {resident.address}
+        </MDTypography>
+      ),
+      phonenum: (
+        <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+          {resident.phoneNumber}
+        </MDTypography>
+      ),
+      action: (
+        <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+          <Stack spacing={2} direction="row" justifyContent="flex-end">
+            <MDButton variant="contained" size="medium" color="info">
+              <Icon fontSize="large">edit</Icon>
+            </MDButton>
+            <MDButton variant="contained" size="medium" color="error">
+              <Icon fontSize="medium">delete</Icon>
+            </MDButton>
+          </Stack>
+        </MDTypography>
+      ),
+    }));
+
+    console.log(transformedData);
+    console.log(tabledatas.rows);
+    setRowValues(transformedData);
+    setDbData1(datafromdb);
+  }, [datafromdb]); // This useEffect runs only once for initialization
+
   const ProfileOfficials = ({ name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDBox ml={2} lineHeight={1}>
@@ -53,12 +100,18 @@ export default function data() {
       </MDTypography>
     </MDBox>
   );
-  let dataintable = "";
-  const a = async () => {
-    dataintable = await GETAPI("Residents", "showAllResidents", data);
-  };
 
-  return {
+  let tabledatas = {
+    columns: [
+      { Header: "Name", accessor: "name", align: "left" },
+      { Header: "Address", accessor: "address", align: "left" },
+      { Header: "Contact", accessor: "phonenum", align: "center" },
+      { Header: "action", accessor: "action", align: "center" },
+    ],
+
+    rows: rowValues,
+  };
+  const nodata = {
     columns: [
       { Header: "Name", accessor: "name", align: "left" },
       { Header: "Address", accessor: "address", align: "left" },
@@ -68,30 +121,12 @@ export default function data() {
 
     rows: [
       {
-        name: <ProfileOfficials name="John Michael" email="john@creative-tim.com" />,
-        address: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            09999999999
-          </MDTypography>
-        ),
-        phonenum: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            09999999999
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            <Stack spacing={2} direction="row" justifyContent="flex-end">
-              <MDButton variant="contained" size="medium" color="info">
-                <Icon fontSize="large">edit</Icon>
-              </MDButton>
-              <MDButton variant="contained" size="medium" color="error">
-                <Icon fontSize="medium">delete</Icon>
-              </MDButton>
-            </Stack>
-          </MDTypography>
-        ),
+        name: "-",
+        address: "-",
+        phonenum: "-",
+        action: "-",
       },
     ],
   };
+  return dbData1.data !== null ? tabledatas : nodata;
 }

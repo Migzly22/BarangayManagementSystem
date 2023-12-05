@@ -36,13 +36,29 @@ import Icon from "@mui/material/Icon";
 
 // Data
 import documentTableData from "layouts/residentandhousehold/data/TableData";
+import { useEffect, useState } from "react";
+import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
 
 function ResidentAndHousehold() {
-  const { columns: rColumns, rows: rRows } = documentTableData();
+  const helloworld = { data: "123" };
+  const [dbData, setDbData] = useState({ data: null });
 
-  const buttonStyles = {
-    color: "black",
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await GETAPI("Residents", "showAllResidents");
+      setDbData(result);
+    };
+
+    if (dbData.data === null) {
+      fetchData();
+    }
+  }, []); // This useEffect runs only once for initialization
+
+  useEffect(() => {
+    console.log(dbData.data);
+  }, [dbData]); // This useEffect runs whenever dbData changes
+
+  const { columns: rColumns, rows: rRows } = documentTableData(dbData);
 
   return (
     <DashboardLayout>

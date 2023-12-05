@@ -1,24 +1,18 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
+import { useState } from "react";
 
 // react-router-dom components
 import { Link } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
-import Checkbox from "@mui/material/Checkbox";
+import Switch from "@mui/material/Switch";
+import Grid from "@mui/material/Grid";
+import MuiLink from "@mui/material/Link";
+
+// @mui icons
+import FacebookIcon from "@mui/icons-material/Facebook";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import GoogleIcon from "@mui/icons-material/Google";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -27,68 +21,173 @@ import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 
 // Authentication layout components
-import CoverLayout from "layouts/authentication/components/CoverLayout";
-
+import SignupLayout from "layouts/authentication/components/SignupLayout";
+import PropTypes from "prop-types";
 // Images
-import bgImage from "assets/images/bg-sign-up-cover.jpeg";
+import bgImage from "assets/images/bg-sign-in-basic.jpeg";
+import Swal from "sweetalert2";
+//Axios
+import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
 
-function Cover() {
+function Basic() {
+  //value container of inputs
+  const [registerFname, setFname] = useState("");
+  const [registerMname, setMname] = useState("");
+  const [registerLname, setLname] = useState("");
+  const [registerAddress, setAddress] = useState("");
+  const [registerStreet, setStreet] = useState("");
+  const [registerBday, setBday] = useState("01/01/2023");
+  const [registerEmail, setEmail] = useState("");
+  const [registerPnum, setPnum] = useState("");
+  const [registerPass, setPass] = useState("");
+  const [registerCPass, setCPass] = useState("");
+
+  //start of onchange per value
+  const changeValue = (event, data) => {
+    data(event.target.value);
+    console.log(event.target.value);
+  };
+  //end of onchange per value
+
   return (
-    <CoverLayout image={bgImage}>
+    <SignupLayout image={bgImage}>
       <Card>
         <MDBox
           variant="gradient"
           bgColor="info"
           borderRadius="lg"
-          coloredShadow="success"
+          coloredShadow="info"
           mx={2}
           mt={-3}
-          p={3}
+          p={2}
           mb={1}
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Join us today
-          </MDTypography>
-          <MDTypography display="block" variant="button" color="white" my={1}>
-            Enter your email and password to register
+            Sign up
           </MDTypography>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={4}>
+                <MDBox mb={2}>
+                  <MDInput
+                    type="text"
+                    label="First name"
+                    fullWidth
+                    onChange={(event) => changeValue(event, setFname)}
+                    value={registerFname}
+                  />
+                </MDBox>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <MDBox mb={2}>
+                  <MDInput
+                    type="text"
+                    label="Middle name"
+                    fullWidth
+                    onChange={(event) => changeValue(event, setMname)}
+                    value={registerMname}
+                  />
+                </MDBox>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <MDBox mb={2}>
+                  <MDInput
+                    type="text"
+                    label="Last name"
+                    fullWidth
+                    onChange={(event) => changeValue(event, setLname)}
+                    value={registerLname}
+                  />
+                </MDBox>
+              </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <MDBox mb={2}>
+                  <MDInput
+                    type="text"
+                    label="Address"
+                    fullWidth
+                    onChange={(event) => changeValue(event, setAddress)}
+                    value={registerAddress}
+                  />
+                </MDBox>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <MDBox mb={2}>
+                  <MDInput
+                    type="text"
+                    label="Street"
+                    fullWidth
+                    onChange={(event) => changeValue(event, setStreet)}
+                    value={registerStreet}
+                  />
+                </MDBox>
+              </Grid>
+            </Grid>
             <MDBox mb={2}>
-              <MDInput type="text" label="Name" variant="standard" fullWidth />
+              <MDInput
+                type="date"
+                label="Date of Birth"
+                fullWidth
+                onChange={(event) => changeValue(event, setBday)}
+                value={registerBday}
+              />
             </MDBox>
-            <MDBox mb={2}>
-              <MDInput type="email" label="Email" variant="standard" fullWidth />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput type="password" label="Password" variant="standard" fullWidth />
-            </MDBox>
-            <MDBox display="flex" alignItems="center" ml={-1}>
-              <Checkbox />
-              <MDTypography
-                variant="button"
-                fontWeight="regular"
-                color="text"
-                sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
-              >
-                &nbsp;&nbsp;I agree the&nbsp;
-              </MDTypography>
-              <MDTypography
-                component="a"
-                href="#"
-                variant="button"
-                fontWeight="bold"
-                color="info"
-                textGradient
-              >
-                Terms and Conditions
-              </MDTypography>
-            </MDBox>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <MDBox mb={2}>
+                  <MDInput
+                    type="email"
+                    label="Email"
+                    fullWidth
+                    onChange={(event) => changeValue(event, setEmail)}
+                    value={registerEmail}
+                  />
+                </MDBox>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <MDBox mb={2}>
+                  <MDInput
+                    type="text"
+                    label="Phone Number"
+                    fullWidth
+                    onChange={(event) => changeValue(event, setPnum)}
+                    value={registerPnum}
+                  />
+                </MDBox>
+              </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <MDBox mb={2}>
+                  <MDInput
+                    type="password"
+                    label="Password"
+                    fullWidth
+                    onChange={(event) => changeValue(event, setPass)}
+                    value={registerPass}
+                  />
+                </MDBox>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <MDBox mb={2}>
+                  <MDInput
+                    type="password"
+                    label="Confirm Password"
+                    fullWidth
+                    onChange={(event) => changeValue(event, setCPass)}
+                    value={registerCPass}
+                  />
+                </MDBox>
+              </Grid>
+            </Grid>
             <MDBox mt={4} mb={1}>
               <MDButton variant="gradient" color="info" fullWidth>
-                sign in
+                sign up
               </MDButton>
             </MDBox>
             <MDBox mt={3} mb={1} textAlign="center">
@@ -109,8 +208,10 @@ function Cover() {
           </MDBox>
         </MDBox>
       </Card>
-    </CoverLayout>
+    </SignupLayout>
   );
 }
-
-export default Cover;
+Basic.propTypes = {
+  handlingLogin: PropTypes.func,
+};
+export default Basic;
