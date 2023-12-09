@@ -33,12 +33,17 @@ import team4 from "assets/images/team-4.jpg";
 import Swal from "sweetalert2";
 import { useState, useEffect, useMemo } from "react";
 
-export default function data(datafromdb) {
+export default function data(datafromdb, { handlingDelete1, handleOpenModal }) {
   const [dbData1, setDbData1] = useState(datafromdb);
   const [rowValues, setRowValues] = useState([{}]);
 
+  const Deletebtn = (data, name) => {
+    handlingDelete1(data, name);
+  };
+  const Editbtn = (data, jsondata, jsondata2) => {
+    handleOpenModal(data, jsondata, jsondata2);
+  };
   useEffect(() => {
-    console.log("test", datafromdb.data);
     //setDbData1(datafromdb);
     const residents = datafromdb.data;
     if (residents === null) {
@@ -65,10 +70,25 @@ export default function data(datafromdb) {
       action: (
         <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
           <Stack spacing={2} direction="row" justifyContent="flex-end">
-            <MDButton variant="contained" size="medium" color="info">
+            <MDButton
+              variant="contained"
+              size="medium"
+              color="info"
+              onClick={() => Editbtn("Edit User", resident[0], resident[1])}
+            >
               <Icon fontSize="large">edit</Icon>
             </MDButton>
-            <MDButton variant="contained" size="medium" color="error">
+            <MDButton
+              variant="contained"
+              size="medium"
+              color="error"
+              onClick={() =>
+                Deletebtn(
+                  resident[0].residentId,
+                  `${resident[0].firstName} ${resident[0].middleName} ${resident[0].lastName}`
+                )
+              }
+            >
               <Icon fontSize="medium">delete</Icon>
             </MDButton>
           </Stack>

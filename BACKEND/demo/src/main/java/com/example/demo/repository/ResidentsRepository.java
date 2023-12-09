@@ -41,5 +41,5 @@ public interface ResidentsRepository extends JpaRepository<ResidentsEntity,Long>
     void deleteByResidentId(long residentId);
 
     @Query("Select u, a  FROM ResidentsEntity u LEFT JOIN HouseholdInformationEntity a ON u.householdId = a.householdId ")
-    List<Object[]> selectAll();
+    List<Object[]> selectAll();//
 }
