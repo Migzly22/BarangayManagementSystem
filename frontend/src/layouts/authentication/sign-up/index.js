@@ -41,13 +41,65 @@ function Basic() {
   const [registerPnum, setPnum] = useState("");
   const [registerPass, setPass] = useState("");
   const [registerCPass, setCPass] = useState("");
+  const [registerGender, setGender] = useState("");
 
   //start of onchange per value
   const changeValue = (event, data) => {
     data(event.target.value);
-    console.log(event.target.value);
+  };
+
+  const resetData = () => {
+    setFname("");
+    setMname("");
+    setLname("");
+    setAddress("");
+    setStreet("");
+    setBday("01/01/2023");
+    setEmail("");
+    setPnum("");
+    setPass("");
+    setCPass("");
+    setGender("");
   };
   //end of onchange per value
+
+  const handleSignUp = async () => {
+    const [year, month, day] = registerBday.includes("/")
+      ? registerBday.split("/")
+      : registerBday.split("-");
+    const formattedDate = `${month.padStart(2, "0")}/${day.padStart(2, "0")}/${year}`;
+
+    const updatejsondata3 = {
+      passwordHash: registerPass,
+      email: registerEmail,
+      access: "USERS",
+    };
+    const usertest = await POSTAPI("UserAccount", "addUser", updatejsondata3);
+
+    const updatejsondata2 = {
+      address: registerAddress,
+      householdHeadId: "",
+      totalResidents: 0,
+      streets: registerStreet,
+    };
+    const householdtest = await POSTAPI("Household", "addHousehold", updatejsondata2);
+
+    const updatejsondata = {
+      firstName: registerFname,
+      middleName: registerMname,
+      lastName: registerLname,
+      dateOfBirth: formattedDate,
+      gender: registerGender,
+      phoneNumber: registerPnum,
+      email: registerEmail,
+      householdId: householdtest.data.id,
+      userId: usertest.data.id,
+    };
+    await POSTAPI("Residents", "addResidents", updatejsondata);
+
+    await Swal.fire("Saved!", "", "success");
+    resetData();
+  };
 
   return (
     <SignupLayout image={bgImage}>
@@ -108,6 +160,30 @@ function Basic() {
               <Grid item xs={12} sm={6}>
                 <MDBox mb={2}>
                   <MDInput
+                    type="date"
+                    label="Date of Birth"
+                    fullWidth
+                    onChange={(event) => changeValue(event, setBday)}
+                    value={registerBday}
+                  />
+                </MDBox>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <MDBox mb={2}>
+                  <MDInput
+                    type="type"
+                    label="Gender"
+                    fullWidth
+                    onChange={(event) => changeValue(event, setGender)}
+                    value={registerGender}
+                  />
+                </MDBox>
+              </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <MDBox mb={2}>
+                  <MDInput
                     type="text"
                     label="Address"
                     fullWidth
@@ -128,15 +204,6 @@ function Basic() {
                 </MDBox>
               </Grid>
             </Grid>
-            <MDBox mb={2}>
-              <MDInput
-                type="date"
-                label="Date of Birth"
-                fullWidth
-                onChange={(event) => changeValue(event, setBday)}
-                value={registerBday}
-              />
-            </MDBox>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <MDBox mb={2}>
@@ -186,7 +253,7 @@ function Basic() {
               </Grid>
             </Grid>
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
+              <MDButton variant="gradient" color="info" fullWidth onClick={handleSignUp}>
                 sign up
               </MDButton>
             </MDBox>

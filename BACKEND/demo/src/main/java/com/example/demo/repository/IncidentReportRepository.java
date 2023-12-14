@@ -28,4 +28,7 @@ public interface IncidentReportRepository extends JpaRepository<IncidentReportEn
                     @Param("dateReported") String dateReported,
                     @Param("residentId") long residentId,
                     @Param("status") String status);
+
+@Query("Select u, a FROM IncidentReportEntity u LEFT JOIN ResidentsEntity a ON u.residentId = a.residentId")
+List<Object[]> selectAllFromIncident();
 }

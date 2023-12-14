@@ -25,47 +25,34 @@ import Stack from "@mui/material/Stack";
 // @mui icons
 import Icon from "@mui/material/Icon";
 
+// Images
+import team2 from "assets/images/team-2.jpg";
+import team3 from "assets/images/team-3.jpg";
+import team4 from "assets/images/team-4.jpg";
+
 import Swal from "sweetalert2";
 import { useState, useEffect, useMemo } from "react";
 
-export default function data(datafromdb, { handlingDelete1, handleOpenModal }) {
+export default function data(datafromdb, { handleChangePos }) {
   const [dbData1, setDbData1] = useState(datafromdb);
   const [rowValues, setRowValues] = useState([{}]);
 
-  const Deletebtn = (data, name) => {
-    handlingDelete1(data, name);
-  };
-  const Editbtn = (data, jsondata, jsondata2) => {
-    handleOpenModal(data, jsondata, jsondata2);
+  const Editbtn = (jsondata) => {
+    handleChangePos(jsondata);
   };
   useEffect(() => {
     //setDbData1(datafromdb);
     const residents = datafromdb.data;
-    console.log(residents);
     if (residents === null) {
       return;
     }
 
     const transformedData = residents.map((resident) => ({
-      reportedname: (
-        <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-          {`${resident[1].firstName} ${resident[1].lastName}`}
-        </MDTypography>
-      ),
-      description: (
-        <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-          {resident[0].description}
-        </MDTypography>
-      ),
-      dreport: (
-        <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-          {resident[0].dateReported}
-        </MDTypography>
-      ),
-      status: (
-        <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-          {resident[0].status}
-        </MDTypography>
+      name: (
+        <ProfileOfficials
+          name={`${resident[0].firstName} ${resident[0].middleName} ${resident[0].lastName}`}
+          email={`${resident[0].email}`}
+        />
       ),
       action: (
         <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
@@ -74,22 +61,9 @@ export default function data(datafromdb, { handlingDelete1, handleOpenModal }) {
               variant="contained"
               size="medium"
               color="info"
-              onClick={() => Editbtn("Edit", resident[0], resident[1])}
+              onClick={() => Editbtn(resident[0].residentId)}
             >
               <Icon fontSize="large">edit</Icon>
-            </MDButton>
-            <MDButton
-              variant="contained"
-              size="medium"
-              color="error"
-              onClick={() =>
-                Deletebtn(
-                  resident[0].incidentId,
-                  `${resident[1].firstName} ${resident[1].middleName} ${resident[1].lastName}`
-                )
-              }
-            >
-              <Icon fontSize="medium">delete</Icon>
             </MDButton>
           </Stack>
         </MDTypography>
@@ -100,12 +74,28 @@ export default function data(datafromdb, { handlingDelete1, handleOpenModal }) {
     setDbData1(datafromdb);
   }, [datafromdb]); // This useEffect runs only once for initialization
 
+  const ProfileOfficials = ({ name, email }) => (
+    <MDBox display="flex" alignItems="center" lineHeight={1}>
+      <MDBox ml={2} lineHeight={1}>
+        <MDTypography display="block" variant="button" fontWeight="medium">
+          {name}
+        </MDTypography>
+        <MDTypography variant="caption">{email}</MDTypography>
+      </MDBox>
+    </MDBox>
+  );
+
+  const Job = ({ title }) => (
+    <MDBox lineHeight={1} textAlign="left">
+      <MDTypography display="block" variant="caption" color="text" fontWeight="medium">
+        {title}
+      </MDTypography>
+    </MDBox>
+  );
+
   let tabledatas = {
     columns: [
-      { Header: "Reported by ", accessor: "reportedname", align: "left" },
-      { Header: "Incident", accessor: "description", align: "left" },
-      { Header: "Date Reported", accessor: "dreport", align: "left" },
-      { Header: "Status", accessor: "status", width: "100px", align: "center" },
+      { Header: "Name", accessor: "name", align: "left" },
       { Header: "action", accessor: "action", align: "center" },
     ],
 
@@ -113,18 +103,13 @@ export default function data(datafromdb, { handlingDelete1, handleOpenModal }) {
   };
   const nodata = {
     columns: [
-      { Header: "Reported by ", accessor: "reportedname", align: "left" },
-      { Header: "Incident", accessor: "description", align: "left" },
-      { Header: "Date Reported", accessor: "dreport", align: "left" },
-      { Header: "Status", accessor: "status", width: "100px", align: "center" },
+      { Header: "Name", accessor: "name", align: "left" },
       { Header: "action", accessor: "action", align: "center" },
     ],
 
     rows: [
       {
         name: "-",
-        address: "-",
-        phonenum: "-",
         action: "-",
       },
     ],

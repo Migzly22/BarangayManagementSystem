@@ -55,15 +55,16 @@ function ResidentAndHousehold() {
   const [textLname, setLname] = useState("");
   const [textAddress, setAddress] = useState("");
   const [textStreet, setStreet] = useState("");
-  const [textBday, setBday] = useState("01/01/2023");
+  const [textBday, setBday] = useState("01-01-2023");
   const [textEmail, setEmail] = useState("");
   const [textPnum, setPnum] = useState("");
   const [textGender, setGender] = useState("");
 
+  const [ids, setIDS] = useState([]);
+
   //start of onchange per value
   const reInput = (event, data) => {
     data(event.target.value);
-    console.log(event.target.value);
   };
   const resetInputs = () => {
     setFname("");
@@ -75,6 +76,7 @@ function ResidentAndHousehold() {
     setEmail("");
     setPnum("");
     setGender("");
+    setIDS([]);
   };
 
   //end of onchange per value
@@ -82,27 +84,136 @@ function ResidentAndHousehold() {
   const [openModal, setOpenModal] = useState(false);
   const [modalState, setModalState] = useState(null);
   const [targetID, setTargetID] = useState(null);
+  const [addingMode, setAddingMode] = useState(false);
 
+  const addNewResident = () => {
+    resetInputs();
+    setAddingMode(true);
+    handleOpenModal("Add User");
+  };
   const handleOpenModal = (name, jsonData = null, jsonData2 = null) => {
     setModalState(name);
+    console.log(jsonData);
+    console.log(jsonData2);
+
     if (jsonData !== null) {
+      const [month, day, year] = jsonData.dateOfBirth.includes("/")
+        ? jsonData.dateOfBirth.split("/")
+        : jsonData.dateOfBirth.split("-");
+      const formattedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+      setBday(formattedDate);
+
       setFname(jsonData.firstName);
       setMname(jsonData.middleName);
       setLname(jsonData.lastName);
       setAddress(jsonData2.address);
-      setStreet(jsonData2.street);
-      setBday(jsonData.dateOfBirth);
+      setStreet(jsonData2.streets);
       setEmail(jsonData.email);
       setPnum(jsonData.phoneNumber);
       setGender(jsonData.gender);
       setTargetID(jsonData.userId);
+      setIDS([
+        jsonData.residentId,
+        jsonData2.householdId,
+        jsonData2.householdHeadId,
+        jsonData2.totalResidents,
+      ]);
     }
+
     setOpenModal(true);
+  };
+
+  const handleSavingEdit = async () => {
+    handleCloseModal();
+
+    if (!addingMode) {
+      const [year, month, day] = textBday.includes("/") ? textBday.split("/") : textBday.split("-");
+      const formattedDate = `${month.padStart(2, "0")}/${day.padStart(2, "0")}/${year}`;
+
+      await Swal.fire({
+        title: "Do you want to save the changes?",
+        showDenyButton: true,
+        confirmButtonText: "Save",
+        denyButtonText: `Don't save`,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const updatejsondata = {
+            dateOfBirth: formattedDate,
+            email: textEmail,
+            firstName: textFname,
+            gender: textGender,
+            householdId: ids[1],
+            lastName: textLname,
+            middleName: textMname,
+            phoneNumber: textPnum,
+            residentId: ids[0],
+            userId: null,
+          };
+          const updatejsondata2 = {
+            address: textAddress,
+            householdHeadId: ids[2],
+            householdId: ids[1],
+            streets: textStreet,
+            totalResidents: ids[3],
+          };
+          await PATCHAPI("Residents", "updateResident", updatejsondata);
+          await PATCHAPI("Household", "updateHousehold", updatejsondata2);
+          const resultall = await GETAPI("Residents", "showAllResidents");
+          setDbData(resultall);
+          //const result2 = await PATCHAPI("Residents", "showAllResidents");
+
+          await Swal.fire("Saved!", "", "success");
+        } else {
+          handleOpenModal("Edit User");
+        }
+      });
+    } else {
+      console.log("adding");
+      const [year, month, day] = textBday.includes("/") ? textBday.split("/") : textBday.split("-");
+      const formattedDate = `${month.padStart(2, "0")}/${day.padStart(2, "0")}/${year}`;
+
+      await Swal.fire({
+        title: "Do you want to save the changes?",
+        showDenyButton: true,
+        confirmButtonText: "Save",
+        denyButtonText: `Don't save`,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const updatejsondata2 = {
+            address: textAddress,
+            householdHeadId: "",
+            totalResidents: 0,
+            streets: textStreet,
+          };
+          const householdtest = await POSTAPI("Household", "addHousehold", updatejsondata2);
+
+          const updatejsondata = {
+            firstName: textFname,
+            middleName: textMname,
+            lastName: textLname,
+            dateOfBirth: formattedDate,
+            gender: textGender,
+            phoneNumber: textPnum,
+            email: textEmail,
+            householdId: householdtest.data.id,
+          };
+          await POSTAPI("Residents", "addResidents", updatejsondata);
+
+          const resultall = await GETAPI("Residents", "showAllResidents");
+          setDbData(resultall);
+
+          await Swal.fire("Saved!", "", "success");
+        } else {
+          handleOpenModal("Edit User");
+        }
+      });
+    }
   };
 
   const handleCloseModal = () => {
     setOpenModal(false);
-    resetInputs();
+    setAddingMode(false);
+    //resetInputs();
   };
 
   useEffect(() => {
@@ -290,7 +401,12 @@ function ResidentAndHousehold() {
 
           <Grid item xs={12} gap={1} mt={2}>
             <Grid container spacing={2} justifyContent={"space-evenly"}>
-              <MDButton variant="contained" size="medium" color="success">
+              <MDButton
+                variant="contained"
+                size="medium"
+                color="success"
+                onClick={handleSavingEdit}
+              >
                 Add
               </MDButton>
               <MDButton variant="contained" size="medium" color="error" onClick={handleCloseModal}>
@@ -331,9 +447,7 @@ function ResidentAndHousehold() {
                     variant="contained"
                     size="medium"
                     color="success"
-                    onClick={() => {
-                      handleOpenModal("Add User");
-                    }}
+                    onClick={addNewResident}
                   >
                     <Icon fontSize="large">add</Icon>
                   </MDButton>

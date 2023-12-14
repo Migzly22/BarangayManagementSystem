@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -55,7 +56,7 @@ public class BarangayOfficialsService {
                     "\"icon\": \"error\"}";
         }
     }
-    public ArrayList<BarangayOfficialsEntity> getOfficials(){
-        return (ArrayList<BarangayOfficialsEntity>) barangayOfficialsRepository.findAll();
+    public List<Object[]> getOfficials(){
+        return barangayOfficialsRepository.showAllOfficials();
     }
 }

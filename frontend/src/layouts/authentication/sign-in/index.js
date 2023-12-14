@@ -43,7 +43,7 @@ function Basic({ handlingLogin }) {
     const data = {
       email: loginEmail,
       passwordHash: loginPassword,
-      access: "STAFF",
+      access: "",
     };
 
     let enteringresonse = await POSTAPI("UserAccount", "getUserAuth", data);

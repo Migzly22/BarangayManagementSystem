@@ -33,9 +33,13 @@ import team4 from "assets/images/team-4.jpg";
 import Swal from "sweetalert2";
 import { useState, useEffect, useMemo } from "react";
 
-export default function data(datafromdb) {
+export default function data(datafromdb, { handleOpenModal }) {
   const [dbData1, setDbData1] = useState(datafromdb);
   const [rowValues, setRowValues] = useState([{}]);
+
+  const EditPosition = (pos, data) => {
+    handleOpenModal(pos, data);
+  };
 
   useEffect(() => {
     console.log("test", datafromdb.data);
@@ -48,28 +52,30 @@ export default function data(datafromdb) {
     const transformedData = residents.map((resident) => ({
       name: (
         <ProfileOfficials
-          name={`${resident[0].firstName} ${resident[0].middleName} ${resident[0].lastName}`}
-          email={`${resident[0].email}`}
+          name={`${resident[1].firstName} ${resident[1].middleName} ${resident[1].lastName}`}
+          email={`${resident[1].email}`}
         />
       ),
-      address: (
+      position: (
         <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-          {resident[1].address}
+          {resident[0].position}
         </MDTypography>
       ),
       phonenum: (
         <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-          {resident[0].phoneNumber}
+          {resident[1].phoneNumber}
         </MDTypography>
       ),
       action: (
         <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
           <Stack spacing={2} direction="row" justifyContent="flex-end">
-            <MDButton variant="contained" size="medium" color="info">
+            <MDButton
+              variant="contained"
+              size="medium"
+              color="info"
+              onClick={() => EditPosition(resident[0].position, resident[0])}
+            >
               <Icon fontSize="large">edit</Icon>
-            </MDButton>
-            <MDButton variant="contained" size="medium" color="error">
-              <Icon fontSize="medium">delete</Icon>
             </MDButton>
           </Stack>
         </MDTypography>
@@ -104,7 +110,6 @@ export default function data(datafromdb) {
       { Header: "Name", accessor: "name", align: "left" },
       { Header: "Position", accessor: "position", align: "left" },
       { Header: "Contact #", accessor: "phonenum", align: "center" },
-      { Header: "Address", accessor: "address", width: "100px", align: "center" },
       { Header: "action", accessor: "action", align: "center" },
     ],
 

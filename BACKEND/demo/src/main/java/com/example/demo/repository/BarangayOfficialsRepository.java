@@ -1,6 +1,9 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.BarangayOfficialsEntity;
+
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +25,8 @@ public interface BarangayOfficialsRepository extends JpaRepository<BarangayOffic
                     @Param("endDate") String endDate,
                     @Param("electedOrAppointed") String electedOrAppointed);
     void deleteByOfficialId(long officialId);
+
+
+    @Query("Select u, a FROM BarangayOfficialsEntity u LEFT JOIN ResidentsEntity a ON u.residentId = a.residentId")
+    List<Object[]> showAllOfficials();
 }

@@ -19,7 +19,8 @@ public class HouseholdInformationService {
         try{
             householdInformationRepository.save(householdInformationEntity);
             return "{\"message\": \"Added Successfullyy\"," +
-                    "\"icon\": \"success\"}";
+                    "\"icon\": \"success\"," +
+                    "\"id\": \""+householdInformationEntity.getHouseholdId()+"\"}";
         }
         catch (Exception e){
             return "{\"message\": \""+e.getMessage()+"\"," +

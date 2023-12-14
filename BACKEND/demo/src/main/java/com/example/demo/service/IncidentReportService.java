@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.IncidentReportEntity;
+import com.example.demo.entity.UserAccountsEntity;
 import com.example.demo.repository.IncidentReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,57 +16,54 @@ public class IncidentReportService {
     @Autowired
     private IncidentReportRepository incidentReportRepository;
 
-    public String addNewIncident(IncidentReportEntity incidentReportEntity){
-        try{
+    public String addNewIncident(IncidentReportEntity incidentReportEntity) {
+        try {
             incidentReportRepository.save(incidentReportEntity);
             return "{\"message\": \"Added Successfullyy\"," +
                     "\"icon\": \"success\"}";
-        }
-        catch (Exception e){
-            return "{\"message\": \""+e.getMessage()+"\"," +
+        } catch (Exception e) {
+            return "{\"message\": \"" + e.getMessage() + "\"," +
                     "\"icon\": \"error\"}";
         }
     }
 
-    public String deleteIncident(long incidentId){
-        try{
+    public String deleteIncident(long incidentId) {
+        try {
             incidentReportRepository.deleteByIncidentId(incidentId);
             return "{\"message\": \"Added Successfullyy\"," +
                     "\"icon\": \"success\"}";
-        }
-        catch (Exception e){
-            return "{\"message\": \""+e.getMessage()+"\"," +
+        } catch (Exception e) {
+            return "{\"message\": \"" + e.getMessage() + "\"," +
                     "\"icon\": \"error\"}";
         }
     }
 
-    public String updateIncident(IncidentReportEntity incidentReportEntity){
-        try{
+    public String updateIncident(IncidentReportEntity incidentReportEntity) {
+        try {
             incidentReportRepository.updateData(
                     incidentReportEntity.getIncidentId(),
                     incidentReportEntity.getDescription(),
                     incidentReportEntity.getDateTimeOccured(),
                     incidentReportEntity.getDateReported(),
                     incidentReportEntity.getResidentId(),
-                    incidentReportEntity.getStatus()
-            );
+                    incidentReportEntity.getStatus());
             return "{\"message\": \"Updated Successfullyy\"," +
                     "\"icon\": \"success\"}";
-        }
-        catch (Exception e){
-            return "{\"message\": \""+e.getMessage()+"\"," +
+        } catch (Exception e) {
+            return "{\"message\": \"" + e.getMessage() + "\"," +
                     "\"icon\": \"error\"}";
         }
     }
-    public ArrayList<IncidentReportEntity> getAllOftheIncident(){
-        return (ArrayList<IncidentReportEntity>) incidentReportRepository.findAll();
+
+    public List<Object[]> getAllOftheIncident() {
+        return incidentReportRepository.selectAllFromIncident();
     }
 
-    public Object showSearchItem(String customSubstring, long customLong){
+    public Object showSearchItem(String customSubstring, long customLong) {
         List<IncidentReportEntity> docuser = incidentReportRepository.searchCustomQuery(customSubstring, customLong);
-        if (!docuser.isEmpty() ) {
+        if (!docuser.isEmpty()) {
             return docuser;
-        }else{
+        } else {
             return "{\"message\": \"No Request found\"}";
         }
     }

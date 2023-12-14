@@ -20,7 +20,8 @@ public class UserAccountsService {
         try{
             userAccountsRepository.save(userAccountsEntity);
             return "{\"message\": \"Added Successfullyy\"," +
-                    "\"icon\": \"success\"}";
+                    "\"icon\": \"success\"," +
+                    "\"id\": \""+userAccountsEntity.getUserId()+"\"}";
         }
         catch (Exception e){
             return "{\"message\": \""+e.getMessage()+"\"," +
