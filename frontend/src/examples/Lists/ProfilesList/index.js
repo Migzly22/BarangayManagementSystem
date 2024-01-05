@@ -28,7 +28,84 @@ import MDTypography from "components/MDTypography";
 import MDAvatar from "components/MDAvatar";
 import MDButton from "components/MDButton";
 
-function ProfilesList({ title, profiles, shadow }) {
+import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
+import Swal from "sweetalert2";
+
+function ProfilesList({ title, profiles, ID, shadow }) {
+  async function Change(val) {
+    console.log(val);
+    if (val === "Emai") {
+      Swal.fire({
+        title: "Enter your email",
+        input: "email",
+        inputPlaceholder: "Enter your email address",
+        showCancelButton: true,
+        confirmButtonText: "Submit",
+        cancelButtonText: "Cancel",
+        inputValidator: (value) => {
+          if (!value) {
+            return "You need to enter your email!";
+          }
+        },
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          // Handle the email submission here
+          const enteredEmail = result.value;
+          let jsondata = {
+            userId: ID,
+            email: enteredEmail,
+          };
+          await PATCHAPI("UserAccount", "updateEmail", jsondata);
+          Swal.fire({
+            icon: "success",
+            text: "Updated Successfully",
+          });
+        }
+      });
+    } else {
+      Swal.fire({
+        title: "Enter your password",
+        html:
+          '<input type="password" id="password" class="swal2-input" placeholder="Password">' +
+          '<input type="password" id="confirmPassword" class="swal2-input" placeholder="Confirm Password">',
+        showCancelButton: true,
+        confirmButtonText: "Submit",
+        cancelButtonText: "Cancel",
+        preConfirm: () => {
+          const password = document.getElementById("password").value;
+          const confirmPassword = document.getElementById("confirmPassword").value;
+
+          // Password criteria validation using regex
+          const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z]).{8,}$/;
+
+          if (!passwordRegex.test(password)) {
+            Swal.showValidationMessage(
+              "Password should be at least 8 characters long, contain at least 1 capital letter, and at least 1 small letter"
+            );
+          } else if (password !== confirmPassword) {
+            Swal.showValidationMessage("Passwords do not match");
+          } else {
+            // Password is valid
+            return { password: password, confirmPassword: confirmPassword };
+          }
+        },
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          // Handle the password submission here
+          const enteredPassword = result.value.password;
+          let jsondata = {
+            userId: ID,
+            passwordHash: enteredPassword,
+          };
+          await PATCHAPI("UserAccount", "updatePassword", jsondata);
+          await Swal.fire({
+            icon: "success",
+            text: "Updated Successfully",
+          });
+        }
+      });
+    }
+  }
   const renderProfiles = profiles.map(({ image, name, description, action }) => (
     <MDBox key={name} component="li" display="flex" alignItems="center" py={1} mb={1}>
       <MDBox mr={2}>
@@ -48,14 +125,7 @@ function ProfilesList({ title, profiles, shadow }) {
             {action.label}
           </MDButton>
         ) : (
-          <MDButton
-            component="a"
-            href={action.route}
-            target="_blank"
-            rel="noreferrer"
-            variant="text"
-            color={action.color}
-          >
+          <MDButton variant="text" color={action.color} onClick={() => Change(action.TobeChange)}>
             {action.label}
           </MDButton>
         )}

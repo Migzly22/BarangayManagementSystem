@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 @Service
 @Transactional
 public class DocumentsService {
@@ -42,11 +42,7 @@ public class DocumentsService {
         try{
             documentsRepository.updateData(
                     documentsEntity.getDocumentId(),
-                    documentsEntity.getDocumentType(),
-                    documentsEntity.getDocumentName(),
-                    documentsEntity.getDateRequested(),
                     documentsEntity.getDateReleased(),
-                    documentsEntity.getResidentId(),
                     documentsEntity.getStatus()
             );
             return "{\"message\": \"Updated Successfullyy\"," +
@@ -59,25 +55,46 @@ public class DocumentsService {
     }
 
 
-    public ArrayList<DocumentsEntity> getAllRequestDocuments(){
-        return (ArrayList<DocumentsEntity>) documentsRepository.findAll();
-    }
-
-    public Object getAllRequestDocuments1(long residentId){
-        List<DocumentsEntity> docuser = documentsRepository.findByResidentId(residentId);
-        if (!docuser.isEmpty() ) {
+    public List<Object[]> getAllRequestDocuments(){
+        List<Object[]> docuser = documentsRepository.selectAll();
+        if (!docuser.isEmpty()) {
             return docuser;
-        }else{
-            return "{\"message\": \"No Request found\"}";
+        } else {
+            return Collections.singletonList(new Object[]{"{\"data\": null}"});
         }
     }
 
-    public Object showSearchItem(String customSubstring, long customLong){
-        List<DocumentsEntity> docuser = documentsRepository.searchCustomQuery( customSubstring, customLong);
-        if (!docuser.isEmpty() ) {
+
+    /* *
+        public ArrayList<DocumentsEntity> getAllRequestDocuments(){
+            return (ArrayList<DocumentsEntity>) documentsRepository.findAll();
+        }
+        public Object getAllRequestDocuments1(long residentId){
+            List<DocumentsEntity> docuser = documentsRepository.findByResidentId(residentId);
+            if (!docuser.isEmpty() ) {
+                return docuser;
+            }else{
+                return "{\"data\": null}";
+            }
+        }
+    */
+
+    public List<Object[]> getAllRequestDocuments1(long residentId){
+        List<Object[]> docuser = documentsRepository.selectAll2(residentId);
+        if (!docuser.isEmpty()) {
             return docuser;
-        }else{
-            return "{\"message\": \"No Request found\"}";
+        } else {
+            // Return a JSON string representing an object with a "message" property
+            return Collections.singletonList(new Object[]{"{\"data\": null}"});
+        }
+    }
+    public List<Object[]> showSearchItem(String customSubstring){
+        List<Object[]> docuser = documentsRepository.searchCustomQuery(customSubstring);
+        if (!docuser.isEmpty()) {
+            return docuser;
+        } else {
+            // Return a JSON string representing an object with a "message" property
+            return Collections.singletonList(new Object[]{"{\"data\": null}"});
         }
     }
 

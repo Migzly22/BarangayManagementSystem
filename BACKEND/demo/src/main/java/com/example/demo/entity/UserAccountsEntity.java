@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "UserAccounts")
+
 public class UserAccountsEntity {
 
     @Id

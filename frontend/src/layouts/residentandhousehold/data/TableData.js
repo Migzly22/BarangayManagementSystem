@@ -48,6 +48,12 @@ export default function data(datafromdb, { handlingDelete1, handleOpenModal }) {
     const residents = datafromdb.data;
     if (residents === null) {
       return;
+    } else if (residents[0][0] === '{"data": null}') {
+      Swal.fire({
+        icon: "info",
+        text: "Cant find the searched item",
+      });
+      return;
     }
 
     const transformedData = residents.map((resident) => ({

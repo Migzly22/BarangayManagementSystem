@@ -13,24 +13,25 @@ import java.util.List;
 public interface DocumentsRepository extends JpaRepository<DocumentsEntity,Long> {
     List<DocumentsEntity> findByResidentId(long residentId);
 
-    @Query("SELECT u FROM DocumentsEntity u WHERE u.documentType LIKE %:customSubstring% OR " +
+    @Query("SELECT u, a FROM DocumentsEntity u LEFT JOIN ResidentsEntity a ON u.residentId = a.residentId WHERE u.documentType LIKE %:customSubstring% OR " +
             "u.documentName LIKE %:customSubstring% OR u.dateRequested LIKE %:customSubstring% OR " +
-            "u.dateReleased LIKE %:customSubstring% OR u.status LIKE %:customSubstring% OR " +
-            "u.residentId = :customLong")
-    List<DocumentsEntity> searchCustomQuery(@Param("customSubstring") String customSubstring, @Param("customLong") Long customLong);
+            "u.dateReleased LIKE %:customSubstring% OR u.status LIKE %:customSubstring% " +
+            "OR a.firstName LIKE %:customSubstring% OR a.lastName LIKE %:customSubstring% OR a.middleName LIKE %:customSubstring%")
+        List<Object[]> searchCustomQuery(@Param("customSubstring") String customSubstring);
 
     @Modifying
     @Query("UPDATE DocumentsEntity u SET " +
-            "u.documentType = :documentType, u.documentName = :documentName, " +
-            "u.dateRequested = :dateRequested, u.dateReleased = :dateReleased, " +
-            "u.residentId = :residentId, u.status = :status " +
+           " u.dateReleased = :dateReleased, u.status = :status " +
             "WHERE u.documentId = :id")
     void updateData(@Param("id") long documentId,
-                    @Param("documentType") String documentType,
-                    @Param("documentName") String documentName,
-                    @Param("dateRequested") String dateRequested,
                     @Param("dateReleased") String dateReleased,
-                    @Param("residentId") long residentId,
                     @Param("status") String status);
     void deleteByDocumentId(long documentId);
+
+
+    @Query("SELECT u, a FROM DocumentsEntity u LEFT JOIN ResidentsEntity a ON u.residentId = a.residentId")
+    List<Object[]> selectAll();//
+
+    @Query("SELECT u, a FROM DocumentsEntity u LEFT JOIN ResidentsEntity a ON u.residentId = a.residentId WHERE u.residentId = :customSubstring ")
+    List<Object[]> selectAll2(@Param("customSubstring") long customSubstring);//
 }

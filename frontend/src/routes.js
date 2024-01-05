@@ -45,7 +45,7 @@ import Officials from "layouts/barangayofficial";
 import Billing from "layouts/billing";
 import RTL from "layouts/rtl";
 import Notifications from "layouts/notifications";
-import Profile from "layouts/profile";
+import Settings from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import Logout from "layouts/authentication/logout";
@@ -57,6 +57,7 @@ const routes = (handlingLogin, handlingLogout) => [
   {
     type: "collapse",
     name: "Dashboard",
+    title: "Dashboard",
     key: "dashboard",
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard",
@@ -65,6 +66,7 @@ const routes = (handlingLogin, handlingLogout) => [
   {
     type: "collapse",
     name: "Resident & Household",
+    title: "Resident & Household",
     key: "residentandhousehold",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/residentandhousehold",
@@ -73,6 +75,7 @@ const routes = (handlingLogin, handlingLogout) => [
   {
     type: "collapse",
     name: "Documents",
+    title: "Documents",
     key: "barangaydocument",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/barangaydocument",
@@ -81,6 +84,7 @@ const routes = (handlingLogin, handlingLogout) => [
   {
     type: "collapse",
     name: "Tables",
+    title: "Tables",
     key: "tables",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/tables",
@@ -89,6 +93,7 @@ const routes = (handlingLogin, handlingLogout) => [
   {
     type: "collapse",
     name: "Notifications",
+    title: "Notifications",
     key: "notifications",
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/notifications",
@@ -96,15 +101,17 @@ const routes = (handlingLogin, handlingLogout) => [
   },
   {
     type: "collapse",
-    name: "Profile",
-    key: "profile",
+    name: "Settings",
+    title: "Settings",
+    key: "setting",
     icon: <Icon fontSize="small">person</Icon>,
     route: "/profile",
-    component: <Profile />,
+    component: <Settings />,
   },
   {
     type: "collapse",
     name: "Sign In",
+    title: "Sign In",
     key: "sign-in",
     icon: <Icon fontSize="small">login</Icon>,
     route: "/authentication/sign-in",
@@ -113,6 +120,7 @@ const routes = (handlingLogin, handlingLogout) => [
   {
     type: "collapse",
     name: "Logout",
+    title: "Logout",
     key: "logout",
     icon: <Icon fontSize="small">login</Icon>,
     route: "/authentication/logout",
@@ -121,6 +129,7 @@ const routes = (handlingLogin, handlingLogout) => [
   {
     type: "collapse",
     name: "Sign Up",
+    title: "Sign Up",
     key: "sign-up",
     icon: <Icon fontSize="small">assignment</Icon>,
     route: "/authentication/sign-up",
@@ -129,6 +138,7 @@ const routes = (handlingLogin, handlingLogout) => [
   {
     type: "collapse",
     name: "Barangay Officials",
+    title: "Barangay Officials",
     key: "barangayofficial",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/barangayofficial",
@@ -137,6 +147,7 @@ const routes = (handlingLogin, handlingLogout) => [
   {
     type: "collapse",
     name: "Incident Report",
+    title: "Incident Report",
     key: "incidentreport",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/incidentreport",
@@ -148,6 +159,7 @@ const sidebarroutes = (handlingLogout) => [
   {
     type: "collapse",
     name: "Dashboard",
+    title: "Dashboard",
     key: "dashboard",
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard",
@@ -156,6 +168,7 @@ const sidebarroutes = (handlingLogout) => [
   {
     type: "collapse",
     name: "Resident & Household",
+    title: "Resident & Household",
     key: "residentandhousehold",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/residentandhousehold",
@@ -164,6 +177,7 @@ const sidebarroutes = (handlingLogout) => [
   {
     type: "collapse",
     name: "Documents",
+    title: "Documents",
     key: "barangaydocument",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/barangaydocument",
@@ -172,6 +186,7 @@ const sidebarroutes = (handlingLogout) => [
   {
     type: "collapse",
     name: "Barangay Officials",
+    title: "Barangay Officials",
     key: "barangayofficial",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/barangayofficial",
@@ -180,6 +195,7 @@ const sidebarroutes = (handlingLogout) => [
   {
     type: "collapse",
     name: "Incident Report",
+    title: "Incident Report",
     key: "incidentreport",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/incidentreport",
@@ -187,15 +203,17 @@ const sidebarroutes = (handlingLogout) => [
   },
   {
     type: "collapse",
-    name: "Profile",
-    key: "profile",
+    name: "Setting",
+    title: "Setting",
+    key: "setting",
     icon: <Icon fontSize="small">person</Icon>,
     route: "/profile",
-    component: <Profile />,
+    component: <Settings />,
   },
   {
     type: "collapse",
     name: "Logout",
+    title: "Logout",
     key: "logout",
     icon: <Icon fontSize="small">login</Icon>,
     route: "/authentication/logout",
@@ -207,6 +225,7 @@ const sidebarroutesforassist = (handlingLogout) => [
   {
     type: "collapse",
     name: "Dashboard",
+    title: "Dashboard",
     key: "dashboard",
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard",
@@ -215,6 +234,7 @@ const sidebarroutesforassist = (handlingLogout) => [
   {
     type: "collapse",
     name: "Documents",
+    title: "Documents",
     key: "barangaydocument",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/barangaydocument",
@@ -223,6 +243,7 @@ const sidebarroutesforassist = (handlingLogout) => [
   {
     type: "collapse",
     name: "Incident Report",
+    title: "Incident Report",
     key: "incidentreport",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/incidentreport",
@@ -230,15 +251,17 @@ const sidebarroutesforassist = (handlingLogout) => [
   },
   {
     type: "collapse",
-    name: "Profile",
-    key: "profile",
+    name: "Setting",
+    title: "Setting",
+    key: "setting",
     icon: <Icon fontSize="small">person</Icon>,
     route: "/profile",
-    component: <Profile />,
+    component: <Settings />,
   },
   {
     type: "collapse",
     name: "Logout",
+    title: "Logout",
     key: "logout",
     icon: <Icon fontSize="small">login</Icon>,
     route: "/authentication/logout",

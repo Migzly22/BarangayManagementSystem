@@ -40,7 +40,7 @@ public class DocumentsController {
         return new ResponseEntity(documentsService.getAllRequestDocuments(), HttpStatus.OK);
     }
     @GetMapping("showSearchedItem")
-    public ResponseEntity<DocumentsEntity> getSearchItem(@RequestParam(required = false) String customSubstring,@RequestParam(required = false)  long customLong) {
-        return new ResponseEntity(documentsService.showSearchItem(customSubstring,customLong), HttpStatus.OK);
+    public ResponseEntity<DocumentsEntity> getSearchItem(@RequestParam(required = false) String customSubstring) {
+        return new ResponseEntity(documentsService.showSearchItem(customSubstring), HttpStatus.OK);
     }
 }

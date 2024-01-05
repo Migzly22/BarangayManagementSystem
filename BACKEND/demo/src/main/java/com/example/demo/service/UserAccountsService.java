@@ -45,7 +45,34 @@ public class UserAccountsService {
                     "\"icon\": \"error\"}";
         }
     }
-
+    public String updateEmail(UserAccountsEntity userAccountsEntity){
+        try{
+            userAccountsRepository.updateEmail(
+                    userAccountsEntity.getUserId(),
+                    userAccountsEntity.getEmail()
+            );
+            return "{\"message\": \"Updated Successfullyy\"," +
+                    "\"icon\": \"success\"}";
+        }
+        catch (Exception e){
+            return "{\"message\": \""+e.getMessage()+"\"," +
+                    "\"icon\": \"error\"}";
+        }
+    }
+    public String updatePassword(UserAccountsEntity userAccountsEntity){
+        try{
+            userAccountsRepository.updatePassword(
+                    userAccountsEntity.getUserId(),
+                    userAccountsEntity.getPasswordHash()
+            );
+            return "{\"message\": \"Updated Successfullyy\"," +
+                    "\"icon\": \"success\"}";
+        }
+        catch (Exception e){
+            return "{\"message\": \""+e.getMessage()+"\"," +
+                    "\"icon\": \"error\"}";
+        }
+    }
     public ArrayList<UserAccountsEntity> showAllUser(){
         return (ArrayList<UserAccountsEntity>) userAccountsRepository.findAll();
     }

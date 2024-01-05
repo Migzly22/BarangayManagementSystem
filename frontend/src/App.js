@@ -144,8 +144,11 @@ export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handlingLogin = (jsondata) => {
+  const handlingLogin = async (jsondata) => {
+    const result = await POSTAPI("UserAccount", "getUserAuth2", jsondata);
+
     sessionStorage.setItem("UserToken", JSON.stringify(jsondata));
+    sessionStorage.setItem("USERVALUETOKEN_REACT", JSON.stringify(result.data));
     setAccessLevel(jsondata.access);
     setAuthInfo(jsondata);
   };

@@ -23,6 +23,14 @@ public class UserAccountController {
     public ResponseEntity updateUser(@RequestBody UserAccountsEntity userAccountsEntity){
         return new ResponseEntity(userAccountsService.updateUserCredentials(userAccountsEntity), HttpStatus.OK);
     }
+    @PatchMapping("updateEmail")
+    public ResponseEntity updateEmail(@RequestBody UserAccountsEntity userAccountsEntity){
+        return new ResponseEntity(userAccountsService.updateEmail(userAccountsEntity), HttpStatus.OK);
+    }
+    @PatchMapping("updatePassword")
+    public ResponseEntity updatePassword(@RequestBody UserAccountsEntity userAccountsEntity){
+        return new ResponseEntity(userAccountsService.updatePassword(userAccountsEntity), HttpStatus.OK);
+    }
 
     @GetMapping("showAllUser")
     public ResponseEntity getallUser(){

@@ -21,7 +21,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
-import { Modal, Backdrop, Fade, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import { Modal, Backdrop, Fade } from "@mui/material";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -44,11 +44,21 @@ import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
 import Swal from "sweetalert2";
 
 function ResidentAndHousehold() {
+  const helloworld = { data: "123" };
   const [dbData, setDbData] = useState({ data: null });
   const [searchData, setSearchData] = useState("");
   const [transactionMessage, setTransactionMessage] = useState(null);
 
-  const [selectedValue2, setSelectedValue2] = useState("Pending");
+  //value container of inputs
+  const [textFname, setFname] = useState("");
+  const [textMname, setMname] = useState("");
+  const [textLname, setLname] = useState("");
+  const [textAddress, setAddress] = useState("");
+  const [textStreet, setStreet] = useState("");
+  const [textBday, setBday] = useState("01-01-2023");
+  const [textEmail, setEmail] = useState("");
+  const [textPnum, setPnum] = useState("");
+  const [textGender, setGender] = useState("");
 
   const [ids, setIDS] = useState([]);
 
@@ -57,7 +67,15 @@ function ResidentAndHousehold() {
     data(event.target.value);
   };
   const resetInputs = () => {
-    setSelectedValue2("");
+    setFname("");
+    setMname("");
+    setLname("");
+    setAddress("");
+    setStreet("");
+    setBday("01/01/2023");
+    setEmail("");
+    setPnum("");
+    setGender("");
     setIDS([]);
   };
 
@@ -65,10 +83,6 @@ function ResidentAndHousehold() {
 
   const [openModal, setOpenModal] = useState(false);
   const [modalState, setModalState] = useState(null);
-
-  const [editModal, setEditModal] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(null);
-
   const [targetID, setTargetID] = useState(null);
   const [addingMode, setAddingMode] = useState(false);
 
@@ -109,44 +123,7 @@ function ResidentAndHousehold() {
     setOpenModal(true);
   };
 
-  const handleEditModal = (jsonData = null) => {
-    setSelectedValue(jsonData);
-    setSelectedValue2(jsonData[0]["status"]);
-    setEditModal(true);
-  };
   const handleSavingEdit = async () => {
-    handleCloseModal();
-    const today = new Date();
-    const options = { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Asia/Tokyo" };
-    const formatter = new Intl.DateTimeFormat("en-CA", options);
-
-    const formattedDate = formatter.format(today);
-
-    await Swal.fire({
-      title: "Do you want to save the changes?",
-      showDenyButton: true,
-      confirmButtonText: "Save",
-      denyButtonText: `Don't save`,
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const updatejsondata = {
-          documentId: selectedValue[0]["documentId"],
-          dateReleased: formattedDate,
-          status: selectedValue2,
-        };
-
-        await PATCHAPI("Documents", "updateRequestDocument", updatejsondata);
-        const result = await GETAPI("Documents", "getAllRequestDocuments");
-        setDbData(result);
-
-        await Swal.fire("Saved!", "", "success");
-      } else {
-        handleEditModal();
-      }
-    });
-  };
-
-  const handleSaving = async () => {
     handleCloseModal();
 
     if (!addingMode) {
@@ -235,13 +212,13 @@ function ResidentAndHousehold() {
 
   const handleCloseModal = () => {
     setOpenModal(false);
-    setEditModal(false);
     setAddingMode(false);
+    //resetInputs();
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await GETAPI("Documents", "getAllRequestDocuments");
+      const result = await GETAPI("Residents", "showAllResidents");
       setDbData(result);
     };
 
@@ -252,7 +229,7 @@ function ResidentAndHousehold() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await GETAPI("Documents", "getAllRequestDocuments");
+      const result = await GETAPI("Residents", "showAllResidents");
       setDbData(result);
     };
     if (transactionMessage != null && transactionMessage.data.icon == "success") {
@@ -262,7 +239,7 @@ function ResidentAndHousehold() {
   }, [transactionMessage]); // This useEffect runs whenever dbData changes
 
   const SearchFunction = async () => {
-    const result = await GETAPI("Documents", `showSearchedItem?customSubstring=${searchData}`);
+    const result = await GETAPI("Residents", `showSearchedItem?customSubstring=${searchData}`);
     setDbData(result);
   };
 
@@ -273,11 +250,12 @@ function ResidentAndHousehold() {
   //end of onchange per value
 
   const { columns: rColumns, rows: rRows } = documentTableData(dbData, {
-    handleEditModal: handleEditModal,
+    handlingDelete1: handlingDelete,
+    handleOpenModal: handleOpenModal,
   });
 
-  const ModalEdit = (
-    <Fade in={editModal}>
+  const Modal1 = (
+    <Fade in={openModal}>
       <MDBox
         sx={{
           width: "50vw",
@@ -294,36 +272,118 @@ function ResidentAndHousehold() {
         <Grid container spacing={2} gap={0.5}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
-              <MDBox mb={2}>Edit</MDBox>
+              <MDBox mb={2}>{modalState}</MDBox>
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            <Grid item xs={12} sm={4}>
               <MDBox mb={2}>
-                <FormControl fullWidth>
-                  <InputLabel id="select-label">Status </InputLabel>
-                  <Select
-                    labelId="select-label"
-                    id="select"
-                    value={selectedValue2}
-                    label="Select an Option"
-                    onChange={(event) => reInput(event, setSelectedValue2)}
-                    style={{ height: "43px" }}
-                  >
-                    <MenuItem value="Pending">
-                      <em>Pending</em>
-                    </MenuItem>
-                    <MenuItem value="Granted">
-                      <em>Granted</em>
-                    </MenuItem>
-                    <MenuItem value="Decline">
-                      <em>Decline</em>
-                    </MenuItem>
-                  </Select>
-                </FormControl>
+                <MDInput
+                  type="text"
+                  label="First name"
+                  fullWidth
+                  onChange={(event) => reInput(event, setFname)}
+                  value={textFname}
+                />
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <MDBox mb={2}>
+                <MDInput
+                  type="text"
+                  label="Middle name"
+                  fullWidth
+                  onChange={(event) => reInput(event, setMname)}
+                  value={textMname}
+                />
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <MDBox mb={2}>
+                <MDInput
+                  type="text"
+                  label="Last name"
+                  fullWidth
+                  onChange={(event) => reInput(event, setLname)}
+                  value={textLname}
+                />
               </MDBox>
             </Grid>
           </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <MDBox mb={2}>
+                <MDInput
+                  type="text"
+                  label="Address"
+                  fullWidth
+                  onChange={(event) => reInput(event, setAddress)}
+                  value={textAddress}
+                />
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <MDBox mb={2}>
+                <MDInput
+                  type="text"
+                  label="Street"
+                  fullWidth
+                  onChange={(event) => reInput(event, setStreet)}
+                  value={textStreet}
+                />
+              </MDBox>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <MDBox mb={2}>
+                <MDInput
+                  type="date"
+                  label="Date of Birth"
+                  fullWidth
+                  onChange={(event) => reInput(event, setBday)}
+                  value={textBday}
+                />
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <MDBox mb={2}>
+                <MDInput
+                  type="text"
+                  label="Gender"
+                  fullWidth
+                  onChange={(event) => reInput(event, setGender)}
+                  value={textGender}
+                />
+              </MDBox>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <MDBox mb={2}>
+                <MDInput
+                  type="email"
+                  label="Email"
+                  fullWidth
+                  onChange={(event) => reInput(event, setEmail)}
+                  value={textEmail}
+                />
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <MDBox mb={2}>
+                <MDInput
+                  type="text"
+                  label="Phone Number"
+                  fullWidth
+                  onChange={(event) => reInput(event, setPnum)}
+                  value={textPnum}
+                />
+              </MDBox>
+            </Grid>
+          </Grid>
+
           <Grid item xs={12} gap={1} mt={2}>
             <Grid container spacing={2} justifyContent={"space-evenly"}>
               <MDButton
@@ -332,7 +392,7 @@ function ResidentAndHousehold() {
                 color="success"
                 onClick={handleSavingEdit}
               >
-                Update
+                Add
               </MDButton>
               <MDButton variant="contained" size="medium" color="error" onClick={handleCloseModal}>
                 Cancel
@@ -415,7 +475,7 @@ function ResidentAndHousehold() {
       </MDBox>
 
       <Modal
-        open={editModal}
+        open={openModal}
         onClose={handleCloseModal}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -423,7 +483,7 @@ function ResidentAndHousehold() {
           timeout: 500,
         }}
       >
-        {ModalEdit}
+        {Modal1}
       </Modal>
     </DashboardLayout>
   );

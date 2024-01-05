@@ -30,7 +30,93 @@ import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 
-export default function data() {
+import Swal from "sweetalert2";
+import { useState, useEffect, useMemo } from "react";
+
+export default function data(datafromdb, { handleEditModal }) {
+  const [dbData1, setDbData1] = useState(datafromdb);
+  const [rowValues, setRowValues] = useState([{}]);
+
+  const Editbtn = (data, jsondata) => {
+    handleEditModal(jsondata);
+  };
+  useEffect(() => {
+    //setDbData1(datafromdb);
+    const residents = datafromdb.data;
+    console.log(residents);
+    if (residents === null) {
+      return;
+    } else if (residents[0][0] === '{"data": null}') {
+      Swal.fire({
+        icon: "info",
+        text: "Cant find the searched item",
+      });
+      return;
+    }
+    const transformedData = residents.map((resident) => {
+      const documentInfo = resident[0];
+      const residentInfo = resident[1];
+
+      if (!documentInfo || !residentInfo) {
+        // Handle the case where either documentInfo or residentInfo is undefined
+        return null; // or handle differently based on your requirements
+      }
+
+      return {
+        idnum: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            {documentInfo["documentId"]}
+          </MDTypography>
+        ),
+        documentname: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            {documentInfo["documentName"]}
+          </MDTypography>
+        ),
+        name: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            {`${residentInfo["lastName"]}, ${residentInfo["firstName"]}`}
+          </MDTypography>
+        ),
+        drequest: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            {documentInfo["dateRequested"]}
+          </MDTypography>
+        ),
+        drelease: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            {documentInfo["dateReleased"]}
+          </MDTypography>
+        ),
+        status: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            {documentInfo["status"]}
+          </MDTypography>
+        ),
+        action: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            <Stack spacing={2} direction="row" justifyContent="flex-end">
+              <MDButton
+                variant="contained"
+                size="medium"
+                color="info"
+                onClick={() => Editbtn("Edit User", resident)}
+              >
+                <Icon fontSize="large">edit</Icon>
+              </MDButton>
+              <MDButton variant="contained" size="medium" color="success">
+                <Icon fontSize="medium">print</Icon>
+              </MDButton>
+            </Stack>
+          </MDTypography>
+        ),
+      };
+    });
+
+    setRowValues(transformedData);
+    setDbData1(datafromdb);
+  }, [datafromdb]); // This useEffect runs only once for initialization
+
   const ProfileOfficials = ({ name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDBox ml={2} lineHeight={1}>
@@ -50,50 +136,41 @@ export default function data() {
     </MDBox>
   );
 
-  return {
+  let tabledatas = {
     columns: [
       { Header: "#", accessor: "idnum", align: "left" },
       { Header: "Document", accessor: "documentname", align: "left" },
       { Header: "Name", accessor: "name", align: "left" },
-      { Header: "Date of Request", accessor: "drequest", align: "left" },
-      { Header: "Date of Release", accessor: "drelease", align: "center" },
+      { Header: "Request", accessor: "drequest", align: "left" },
+      { Header: "Release", accessor: "drelease", align: "center" },
+      { Header: "Status", accessor: "status", width: "100px", align: "center" },
+      { Header: "action", accessor: "action", align: "center" },
+    ],
+
+    rows: rowValues,
+  };
+  const nodata = {
+    columns: [
+      { Header: "#", accessor: "idnum", align: "left" },
+      { Header: "Document", accessor: "documentname", align: "left" },
+      { Header: "Name", accessor: "name", align: "left" },
+      { Header: "Request", accessor: "drequest", align: "left" },
+      { Header: "Release", accessor: "drelease", align: "center" },
       { Header: "Status", accessor: "status", width: "100px", align: "center" },
       { Header: "action", accessor: "action", align: "center" },
     ],
 
     rows: [
       {
-        idnum: <Job title="1" />,
-        documentname: <Job title="Manager" />,
-        name: <ProfileOfficials name="John Michael" email="john@creative-tim.com" />,
-        drequest: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            09999999999
-          </MDTypography>
-        ),
-        drelease: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            09999999999
-          </MDTypography>
-        ),
-        status: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Requesting
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            <Stack spacing={2} direction="row" justifyContent="flex-end">
-              <MDButton variant="contained" size="medium" color="info">
-                <Icon fontSize="large">edit</Icon>
-              </MDButton>
-              <MDButton variant="contained" size="medium" color="error">
-                <Icon fontSize="medium">delete</Icon>
-              </MDButton>
-            </Stack>
-          </MDTypography>
-        ),
+        idnum: "-",
+        documentname: "-",
+        name: "-",
+        drequest: "-",
+        drelease: "-",
+        status: "-",
+        action: "-",
       },
     ],
   };
+  return dbData1.data !== null ? tabledatas : nodata;
 }

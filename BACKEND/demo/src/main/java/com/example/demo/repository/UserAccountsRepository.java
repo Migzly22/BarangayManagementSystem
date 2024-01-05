@@ -25,4 +25,14 @@ public interface UserAccountsRepository extends JpaRepository<UserAccountsEntity
                     @Param("email") String email,
                     @Param("access") String access);
 
+    @Modifying
+    @Query("UPDATE UserAccountsEntity u SET u.email = :email WHERE u.userId = :id")
+    void updateEmail(@Param("id") long userId,
+                    @Param("email") String email);
+                    
+    @Modifying
+    @Query("UPDATE UserAccountsEntity u SET u.passwordHash = :passwordHash WHERE u.userId = :id")
+    void updatePassword(@Param("id") long userId,
+                     @Param("passwordHash") String passwordHash);
+
 }
