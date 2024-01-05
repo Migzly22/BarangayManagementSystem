@@ -40,31 +40,34 @@ function BasicLayout({ image, children, logo }) {
           backgroundImage: ({ functions: { linearGradient, rgba }, palette: { gradients } }) =>
             image &&
             `${linearGradient(
-              rgba(gradients.dark.main, 0.6),
-              rgba(gradients.dark.state, 0.6)
+              rgba(gradients.dark.main, 0.8),
+              rgba(gradients.dark.state, 0.8)
             )}, url(${image})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
         }}
-      />
-      <MDBox
-        position="absolute"
-        width="30%"
-        height="26%"
-        marginLeft={19}
-        mt={0.5}
-        sx={{
-          backgroundImage: ({ functions: { linearGradient, rgba }, palette: { gradients } }) =>
-            logo &&
-            `${linearGradient(
-              rgba(gradients.dark.main, 0.0),
-              rgba(gradients.dark.state, 0.0)
-            )}, url(${logo})`,
-          backgroundSize: "contain",
-          backgroundRepeat: "no-repeat",
-        }}
-      />
+      >
+        <MDBox
+          position="absolute"
+          width="30%"
+          height="26%"
+          left="0"
+          right="0"
+          top="15%" // Adjust this value to move the logo higher or lower
+          margin="auto"
+          sx={{
+            backgroundImage: ({ functions: { linearGradient, rgba }, palette: { gradients } }) =>
+              logo &&
+              `${linearGradient(
+                rgba(gradients.dark.main, 0.0),
+                rgba(gradients.dark.state, 0.0)
+              )}, url(${logo})`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+          }}
+        />
+      </MDBox>
       <MDBox px={1} width="100%" height="100vh" mx="auto">
         <Grid container spacing={1} justifyContent="center" alignItems="center" height="100%">
           <Grid item xs={11} sm={9} md={5} lg={4} xl={4}>
