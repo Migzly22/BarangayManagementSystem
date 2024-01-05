@@ -38,16 +38,63 @@ function Basic() {
   const [registerStreet, setStreet] = useState("");
   const [registerBday, setBday] = useState("01/01/2023");
   const [registerEmail, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [pnumError, setPnumError] = useState("");
   const [registerPnum, setPnum] = useState("");
+  const [passwordMatchError, setPasswordMatchError] = useState("");
+
   const [registerPass, setPass] = useState("");
   const [registerCPass, setCPass] = useState("");
   const [registerGender, setGender] = useState("");
 
-  //start of onchange per value
-  const changeValue = (event, data) => {
-    data(event.target.value);
+  const validateEmail = (email) => {
+    // Regular expression for a valid email address
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email) {
+      return ""; // No error when the email field is empty
+    } else if (!emailRegex.test(email)) {
+      return "Please enter a valid email address";
+    } else {
+      return "";
+    }
   };
 
+  const validatePhoneNumber = (phoneNumber) => {
+    // Regular expression for a valid phone number
+    const phoneRegex = /^(09|\+639)\d{9}$/;
+
+    if (!phoneNumber) {
+      return ""; // No error when the phone number field is empty
+    } else if (!phoneRegex.test(phoneNumber)) {
+      return "Please enter a valid phone number (e.g., 09XXXXXXXXX)";
+    } else {
+      return "";
+    }
+  };
+
+  const validatePasswordMatch = (password, confirmPassword) => {
+    if (!password || !confirmPassword) {
+      return ""; // No error when either password field is empty
+    }
+
+    return password === confirmPassword ? "" : "Passwords do not match";
+  };
+
+  const changeValue = (event, data, validationFunc, setErrorFunc, matchFunc, matchErrorFunc) => {
+    const { value } = event.target;
+    data(value);
+
+    if (validationFunc && setErrorFunc) {
+      const error = validationFunc(value);
+      setErrorFunc(error); // Pass setErrorFunc as a parameter
+    }
+
+    if (matchFunc && matchErrorFunc) {
+      const matchError = matchFunc(value, registerCPass);
+      matchErrorFunc(matchError);
+    }
+  };
   const resetData = () => {
     setFname("");
     setMname("");
@@ -205,15 +252,21 @@ function Basic() {
               </Grid>
             </Grid>
             <Grid container spacing={2}>
+              {/* Email Input */}
               <Grid item xs={12} sm={6}>
                 <MDBox mb={2}>
                   <MDInput
                     type="email"
                     label="Email"
                     fullWidth
-                    onChange={(event) => changeValue(event, setEmail)}
+                    onChange={(event) => changeValue(event, setEmail, validateEmail, setEmailError)}
                     value={registerEmail}
                   />
+                  {emailError && (
+                    <MDTypography variant="caption" color="error">
+                      {emailError}
+                    </MDTypography>
+                  )}
                 </MDBox>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -222,9 +275,23 @@ function Basic() {
                     type="text"
                     label="Phone Number"
                     fullWidth
-                    onChange={(event) => changeValue(event, setPnum)}
+                    onChange={(event) =>
+                      changeValue(event, setPnum, validatePhoneNumber, setPnumError)
+                    }
+                    onKeyPress={(event) => {
+                      // Allow only numeric characters and backspace
+                      const isValidKey = /^[0-9\b]+$/.test(event.key);
+                      if (!isValidKey) {
+                        event.preventDefault();
+                      }
+                    }}
                     value={registerPnum}
                   />
+                  {pnumError && (
+                    <MDTypography variant="caption" color="error">
+                      {pnumError}
+                    </MDTypography>
+                  )}
                 </MDBox>
               </Grid>
             </Grid>
@@ -235,7 +302,16 @@ function Basic() {
                     type="password"
                     label="Password"
                     fullWidth
-                    onChange={(event) => changeValue(event, setPass)}
+                    onChange={(event) =>
+                      changeValue(
+                        event,
+                        setPass,
+                        null,
+                        null,
+                        validatePasswordMatch,
+                        setPasswordMatchError
+                      )
+                    }
                     value={registerPass}
                   />
                 </MDBox>
@@ -246,9 +322,23 @@ function Basic() {
                     type="password"
                     label="Confirm Password"
                     fullWidth
-                    onChange={(event) => changeValue(event, setCPass)}
+                    onChange={(event) =>
+                      changeValue(
+                        event,
+                        setCPass,
+                        null,
+                        null,
+                        validatePasswordMatch,
+                        setPasswordMatchError
+                      )
+                    }
                     value={registerCPass}
                   />
+                  {passwordMatchError && (
+                    <MDTypography variant="caption" color="error">
+                      {passwordMatchError}
+                    </MDTypography>
+                  )}
                 </MDBox>
               </Grid>
             </Grid>

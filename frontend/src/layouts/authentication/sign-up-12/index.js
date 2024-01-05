@@ -52,9 +52,9 @@ function Cover() {
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
             Join us today
           </MDTypography>
-          <MDTypography display="block" variant="button" color="white" my={1}>
+          {/* <MDTypography display="block" variant="button" color="white" my={1}>
             Enter your email and password to register
-          </MDTypography>
+          </MDTypography> */}
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
