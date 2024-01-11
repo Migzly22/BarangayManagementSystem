@@ -19,6 +19,13 @@ public interface ResidentsRepository extends JpaRepository<ResidentsEntity,Long>
             "u.phoneNumber LIKE %:customSubstring% OR u.email LIKE %:customSubstring% OR a.address LIKE %:customSubstring%")
     List<Object[]> searchCustomQuery(@Param("customSubstring") String customSubstring);
 
+    @Query("SELECT u  FROM ResidentsEntity u WHERE u.firstName LIKE %:customSubstring% OR " +
+    "u.middleName LIKE %:customSubstring% OR u.lastName LIKE %:customSubstring% OR " +
+    "CONCAT(u.lastName,', ', u.firstName) LIKE %:customSubstring% OR  " +
+    "u.dateOfBirth LIKE %:customSubstring% OR u.gender LIKE %:customSubstring% OR " +
+    "u.phoneNumber LIKE %:customSubstring% OR u.email LIKE %:customSubstring%")
+        List<Object[]> searchCustomQuery2(@Param("customSubstring") String customSubstring);
+
     @Modifying
     @Query("UPDATE ResidentsEntity u SET " +
             "u.firstName = :firstName, u.middleName = :middleName, " +
@@ -42,4 +49,5 @@ public interface ResidentsRepository extends JpaRepository<ResidentsEntity,Long>
 
     @Query("Select u, a  FROM ResidentsEntity u LEFT JOIN HouseholdInformationEntity a ON u.householdId = a.householdId ")
     List<Object[]> selectAll();//
+    
 }

@@ -39,9 +39,17 @@ import Icon from "@mui/material/Icon";
 
 // Data
 import documentTableData from "layouts/barangaydocument/data/TableData";
+import SearchInput from "layouts/barangaydocument/search/index";
 import { useEffect, useState } from "react";
 import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
 import Swal from "sweetalert2";
+
+import Autocomplete from "@mui/material/Autocomplete";
+import Docxtemplater from 'docxtemplater';
+import PizZip from 'pizzip';
+import saveAs from 'file-saver';
+
+import pretempTemplate from 'layouts/docx/FORMS/BARANGAY-CLEARANCE-NEW-LAY-OUT-2023.docx';
 
 function ResidentAndHousehold() {
   const [dbData, setDbData] = useState({ data: null });
@@ -49,6 +57,7 @@ function ResidentAndHousehold() {
   const [transactionMessage, setTransactionMessage] = useState(null);
 
   const [selectedValue2, setSelectedValue2] = useState("Pending");
+  const [nameUSer, setnameUser] = useState("");
 
   const [ids, setIDS] = useState([]);
 
@@ -73,46 +82,65 @@ function ResidentAndHousehold() {
   const [addingMode, setAddingMode] = useState(false);
 
   const addNewResident = () => {
-    resetInputs();
-    setAddingMode(true);
-    handleOpenModal("Add User");
-  };
-  const handleOpenModal = (name, jsonData = null, jsonData2 = null) => {
-    setModalState(name);
-    console.log(jsonData);
-    console.log(jsonData2);
-
-    if (jsonData !== null) {
-      const [month, day, year] = jsonData.dateOfBirth.includes("/")
-        ? jsonData.dateOfBirth.split("/")
-        : jsonData.dateOfBirth.split("-");
-      const formattedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-      setBday(formattedDate);
-
-      setFname(jsonData.firstName);
-      setMname(jsonData.middleName);
-      setLname(jsonData.lastName);
-      setAddress(jsonData2.address);
-      setStreet(jsonData2.streets);
-      setEmail(jsonData.email);
-      setPnum(jsonData.phoneNumber);
-      setGender(jsonData.gender);
-      setTargetID(jsonData.userId);
-      setIDS([
-        jsonData.residentId,
-        jsonData2.householdId,
-        jsonData2.householdHeadId,
-        jsonData2.totalResidents,
-      ]);
-    }
-
-    setOpenModal(true);
+    handleOpenModal();
   };
 
   const handleEditModal = (jsonData = null) => {
     setSelectedValue(jsonData);
     setSelectedValue2(jsonData[0]["status"]);
     setEditModal(true);
+  };
+
+  //TEXT DOCS
+  const [documentContent, setDocumentContent] = useState(pretempTemplate);
+
+  const handleReplace = () => {
+    const template = new PizZip(documentContent);
+    const doc = new Docxtemplater(template);
+
+    // Replace placeholder {{NAME}} with 'rolkly'
+    doc.setData({
+      NAME: 'rolkly',
+    });
+
+    doc.render();
+
+    const updatedContent = doc.getZip().generate({ type: 'blob' });
+
+    setDocumentContent(updatedContent);
+  };
+
+  const handleSave = () => {
+    // Save the modified document with a new name like "Cleared.docx"
+    handleReplace();
+    saveAs(documentContent, 'Cleared.docx');
+  };
+
+  const handleSave2 = () => {
+    // Save the modified document with a new name like "Cleared.docx"
+    saveAs(documentContent, 'Cleared.docx');
+  };
+
+  //TEXT
+  const handlePrint = (jsonData = null) => {
+    //console.log(jsonData);
+    const datacon = {
+      dateOfBirth: "12/12/2023",
+      email: "ericsoriano@gmail.com",
+      firstName: "Eric Yeoj",
+      gender: "Male",
+      householdId: 0,
+      lastName: "Soriano",
+      middleName: "Horlanda",
+      phoneNumber: "09387171963",
+      residentId: 0,
+      userId: 0,
+    };
+
+
+  };
+  const handleOpenModal = () => {
+    setOpenModal(true);
   };
   const handleSavingEdit = async () => {
     handleCloseModal();
@@ -148,89 +176,6 @@ function ResidentAndHousehold() {
 
   const handleSaving = async () => {
     handleCloseModal();
-
-    if (!addingMode) {
-      const [year, month, day] = textBday.includes("/") ? textBday.split("/") : textBday.split("-");
-      const formattedDate = `${month.padStart(2, "0")}/${day.padStart(2, "0")}/${year}`;
-
-      await Swal.fire({
-        title: "Do you want to save the changes?",
-        showDenyButton: true,
-        confirmButtonText: "Save",
-        denyButtonText: `Don't save`,
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          const updatejsondata = {
-            dateOfBirth: formattedDate,
-            email: textEmail,
-            firstName: textFname,
-            gender: textGender,
-            householdId: ids[1],
-            lastName: textLname,
-            middleName: textMname,
-            phoneNumber: textPnum,
-            residentId: ids[0],
-            userId: null,
-          };
-          const updatejsondata2 = {
-            address: textAddress,
-            householdHeadId: ids[2],
-            householdId: ids[1],
-            streets: textStreet,
-            totalResidents: ids[3],
-          };
-          await PATCHAPI("Residents", "updateResident", updatejsondata);
-          await PATCHAPI("Household", "updateHousehold", updatejsondata2);
-          const resultall = await GETAPI("Residents", "showAllResidents");
-          setDbData(resultall);
-          //const result2 = await PATCHAPI("Residents", "showAllResidents");
-
-          await Swal.fire("Saved!", "", "success");
-        } else {
-          handleOpenModal("Edit User");
-        }
-      });
-    } else {
-      console.log("adding");
-      const [year, month, day] = textBday.includes("/") ? textBday.split("/") : textBday.split("-");
-      const formattedDate = `${month.padStart(2, "0")}/${day.padStart(2, "0")}/${year}`;
-
-      await Swal.fire({
-        title: "Do you want to save the changes?",
-        showDenyButton: true,
-        confirmButtonText: "Save",
-        denyButtonText: `Don't save`,
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          const updatejsondata2 = {
-            address: textAddress,
-            householdHeadId: "",
-            totalResidents: 0,
-            streets: textStreet,
-          };
-          const householdtest = await POSTAPI("Household", "addHousehold", updatejsondata2);
-
-          const updatejsondata = {
-            firstName: textFname,
-            middleName: textMname,
-            lastName: textLname,
-            dateOfBirth: formattedDate,
-            gender: textGender,
-            phoneNumber: textPnum,
-            email: textEmail,
-            householdId: householdtest.data.id,
-          };
-          await POSTAPI("Residents", "addResidents", updatejsondata);
-
-          const resultall = await GETAPI("Residents", "showAllResidents");
-          setDbData(resultall);
-
-          await Swal.fire("Saved!", "", "success");
-        } else {
-          handleOpenModal("Edit User");
-        }
-      });
-    }
   };
 
   const handleCloseModal = () => {
@@ -274,6 +219,7 @@ function ResidentAndHousehold() {
 
   const { columns: rColumns, rows: rRows } = documentTableData(dbData, {
     handleEditModal: handleEditModal,
+    handlePrint: handlePrint,
   });
 
   const ModalEdit = (
@@ -344,6 +290,79 @@ function ResidentAndHousehold() {
     </Fade>
   );
 
+  const [textitself, settextitself] = useState("");
+  const texthandler = (textval) => {
+    settextitself(textval);
+  };
+  const ModalAdd = (
+    <Fade in={openModal}>
+      <MDBox
+        sx={{
+          width: "50vw",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          bgcolor: "background.paper",
+          border: "2px solid #000",
+          boxShadow: 24,
+          p: 4,
+        }}
+      >
+        <Grid container spacing={2} gap={0.5}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <MDBox mb={2}>Request Document</MDBox>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <MDBox mb={2}>
+                <FormControl fullWidth>
+                  <InputLabel id="select-label">Requested Document </InputLabel>
+                  <Select
+                    labelId="select-label"
+                    id="select"
+                    value={selectedValue2}
+                    label="Select an Option"
+                    onChange={(event) => reInput(event, setSelectedValue2)}
+                    style={{ height: "43px" }}
+                  >
+                    <MenuItem value="Barangay Indigency">
+                      <em>Barangay Indigency</em>
+                    </MenuItem>
+                    <MenuItem value="Barangay Clearance">
+                      <em>Barangay Clearance</em>
+                    </MenuItem>
+                    <MenuItem value="Certificate of Recidency">
+                      <em>Certificate of Recidency</em>
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </MDBox>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <MDBox mb={2}>
+                <SearchInput texthandler={texthandler} textitself={textitself} />
+              </MDBox>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} gap={1} mt={2}>
+            <Grid container spacing={2} justifyContent={"space-evenly"}>
+              <MDButton variant="contained" size="medium" color="success" onClick={handleSaving}>
+                Add
+              </MDButton>
+              <MDButton variant="contained" size="medium" color="error" onClick={handleCloseModal}>
+                Cancel
+              </MDButton>
+            </Grid>
+          </Grid>
+        </Grid>
+      </MDBox>
+    </Fade>
+  );
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -424,6 +443,17 @@ function ResidentAndHousehold() {
         }}
       >
         {ModalEdit}
+      </Modal>
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        {ModalAdd}
       </Modal>
     </DashboardLayout>
   );

@@ -94,4 +94,14 @@ public class ResidentsService {
         }
     }
 
+    public List<Object[]> showSearchItem2(String customSubstring) {
+        List<Object[]> seachedItem = residentsRepository.searchCustomQuery2(customSubstring);
+        if (!seachedItem.isEmpty()) {
+            return seachedItem;
+        } else {
+            // Return a JSON string representing an object with a "message" property
+            return Collections.singletonList(new Object[]{"{\"data\": null}"});
+        }
+    }
+
 }

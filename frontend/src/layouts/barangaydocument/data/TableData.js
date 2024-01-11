@@ -33,12 +33,15 @@ import team4 from "assets/images/team-4.jpg";
 import Swal from "sweetalert2";
 import { useState, useEffect, useMemo } from "react";
 
-export default function data(datafromdb, { handleEditModal }) {
+export default function data(datafromdb, { handleEditModal, handlePrint }) {
   const [dbData1, setDbData1] = useState(datafromdb);
   const [rowValues, setRowValues] = useState([{}]);
 
   const Editbtn = (data, jsondata) => {
     handleEditModal(jsondata);
+  };
+  const Printbtn = (jsondata) => {
+    handlePrint(jsondata);
   };
   useEffect(() => {
     //setDbData1(datafromdb);
@@ -93,23 +96,42 @@ export default function data(datafromdb, { handleEditModal }) {
             {documentInfo["status"]}
           </MDTypography>
         ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            <Stack spacing={2} direction="row" justifyContent="flex-end">
-              <MDButton
-                variant="contained"
-                size="medium"
-                color="info"
-                onClick={() => Editbtn("Edit User", resident)}
-              >
-                <Icon fontSize="large">edit</Icon>
-              </MDButton>
-              <MDButton variant="contained" size="medium" color="success">
-                <Icon fontSize="medium">print</Icon>
-              </MDButton>
-            </Stack>
-          </MDTypography>
-        ),
+        action:
+          documentInfo["status"] == "Granted" ? (
+            <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+              <Stack spacing={2} direction="row" justifyContent="flex-end">
+                <MDButton
+                  variant="contained"
+                  size="medium"
+                  color="info"
+                  onClick={() => Editbtn("Edit User", resident)}
+                >
+                  <Icon fontSize="large">edit</Icon>
+                </MDButton>
+                <MDButton
+                  variant="contained"
+                  size="medium"
+                  color="success"
+                  onClick={() => Printbtn(resident)}
+                >
+                  <Icon fontSize="medium">print</Icon>
+                </MDButton>
+              </Stack>
+            </MDTypography>
+          ) : (
+            <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+              <Stack spacing={2} direction="row" justifyContent="flex-end">
+                <MDButton
+                  variant="contained"
+                  size="medium"
+                  color="info"
+                  onClick={() => Editbtn("Edit User", resident)}
+                >
+                  <Icon fontSize="large">edit</Icon>
+                </MDButton>
+              </Stack>
+            </MDTypography>
+          ),
       };
     });
 

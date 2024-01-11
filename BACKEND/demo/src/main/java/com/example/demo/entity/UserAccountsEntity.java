@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.security.*;
 
 @Entity
 @Table(name = "UserAccounts")
@@ -27,8 +28,33 @@ public class UserAccountsEntity {
         return passwordHash;
     }
 
+    public static String generateMD5Hash(String input) {
+        try {
+            // Get the MD5 MessageDigest instance
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            
+            // Update the message digest with the input string
+            md.update(input.getBytes());
+            
+            // Generate the MD5 hash
+            byte[] hash = md.digest();
+            
+            // Convert the byte array to a hexadecimal representation
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                hexString.append(String.format("%02x", b));
+            }
+            
+            // Return the MD5 hash as a string
+            return hexString.toString();
+            
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+        this.passwordHash = generateMD5Hash(passwordHash);
     }
 
     public String getEmail() {

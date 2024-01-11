@@ -46,4 +46,9 @@ public class ResidentsController {
         return new ResponseEntity(residentsService.showSearchItem(customSubstring), HttpStatus.OK);
     }
 
+    @GetMapping("showSearchedItem2")
+    public ResponseEntity<ResidentsEntity> getSearchItemV2(@RequestParam(required = true) String customSubstring) {
+        return new ResponseEntity(residentsService.showSearchItem2(customSubstring), HttpStatus.OK);
+    }
+
 }
