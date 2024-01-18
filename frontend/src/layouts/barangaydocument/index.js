@@ -45,11 +45,9 @@ import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
 import Swal from "sweetalert2";
 
 import Autocomplete from "@mui/material/Autocomplete";
-import Docxtemplater from 'docxtemplater';
-import PizZip from 'pizzip';
-import saveAs from 'file-saver';
-
-import pretempTemplate from 'layouts/docx/FORMS/BARANGAY-CLEARANCE-NEW-LAY-OUT-2023.docx';
+import pretempTemplate from "layouts/docx/BClear1.docx";
+import PizZip from "pizzip";
+import Docxtemplater from "docxtemplater";
 
 function ResidentAndHousehold() {
   const [dbData, setDbData] = useState({ data: null });
@@ -58,6 +56,7 @@ function ResidentAndHousehold() {
 
   const [selectedValue2, setSelectedValue2] = useState("Pending");
   const [nameUSer, setnameUser] = useState("");
+  const [textitself, settextitself] = useState("");
 
   const [ids, setIDS] = useState([]);
 
@@ -92,34 +91,6 @@ function ResidentAndHousehold() {
   };
 
   //TEXT DOCS
-  const [documentContent, setDocumentContent] = useState(pretempTemplate);
-
-  const handleReplace = () => {
-    const template = new PizZip(documentContent);
-    const doc = new Docxtemplater(template);
-
-    // Replace placeholder {{NAME}} with 'rolkly'
-    doc.setData({
-      NAME: 'rolkly',
-    });
-
-    doc.render();
-
-    const updatedContent = doc.getZip().generate({ type: 'blob' });
-
-    setDocumentContent(updatedContent);
-  };
-
-  const handleSave = () => {
-    // Save the modified document with a new name like "Cleared.docx"
-    handleReplace();
-    saveAs(documentContent, 'Cleared.docx');
-  };
-
-  const handleSave2 = () => {
-    // Save the modified document with a new name like "Cleared.docx"
-    saveAs(documentContent, 'Cleared.docx');
-  };
 
   //TEXT
   const handlePrint = (jsonData = null) => {
@@ -136,8 +107,7 @@ function ResidentAndHousehold() {
       residentId: 0,
       userId: 0,
     };
-
-
+    console.log(jsonData);
   };
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -176,6 +146,37 @@ function ResidentAndHousehold() {
 
   const handleSaving = async () => {
     handleCloseModal();
+    let neid = textitself.split(":")[0];
+    const currentDate = new Date();
+
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = currentDate.getDate().toString().padStart(2, "0");
+
+    const formattedDate = `${year}/${month}/${day}`;
+    const datacon = {
+      dateReleased: "",
+      dateRequested: formattedDate,
+      documentName: selectedValue2,
+      documentType: "DOCX",
+      residentId: neid,
+      status: "Pending",
+    };
+
+    await Swal.fire({
+      title: "Do you want to save the changes?",
+      showDenyButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Don't save`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        console.log(123);
+        await POSTAPI("Documents", "addRequestDocument", datacon);
+        const result = await GETAPI("Documents", "getAllRequestDocuments");
+        setDbData(result);
+        await Swal.fire("Saved!", "", "success");
+      }
+    });
   };
 
   const handleCloseModal = () => {
@@ -290,7 +291,6 @@ function ResidentAndHousehold() {
     </Fade>
   );
 
-  const [textitself, settextitself] = useState("");
   const texthandler = (textval) => {
     settextitself(textval);
   };

@@ -21,7 +21,16 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
-import { Modal, Backdrop, Fade, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import {
+  Modal,
+  Backdrop,
+  Fade,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  TextareaAutosize,
+} from "@mui/material";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -289,13 +298,19 @@ function ResidentAndHousehold() {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <MDBox mb={2}>
-                <MDInput
-                  type="text"
-                  label="Description"
-                  fullWidth
-                  onChange={(event) => reInput(event, setDescription)}
-                  value={textDescription}
-                />
+                <FormControl fullWidth>
+                  <InputLabel htmlFor="textDescription" id="select-label"></InputLabel>
+                  <TextField
+                    id="textDescription"
+                    multiline
+                    minRows={6}
+                    placeholder="Description"
+                    style={{ width: "100%" }}
+                    onChange={(event) => reInput(event, setDescription)}
+                    value={textDescription}
+                    variant="outlined"
+                  />
+                </FormControl>
               </MDBox>
             </Grid>
           </Grid>

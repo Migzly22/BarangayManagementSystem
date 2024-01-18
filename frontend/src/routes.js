@@ -269,4 +269,43 @@ const sidebarroutesforassist = (handlingLogout) => [
   },
 ];
 
-export { routes, sidebarroutes, sidebarroutesforassist };
+const sidebarforusers = (handlingLogout) => [
+  {
+    type: "collapse",
+    name: "Dashboard",
+    title: "Dashboard",
+    key: "dashboard",
+    icon: <Icon fontSize="small">dashboard</Icon>,
+    route: "/dashboard",
+    component: <Dashboard />,
+  },
+  {
+    type: "collapse",
+    name: "Documents",
+    title: "Documents",
+    key: "barangaydocument",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/barangaydocument",
+    component: <Documents />,
+  },
+  {
+    type: "collapse",
+    name: "Setting",
+    title: "Setting",
+    key: "setting",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/profile",
+    component: <Settings />,
+  },
+  {
+    type: "collapse",
+    name: "Logout",
+    title: "Logout",
+    key: "logout",
+    icon: <Icon fontSize="small">login</Icon>,
+    route: "/authentication/logout",
+    component: <Logout handlingLogout={handlingLogout} />,
+  },
+];
+
+export { routes, sidebarroutes, sidebarroutesforassist, sidebarforusers };

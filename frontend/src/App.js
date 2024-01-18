@@ -29,7 +29,7 @@ import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 
 // Material Dashboard 2 React routes
-import { routes, sidebarroutes, sidebarroutesforassist } from "routes";
+import { routes, sidebarroutes, sidebarroutesforassist, sidebarforusers } from "routes";
 
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
@@ -210,7 +210,7 @@ export default function App() {
                 ? sidebarroutesforassist(handlingLogout)
                 : userAccessLevel === "ADMIN"
                 ? sidebarroutes(handlingLogout) // Replace with your admin routes function
-                : sidebarroutesforassist(handlingLogout)
+                : sidebarforusers(handlingLogout)
             }
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}

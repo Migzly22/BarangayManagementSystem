@@ -21,7 +21,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
-import { Modal, Backdrop, Fade } from "@mui/material";
+import { Modal, Backdrop, Fade, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -42,6 +42,7 @@ import modalTableData from "layouts/barangayofficial/data/TableData2";
 import { useEffect, useState } from "react";
 import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
 import Swal from "sweetalert2";
+import SearchInput from "layouts/barangaydocument/search/index";
 
 function barangayofficial() {
   const helloworld = { data: "123" };
@@ -77,16 +78,57 @@ function barangayofficial() {
   const [modalState, setModalState] = useState("");
   //use in changing position of the user
   const [changedPos, setchangedPos] = useState(null);
+  const [textitself, settextitself] = useState("");
 
   const handleOpenModal = async (position, jsonData2) => {
     setchangedPos(jsonData2);
+    console.log(jsonData2);
     setOpenModal(true);
     setModalState(position);
   };
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    //resetInputs();
+  };
 
+  const texthandler = (textval) => {
+    settextitself(textval);
+  };
+  const handleSaving = async () => {
+    handleCloseModal();
+    let neid = textitself.split(":")[0];
+    const currentDate = new Date();
+
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = currentDate.getDate().toString().padStart(2, "0");
+
+    const formattedDate = `${year}/${month}/${day}`;
+    const datacon = {
+      dateReleased: "",
+      dateRequested: formattedDate,
+      documentName: selectedValue2,
+      documentType: "DOCX",
+      residentId: neid,
+      status: "Pending",
+    };
+
+    await Swal.fire({
+      title: "Do you want to save the changes?",
+      showDenyButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Don't save`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await POSTAPI("Documents", "addRequestDocument", datacon);
+        const result = await GETAPI("Documents", "getAllRequestDocuments");
+        setDbData(result);
+        await Swal.fire("Saved!", "", "success");
+      }
+    });
+  };
   const handleChangePos = async (jsonData2) => {
-    console.log(jsonData2);
-
+    let neid = textitself.split(":")[0];
     // Use the callback function to access the updated state
     setchangedPos(async (prevChangedPos) => {
       console.log(prevChangedPos);
@@ -104,7 +146,7 @@ function barangayofficial() {
 
       const jsonData = {
         officialId: prevChangedPos.officialId, // Use prevChangedPos instead of changedPos
-        residentId: jsonData2,
+        residentId: neid,
         position: prevChangedPos.position, // Use prevChangedPos instead of changedPos
         startDate: formattedDate,
         endDate: formattedDate2,
@@ -118,6 +160,7 @@ function barangayofficial() {
 
   const ChangeSWAL = (data) => {
     handleCloseModal();
+
     Swal.fire({
       title: "Do you want to save the changes?",
       showDenyButton: true,
@@ -139,7 +182,7 @@ function barangayofficial() {
   const { columns: modalColumns, rows: modalRows } = modalTableData(modalData, {
     handleChangePos: handleChangePos,
   });
-  const Modal1 = (
+  const Modal12 = (
     <Fade in={openModal}>
       <MDBox
         sx={{
@@ -181,10 +224,52 @@ function barangayofficial() {
       </MDBox>
     </Fade>
   );
-  const handleCloseModal = () => {
-    setOpenModal(false);
-    //resetInputs();
-  };
+  const Modal1 = (
+    <Fade in={openModal}>
+      <MDBox
+        sx={{
+          width: "50vw",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          bgcolor: "background.paper",
+          border: "2px solid #000",
+          boxShadow: 24,
+          p: 4,
+        }}
+      >
+        <Grid container spacing={2} gap={0.5}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <MDBox mb={2}>Edit</MDBox>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <MDBox mb={2}>
+                <SearchInput
+                  texthandler={texthandler}
+                  textitself={textitself}
+                  modalState={modalState}
+                />
+              </MDBox>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} gap={1} mt={2}>
+            <Grid container spacing={2} justifyContent={"space-evenly"}>
+              <MDButton variant="contained" size="medium" color="success" onClick={handleChangePos}>
+                Add
+              </MDButton>
+              <MDButton variant="contained" size="medium" color="error" onClick={handleCloseModal}>
+                Cancel
+              </MDButton>
+            </Grid>
+          </Grid>
+        </Grid>
+      </MDBox>
+    </Fade>
+  );
 
   const { columns: rColumns, rows: rRows } = documentTableData(dbData, {
     handleOpenModal: handleOpenModal,
