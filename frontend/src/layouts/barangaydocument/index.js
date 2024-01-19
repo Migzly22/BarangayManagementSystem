@@ -45,9 +45,11 @@ import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
 import Swal from "sweetalert2";
 
 import Autocomplete from "@mui/material/Autocomplete";
-import pretempTemplate from "layouts/docx/BClear1.docx";
-import PizZip from "pizzip";
+//import pretempTemplate from "layouts/barangaydocument/input.docx";
 import Docxtemplater from "docxtemplater";
+import PizZip from "pizzip";
+import { saveAs } from "file-saver";
+import textti from "layouts/barangaydocument/test.txt";
 
 function ResidentAndHousehold() {
   const [dbData, setDbData] = useState({ data: null });
@@ -91,23 +93,58 @@ function ResidentAndHousehold() {
   };
 
   //TEXT DOCS
+  const [doc, setDoc] = useState(null);
+  useEffect(() => {
+    // Load your .docx template (you may need to adjust the path)
+    fetch("./BClear1.docx")
+      .then((response) => response.arrayBuffer())
+      .then((buffer) => setDoc(new Uint8Array(buffer)))
+      .catch((error) => console.error("Error loading template", error));
+  }, []);
 
+  useEffect(() => {
+    // Load your .docx template (you may need to adjust the path)
+    console.log("gwww", doc);
+  }, [doc]);
+
+  const generateDocument = (name) => {};
   //TEXT
-  const handlePrint = (jsonData = null) => {
-    //console.log(jsonData);
-    const datacon = {
-      dateOfBirth: "12/12/2023",
-      email: "ericsoriano@gmail.com",
-      firstName: "Eric Yeoj",
-      gender: "Male",
-      householdId: 0,
-      lastName: "Soriano",
-      middleName: "Horlanda",
-      phoneNumber: "09387171963",
-      residentId: 0,
-      userId: 0,
-    };
-    console.log(jsonData);
+  const handlePrint = async (jsonData = null) => {
+    //generateDocument("JohnDoe");
+    const Docxtemplater = require("docxtemplater");
+
+    // Load the DOCX file content (assuming 'insert.docx' is in the public folder)
+    let gest = fetch("./insert.docx")
+      .then((response) => response)
+      .catch((error) => {
+        console.error("Error fetching or processing the DOCX file:", error);
+      });
+    try {
+      const zip = new PizZip(doc);
+      const docx = new Docxtemplater(zip);
+
+      // Replace placeholders in the template with dynamic data
+      docx.setData({
+        NAME: "ioioio",
+        AGE: "2234",
+        GENDER: "2234",
+        ADDRESS: "2234",
+        DATETODAY: "2234",
+      });
+
+      // Render the document
+      console.log("Before rendering");
+      docx.render();
+      console.log("After rendering");
+
+      // Get the modified document as a buffer
+      const updatedDocBuffer = docx.getZip().generate({ type: "uint8array" });
+
+      // Save the updated document with a new name
+      saveAs(new Blob([updatedDocBuffer]), `${name}_document.docx`);
+    } catch (error) {
+      console.error("Error generating document", error);
+    }
   };
   const handleOpenModal = () => {
     setOpenModal(true);
