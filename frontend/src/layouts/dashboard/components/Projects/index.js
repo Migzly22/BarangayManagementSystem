@@ -13,8 +13,6 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState } from "react";
-
 // @mui material components
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
@@ -31,8 +29,26 @@ import DataTable from "examples/Tables/DataTable";
 // Data
 import data from "layouts/dashboard/components/Projects/data";
 
+// Data
+
+import { useEffect, useState } from "react";
+import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
+
 function Projects() {
-  const { columns, rows } = data();
+  const [dbData, setDbData] = useState({ data: null });
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await GETAPI("Dashboard", "getAllRequestDocuments");
+      setDbData(result);
+    };
+
+    if (dbData.data === null) {
+      fetchData();
+    }
+  }, []);
+
+  const { columns, rows } = data(dbData);
+
   const [menu, setMenu] = useState(null);
 
   const openMenu = ({ currentTarget }) => setMenu(currentTarget);
@@ -66,27 +82,7 @@ function Projects() {
           <MDTypography variant="h6" gutterBottom>
             Request Documents
           </MDTypography>
-          <MDBox display="flex" alignItems="center" lineHeight={0}>
-            <Icon
-              sx={{
-                fontWeight: "bold",
-                color: ({ palette: { info } }) => info.main,
-                mt: -0.5,
-              }}
-            >
-              done
-            </Icon>
-            <MDTypography variant="button" fontWeight="regular" color="text">
-              &nbsp;<strong>30 </strong> this month
-            </MDTypography>
-          </MDBox>
         </MDBox>
-        <MDBox color="text" px={2}>
-          <Icon sx={{ cursor: "pointer", fontWeight: "bold" }} fontSize="small" onClick={openMenu}>
-            more_vert
-          </Icon>
-        </MDBox>
-        {renderMenu}
       </MDBox>
       <MDBox>
         <DataTable

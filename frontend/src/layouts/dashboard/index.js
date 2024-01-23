@@ -15,7 +15,9 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import Grid from "@mui/material/Grid";
-
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 
@@ -37,6 +39,40 @@ import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
+  const [data1, setdata1] = useState(0);
+  const [data2, setdata2] = useState(0);
+  const [data3, setdata3] = useState(0);
+  const [data4, setdata4] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result1 = await GETAPI("Dashboard", "request");
+      setdata1(result1.data[0][0]);
+      const result2 = await GETAPI("Dashboard", "incident");
+      setdata2(result2.data[0][0]);
+      const result3 = await GETAPI("Dashboard", "residents");
+      setdata3(result3.data[0][0]);
+      const result4 = await GETAPI("Dashboard", "getAllRequestDocuments");
+      setdata4(result4.data);
+      //const result4 = await GETAPI("Dashboard", "todaydocument");
+      //setdata4(result4);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    console.log(data1);
+  }, [data1]);
+  useEffect(() => {
+    console.log(data2);
+  }, [data2]);
+  useEffect(() => {
+    console.log(data3);
+  }, [data3]);
+  useEffect(() => {
+    console.log(data4);
+  }, [data4]);
 
   return (
     <DashboardLayout>
@@ -48,12 +84,8 @@ function Dashboard() {
               <ComplexStatisticsCard
                 icon="leaderboard"
                 title="Document Request"
-                count="5"
-                percentage={{
-                  color: "success",
-                  amount: "+3%",
-                  label: "Just updated",
-                }}
+                count={data1}
+                percentage={{}}
               />
             </MDBox>
           </Grid>
@@ -63,12 +95,8 @@ function Dashboard() {
                 color="success"
                 icon="store"
                 title="Today's Incident"
-                count="5"
-                percentage={{
-                  color: "success",
-                  amount: "+1%",
-                  label: "Just updated",
-                }}
+                count={data2}
+                percentage={{}}
               />
             </MDBox>
           </Grid>
@@ -78,12 +106,8 @@ function Dashboard() {
                 color="primary"
                 icon="person_add"
                 title="Residents"
-                count="1k"
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
+                count={data3}
+                percentage={{}}
               />
             </MDBox>
           </Grid>

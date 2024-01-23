@@ -131,7 +131,6 @@ function ResidentAndHousehold() {
     const Docxtemplater = require("docxtemplater");
 
     // Load the DOCX file content (assuming 'insert.docx' is in the public folder)
-    console.log(jsonData);
 
     var birthdate = new Date(jsonData[1]["dateOfBirth"]);
     var currentDate = new Date();

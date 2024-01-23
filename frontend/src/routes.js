@@ -224,15 +224,6 @@ const sidebarroutes = (handlingLogout) => [
 const sidebarroutesforassist = (handlingLogout) => [
   {
     type: "collapse",
-    name: "Dashboard",
-    title: "Dashboard",
-    key: "dashboard",
-    icon: <Icon fontSize="small">dashboard</Icon>,
-    route: "/dashboard",
-    component: <Dashboard />,
-  },
-  {
-    type: "collapse",
     name: "Documents",
     title: "Documents",
     key: "barangaydocument",

@@ -33,20 +33,50 @@ import team1 from "assets/images/team-1.jpg";
 import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
+import Swal from "sweetalert2";
+import { useState, useEffect, useMemo } from "react";
+export default function data(dbData1) {
+  //const [dbData1, setDbData1] = useState(datafromdb);
+  const [rowValues, setRowValues] = useState([{}]);
+  let tabledatas = {
+    columns: [
+      { Header: "Name", accessor: "name", width: "45%", align: "left" },
+      { Header: "Document", accessor: "documentname", align: "center" },
+    ],
 
-export default function data() {
-  const ProfileData = ({ name, email }) => (
-    <MDBox display="flex" alignItems="center" lineHeight={1}>
-      <MDBox ml={2} lineHeight={1}>
-        <MDTypography display="block" variant="button" fontWeight="medium">
-          {name}
+    rows: rowValues,
+  };
+
+  useEffect(() => {
+    //setDbData1(datafromdb);
+    const residents = dbData1.data;
+    if (residents === null) {
+      return;
+    } else if (residents[0][0] === '{"data": null}') {
+      Swal.fire({
+        icon: "info",
+        text: "Cant find the searched item",
+      });
+      return;
+    }
+    console.log(residents);
+    const transformedData = residents.map((resident) => ({
+      name: (
+        <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+          {`${resident[1].firstName} ${resident[1].middleName} ${resident[1].lastName}`}
         </MDTypography>
-        <MDTypography variant="caption">{email}</MDTypography>
-      </MDBox>
-    </MDBox>
-  );
+      ),
+      documentname: (
+        <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+          {`${resident[0].documentName}`}
+        </MDTypography>
+      ),
+    }));
 
-  return {
+    setRowValues(transformedData);
+    //setDbData1(dbData1);
+  }, [dbData1]); // This useEffect runs only once for initialization
+  const nodata = {
     columns: [
       { Header: "Name", accessor: "name", width: "45%", align: "left" },
       { Header: "Document", accessor: "documentname", align: "center" },
@@ -54,13 +84,18 @@ export default function data() {
 
     rows: [
       {
-        name: <ProfileData name="John Michael" email="john@creative-tim.com" />,
+        name: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            -
+          </MDTypography>
+        ),
         documentname: (
           <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            09999999999
+            -
           </MDTypography>
         ),
       },
     ],
   };
+  return dbData1.data !== null ? tabledatas : nodata;
 }
