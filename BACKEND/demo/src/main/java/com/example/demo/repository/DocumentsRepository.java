@@ -29,7 +29,7 @@ public interface DocumentsRepository extends JpaRepository<DocumentsEntity,Long>
     void deleteByDocumentId(long documentId);
 
 
-    @Query("SELECT u, a FROM DocumentsEntity u LEFT JOIN ResidentsEntity a ON u.residentId = a.residentId")
+    @Query("SELECT u, a, i FROM DocumentsEntity u LEFT JOIN ResidentsEntity a ON u.residentId = a.residentId LEFT JOIN HouseholdInformationEntity i ON a.householdId = i.householdId")
     List<Object[]> selectAll();//
 
     @Query("SELECT u, a FROM DocumentsEntity u LEFT JOIN ResidentsEntity a ON u.residentId = a.residentId WHERE u.residentId = :customSubstring ")

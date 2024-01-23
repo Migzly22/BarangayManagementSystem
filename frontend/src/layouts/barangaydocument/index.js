@@ -94,11 +94,21 @@ function ResidentAndHousehold() {
 
   //TEXT DOCS
   const [doc, setDoc] = useState(null);
+  const [doc1, setDoc1] = useState(null);
+  const [doc2, setDoc2] = useState(null);
   useEffect(() => {
     // Load your .docx template (you may need to adjust the path)
     fetch("./BClear1.docx")
       .then((response) => response.arrayBuffer())
       .then((buffer) => setDoc(new Uint8Array(buffer)))
+      .catch((error) => console.error("Error loading template", error));
+    fetch("./BClear2.docx")
+      .then((response) => response.arrayBuffer())
+      .then((buffer) => setDoc1(new Uint8Array(buffer)))
+      .catch((error) => console.error("Error loading template", error));
+    fetch("./BClear3.docx")
+      .then((response) => response.arrayBuffer())
+      .then((buffer) => setDoc2(new Uint8Array(buffer)))
       .catch((error) => console.error("Error loading template", error));
   }, []);
 
@@ -106,36 +116,83 @@ function ResidentAndHousehold() {
     // Load your .docx template (you may need to adjust the path)
     console.log("gwww", doc);
   }, [doc]);
+  useEffect(() => {
+    // Load your .docx template (you may need to adjust the path)
+    console.log("gwww2", doc2);
+  }, [doc2]);
+  useEffect(() => {
+    // Load your .docx template (you may need to adjust the path)
+    console.log("gwww1", doc1);
+  }, [doc1]);
 
   const generateDocument = (name) => {};
   //TEXT
   const handlePrint = async (jsonData = null) => {
-    //generateDocument("JohnDoe");
     const Docxtemplater = require("docxtemplater");
 
     // Load the DOCX file content (assuming 'insert.docx' is in the public folder)
-    let gest = fetch("./insert.docx")
-      .then((response) => response)
-      .catch((error) => {
-        console.error("Error fetching or processing the DOCX file:", error);
-      });
+    console.log(jsonData);
+
+    var birthdate = new Date(jsonData[1]["dateOfBirth"]);
+    var currentDate = new Date();
+
+    // Calculate the difference in years
+    var age = currentDate.getFullYear() - birthdate.getFullYear();
+
+    // Adjust age if the birthday hasn't occurred yet this year
+    if (
+      currentDate.getMonth() < birthdate.getMonth() ||
+      (currentDate.getMonth() === birthdate.getMonth() &&
+        currentDate.getDate() < birthdate.getDate())
+    ) {
+      age--;
+    }
+
+    var month = currentDate.getMonth() + 1; // Months are zero-based, so add 1
+    var day = currentDate.getDate();
+    var year = currentDate.getFullYear();
+
+    let data32 = {};
+    var formattedDate = month + "/" + day + "/" + year;
+    let heaven = "";
+    switch (jsonData[0]["documentName"]) {
+      case "Barangay Clearance":
+        heaven = doc;
+        data32 = {
+          NAME: `${jsonData[1]["firstName"]} ${jsonData[1]["middleName"]} ${jsonData[1]["lastName"]}`,
+          AGE: age,
+          GENDER: jsonData[1]["gender"],
+          ADDRESS: jsonData[2]["address"],
+          DATETODAY: formattedDate,
+        };
+        break;
+      case "Certificate of Recidency":
+        heaven = doc2;
+        data32 = {
+          NAME: `${jsonData[1]["firstName"]} ${jsonData[1]["middleName"]} ${jsonData[1]["lastName"]}`,
+          AGE: age,
+          ADDRESS: jsonData[2]["address"],
+          DATETODAY: formattedDate,
+        };
+        break;
+      case "Barangay Indigency":
+        heaven = doc1;
+        data32 = {
+          NAME: `${jsonData[1]["firstName"]} ${jsonData[1]["middleName"]} ${jsonData[1]["lastName"]}`,
+          BIRTHDATE: age,
+          ADDRESS: jsonData[2]["address"],
+        };
+        break;
+    }
     try {
-      const zip = new PizZip(doc);
+      const zip = new PizZip(heaven);
       const docx = new Docxtemplater(zip);
 
       // Replace placeholders in the template with dynamic data
-      docx.setData({
-        NAME: "ioioio",
-        AGE: "2234",
-        GENDER: "2234",
-        ADDRESS: "2234",
-        DATETODAY: "2234",
-      });
+      docx.setData(data32);
 
       // Render the document
-      console.log("Before rendering");
       docx.render();
-      console.log("After rendering");
 
       // Get the modified document as a buffer
       const updatedDocBuffer = docx.getZip().generate({ type: "uint8array" });
