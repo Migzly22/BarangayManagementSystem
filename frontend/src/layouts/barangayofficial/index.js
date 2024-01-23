@@ -42,7 +42,7 @@ import modalTableData from "layouts/barangayofficial/data/TableData2";
 import { useEffect, useState } from "react";
 import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
 import Swal from "sweetalert2";
-import SearchInput from "layouts/barangaydocument/search/index";
+import SearchInput from "layouts/barangayofficial/search/index";
 
 function barangayofficial() {
   const helloworld = { data: "123" };
@@ -95,7 +95,6 @@ function barangayofficial() {
     settextitself(textval);
   };
   const handleSaving = async () => {
-    handleCloseModal();
     let neid = textitself.split(":")[0];
     const currentDate = new Date();
 
@@ -128,6 +127,12 @@ function barangayofficial() {
     });
   };
   const handleChangePos = async (jsonData2) => {
+    handleCloseModal();
+    if (textitself === "") {
+      await Swal.fire("Error!", "New official is unfilled. Please enter a value.", "error");
+      return;
+    }
+
     let neid = textitself.split(":")[0];
     // Use the callback function to access the updated state
     setchangedPos(async (prevChangedPos) => {

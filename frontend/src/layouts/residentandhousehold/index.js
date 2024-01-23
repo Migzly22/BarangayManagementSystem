@@ -21,7 +21,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
-import { Modal, Backdrop, Fade } from "@mui/material";
+import { Modal, Backdrop, Fade, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -55,10 +55,10 @@ function ResidentAndHousehold() {
   const [textLname, setLname] = useState("");
   const [textAddress, setAddress] = useState("");
   const [textStreet, setStreet] = useState("");
-  const [textBday, setBday] = useState("01-01-2023");
+  const [textBday, setBday] = useState("01/01/2024");
   const [textEmail, setEmail] = useState("");
   const [textPnum, setPnum] = useState("");
-  const [textGender, setGender] = useState("");
+  const [textGender, setGender] = useState("Male");
 
   const [ids, setIDS] = useState([]);
 
@@ -72,10 +72,10 @@ function ResidentAndHousehold() {
     setLname("");
     setAddress("");
     setStreet("");
-    setBday("01/01/2023");
+    setBday("2024/01/01");
     setEmail("");
     setPnum("");
-    setGender("");
+    setGender("Male");
     setIDS([]);
   };
 
@@ -125,6 +125,33 @@ function ResidentAndHousehold() {
 
   const handleSavingEdit = async () => {
     handleCloseModal();
+    if (
+      textFname === "" ||
+      textMname === "" ||
+      textLname === "" ||
+      textAddress === "" ||
+      textStreet === "" ||
+      textEmail === "" ||
+      textPnum === "" ||
+      textGender === ""
+    ) {
+      // Display SweetAlert indicating that the user should fill in the required information
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please fill in the required information before adding a resident!",
+      });
+      return;
+    }
+    const pattern = /^\d{11}$/;
+    if (!pattern.test(textPnum)) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Numbers only in phone number",
+      });
+      return;
+    }
 
     if (!addingMode) {
       const [year, month, day] = textBday.includes("/") ? textBday.split("/") : textBday.split("-");
@@ -269,6 +296,23 @@ function ResidentAndHousehold() {
     handleOpenModal: handleOpenModal,
   });
 
+  const handlePhoneNumberChange = (event) => {
+    // Set a maximum length for the phone number (e.g., 10 characters)
+    const maxLength = 11;
+
+    // Get the input value
+    let inputValue = event.target.value;
+
+    // Trim any whitespace
+    inputValue = inputValue.trim();
+
+    // Check if the input length exceeds the maximum length
+    if (inputValue.length > maxLength) {
+      // If it exceeds, truncate the input
+      inputValue = inputValue.slice(0, maxLength);
+    }
+  };
+
   const Modal1 = (
     <Fade in={openModal}>
       <MDBox
@@ -363,13 +407,24 @@ function ResidentAndHousehold() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <MDBox mb={2}>
-                <MDInput
-                  type="text"
-                  label="Gender"
-                  fullWidth
-                  onChange={(event) => reInput(event, setGender)}
-                  value={textGender}
-                />
+                <FormControl fullWidth>
+                  <InputLabel id="select-label">Gender</InputLabel>
+                  <Select
+                    labelId="select-label"
+                    id="select"
+                    label="Select an Option"
+                    onChange={(event) => reInput(event, setGender)}
+                    value={textGender}
+                    style={{ height: "43px" }}
+                  >
+                    <MenuItem value="Male">
+                      <em>Male</em>
+                    </MenuItem>
+                    <MenuItem value="Female">
+                      <em>Female</em>
+                    </MenuItem>
+                  </Select>
+                </FormControl>
               </MDBox>
             </Grid>
           </Grid>

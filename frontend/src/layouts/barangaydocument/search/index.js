@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 
 const SearchInput = ({ texthandler, textitself }) => {
   const [inputValue, setInputValue] = useState(textitself);
-  const [recommendations, setRecommendations] = useState(["Option 1", "Option 2", "Option 3"]);
+  const [recommendations, setRecommendations] = useState([]);
 
   const searchingthename = async (newValue) => {
     texthandler(newValue);
@@ -53,7 +53,7 @@ const SearchInput = ({ texthandler, textitself }) => {
       options={recommendations}
       value={inputValue}
       onChange={(event, newValue) => searchingthename(newValue)}
-      renderInput={(params) => <TextField {...params} label="Search" variant="outlined" />}
+      renderInput={(params) => <TextField {...params} label="Resident Name" variant="outlined" />}
     />
   );
 };

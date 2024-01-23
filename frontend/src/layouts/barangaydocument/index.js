@@ -118,7 +118,7 @@ function ResidentAndHousehold() {
   }, [doc]);
   useEffect(() => {
     // Load your .docx template (you may need to adjust the path)
-    console.log("gwww2", doc2);
+    console.log("gwww21", doc2);
   }, [doc2]);
   useEffect(() => {
     // Load your .docx template (you may need to adjust the path)
@@ -240,6 +240,10 @@ function ResidentAndHousehold() {
 
   const handleSaving = async () => {
     handleCloseModal();
+    if (textitself === "" || selectedValue2 === "") {
+      await Swal.fire("Error!", "Requirements is unfilled. Please fillup.", "error");
+      return;
+    }
     let neid = textitself.split(":")[0];
     const currentDate = new Date();
 

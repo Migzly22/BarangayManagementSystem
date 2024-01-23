@@ -32,8 +32,10 @@ import { GETAPI, POSTAPI, PATCHAPI, DELETEAPI } from "axiosfunctions";
 
 function Basic({ handlingLogin }) {
   const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  const handleTogglePasswordVisibility = () => setShowPassword(!showPassword);
 
   //value container of inputs
   const [loginEmail, setLEmail] = useState("");
@@ -45,6 +47,21 @@ function Basic({ handlingLogin }) {
       passwordHash: loginPassword,
       access: "",
     };
+    if (!loginEmail || !loginPassword) {
+      Swal.fire({
+        text: "Please enter both email and password",
+        icon: "error",
+      });
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(loginEmail)) {
+      Swal.fire({
+        text: "Wrong email",
+        icon: "error",
+      });
+      return;
+    }
 
     let enteringresonse = await POSTAPI("UserAccount", "getUserAuth", data);
 
@@ -103,12 +120,20 @@ function Basic({ handlingLogin }) {
             </MDBox>
             <MDBox mb={2}>
               <MDInput
-                type="password"
+                type={showPassword ? "text" : "password"}
                 label="Password"
                 fullWidth
                 onChange={changePassword}
                 value={loginPassword}
               />
+              <MDButton
+                variant="text"
+                color="info"
+                onClick={handleTogglePasswordVisibility}
+                sx={{ fontSize: 12, marginTop: 1 }}
+              >
+                {showPassword ? "Hide Password" : "Show Password"}
+              </MDButton>
             </MDBox>
             <MDBox display="flex" alignItems="center" ml={-1}>
               <Switch checked={rememberMe} onChange={handleSetRememberMe} />
