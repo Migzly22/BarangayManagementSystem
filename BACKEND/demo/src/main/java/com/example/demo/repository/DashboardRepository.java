@@ -21,7 +21,7 @@ public interface DashboardRepository extends JpaRepository<DocumentsEntity,Long>
     @Query("SELECT COUNT(u.residentId) as Data FROM ResidentsEntity u ")
     List<Object[]> residents();//
 
-    @Query("SELECT u, a, i FROM DocumentsEntity u LEFT JOIN ResidentsEntity a ON u.residentId = a.residentId LEFT JOIN HouseholdInformationEntity i ON a.householdId = i.householdId" +
+    @Query("SELECT u, a, i FROM DocumentsEntity u LEFT JOIN ResidentsEntity a ON u.residentId = a.residentId LEFT JOIN HouseholdInformationEntity i ON a.householdId = i.householdId "  +
             "where u.status = 'Pending'")
     List<Object[]> selectAll();//
 

@@ -40,6 +40,7 @@ import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import ResidentAndHousehold from "layouts/residentandhousehold";
 import Documents from "layouts/barangaydocument";
+import Documents_Client from "layouts/barangaydocumentv2";
 import IncidentsReport from "layouts/incidentreport";
 import Officials from "layouts/barangayofficial";
 import Billing from "layouts/billing";
@@ -62,6 +63,15 @@ const routes = (handlingLogin, handlingLogout) => [
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard",
     component: <Dashboard />,
+  },
+  {
+    type: "collapse",
+    name: "Documents_Resident",
+    title: "Documents_Resident",
+    key: "barangaydocumentv2",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/barangaydocumentv2",
+    component: <Documents_Client />,
   },
   {
     type: "collapse",
@@ -224,6 +234,15 @@ const sidebarroutes = (handlingLogout) => [
 const sidebarroutesforassist = (handlingLogout) => [
   {
     type: "collapse",
+    name: "Dashboard",
+    title: "Dashboard",
+    key: "dashboard",
+    icon: <Icon fontSize="small">dashboard</Icon>,
+    route: "/dashboard",
+    component: <Dashboard />,
+  },
+  {
+    type: "collapse",
     name: "Documents",
     title: "Documents",
     key: "barangaydocument",
@@ -263,21 +282,12 @@ const sidebarroutesforassist = (handlingLogout) => [
 const sidebarforusers = (handlingLogout) => [
   {
     type: "collapse",
-    name: "Dashboard",
-    title: "Dashboard",
-    key: "dashboard",
-    icon: <Icon fontSize="small">dashboard</Icon>,
-    route: "/dashboard",
-    component: <Dashboard />,
-  },
-  {
-    type: "collapse",
-    name: "Documents",
-    title: "Documents",
-    key: "barangaydocument",
+    name: "Documents_Resident",
+    title: "Documents_Resident",
+    key: "barangaydocumentv2",
     icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/barangaydocument",
-    component: <Documents />,
+    route: "/barangaydocumentv2",
+    component: <Documents_Client />,
   },
   {
     type: "collapse",

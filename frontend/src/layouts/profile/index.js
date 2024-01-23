@@ -70,6 +70,7 @@ function Overview() {
 
       setname(name);
       setID(newvalue[0][0].userId);
+      console.log(newvalue);
     }
   }, [newvalue]);
 
