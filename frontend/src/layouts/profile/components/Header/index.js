@@ -35,8 +35,8 @@ import MDAvatar from "components/MDAvatar";
 import breakpoints from "assets/theme/base/breakpoints";
 
 // Images
-import burceMars from "assets/images/bruce-mars.jpg";
-import backgroundImage from "assets/images/bg-profile.jpeg";
+import burceMars from "assets/images/USER1.png";
+import backgroundImage from "assets/images/BGHALL.jpg";
 
 function Header({ Name, ID, children }) {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");

@@ -80,7 +80,7 @@ function Projects() {
       <MDBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
         <MDBox>
           <MDTypography variant="h6" gutterBottom>
-            Request Documents
+            Pending Request Documents
           </MDTypography>
         </MDBox>
       </MDBox>

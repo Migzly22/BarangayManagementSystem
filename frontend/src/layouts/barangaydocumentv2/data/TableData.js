@@ -139,7 +139,7 @@ export default function data(datafromdb, { handleEditModal, handlePrint }) {
 
   let tabledatas = {
     columns: [
-      { Header: "#", accessor: "idnum", align: "left" },
+      { Header: "ID", accessor: "idnum", align: "left" },
       { Header: "Document", accessor: "documentname", align: "left" },
       { Header: "Name", accessor: "name", align: "left" },
       { Header: "Request", accessor: "drequest", align: "left" },
@@ -152,7 +152,7 @@ export default function data(datafromdb, { handleEditModal, handlePrint }) {
   };
   const nodata = {
     columns: [
-      { Header: "#", accessor: "idnum", align: "left" },
+      { Header: "ID", accessor: "idnum", align: "left" },
       { Header: "Document", accessor: "documentname", align: "left" },
       { Header: "Name", accessor: "name", align: "left" },
       { Header: "Request", accessor: "drequest", align: "left" },

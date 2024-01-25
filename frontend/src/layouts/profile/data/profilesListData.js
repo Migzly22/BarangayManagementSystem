@@ -14,7 +14,8 @@ Coded by www.creative-tim.com
 */
 
 // Images
-import kal from "assets/images/kal-visuals-square.jpg";
+import email from "assets/images/USER.png";
+import pass from "assets/images/pass.png";
 import marie from "assets/images/marie.jpg";
 import ivana from "assets/images/ivana-square.jpg";
 import team3 from "assets/images/team-3.jpg";
@@ -22,6 +23,7 @@ import team4 from "assets/images/team-4.jpg";
 
 export default [
   {
+    image: email,
     name: "Email",
     description: "Change Email",
     action: {
@@ -33,6 +35,7 @@ export default [
     },
   },
   {
+    image: pass,
     name: "Password",
     description: "Change your Password",
     action: {

@@ -123,6 +123,10 @@ function ResidentAndHousehold() {
 
   const handleSavingEdit = async () => {
     handleCloseModal();
+    if (selectedValue === "" || textDT === "" || selectedValue2 === "") {
+      Swal.fire("Error!", "Requirements is unfilled. Please fillup.", "error");
+      return;
+    }
     if (!addingMode) {
       await Swal.fire({
         title: "Do you want to save the changes?",
@@ -331,7 +335,7 @@ function ResidentAndHousehold() {
             <Grid item xs={12} sm={12}>
               <MDBox mb={2}>
                 <FormControl fullWidth>
-                  <InputLabel id="select-label">Reported By </InputLabel>
+                  <InputLabel id="select-label">Status </InputLabel>
                   <Select
                     labelId="select-label"
                     id="select"

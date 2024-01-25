@@ -24,7 +24,7 @@ import MDButton from "components/MDButton";
 import BasicLayout from "layouts/authentication/components/BasicLayout";
 import PropTypes from "prop-types";
 // Images
-import bgImage from "assets/images/brgyhall.png";
+import bgImage from "assets/images/BGHALL.jpg";
 import logo from "assets/images/logo.png";
 import Swal from "sweetalert2";
 //Axios
@@ -107,7 +107,7 @@ function Basic({ handlingLogin }) {
           </MDTypography>
         </MDBox>
         <BasicLayout logo={logo}></BasicLayout>
-        <MDBox pt={2} pb={-10} px={3} mt={-64}>
+        <MDBox pt={-10} pb={-20} px={3} mt={-64}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
               <MDInput

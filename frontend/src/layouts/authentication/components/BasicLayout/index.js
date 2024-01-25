@@ -54,7 +54,7 @@ function BasicLayout({ image, children, logo }) {
           height="26%"
           left="0"
           right="0"
-          top="15%" // Adjust this value to move the logo higher or lower
+          top="5%" // Adjust this value to move the logo higher or lower
           margin="auto"
           sx={{
             backgroundImage: ({ functions: { linearGradient, rgba }, palette: { gradients } }) =>
