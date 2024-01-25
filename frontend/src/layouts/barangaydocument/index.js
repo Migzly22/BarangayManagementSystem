@@ -149,7 +149,7 @@ function ResidentAndHousehold() {
       const updatedDocBuffer = docx.getZip().generate({ type: "uint8array" });
 
       // Save the updated document with a new name
-      saveAs(new Blob([updatedDocBuffer]), `${name}_document.docx`);
+      saveAs(new Blob([updatedDocBuffer]), `BarangayDocument.docx`);
     } catch (error) {
       console.error("Error generating document", error);
     }
@@ -174,7 +174,7 @@ function ResidentAndHousehold() {
       const updatedDocBuffer = docx.getZip().generate({ type: "uint8array" });
 
       // Save the updated document with a new name
-      saveAs(new Blob([updatedDocBuffer]), `${name}_document.docx`);
+      saveAs(new Blob([updatedDocBuffer]), `BarangayDocument.docx`);
     } catch (error) {
       console.error("Error generating document", error);
     }
@@ -199,7 +199,7 @@ function ResidentAndHousehold() {
       const updatedDocBuffer = docx.getZip().generate({ type: "uint8array" });
 
       // Save the updated document with a new name
-      saveAs(new Blob([updatedDocBuffer]), `${name}_document.docx`);
+      saveAs(new Blob([updatedDocBuffer]), `BarangayDocument.docx`);
     } catch (error) {
       console.error("Error generating document", error);
     }
@@ -276,7 +276,7 @@ function ResidentAndHousehold() {
       const updatedDocBuffer = docx.getZip().generate({ type: "uint8array" });
 
       // Save the updated document with a new name
-      saveAs(new Blob([updatedDocBuffer]), `${name}_document.docx`);
+      saveAs(new Blob([updatedDocBuffer]), `BarangayDocument.docx`);
     } catch (error) {
       console.error("Error generating document", error);
     }

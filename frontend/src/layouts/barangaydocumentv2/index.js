@@ -125,7 +125,6 @@ function ResidentAndHousehold() {
     console.log("gwww1", doc1);
   }, [doc1]);
 
-
   const [d1, setd1] = useState(false);
   const [d2, setd2] = useState(false);
   const [d3, setd3] = useState(false);
@@ -150,7 +149,7 @@ function ResidentAndHousehold() {
       const updatedDocBuffer = docx.getZip().generate({ type: "uint8array" });
 
       // Save the updated document with a new name
-      saveAs(new Blob([updatedDocBuffer]), `${name}_document.docx`);
+      saveAs(new Blob([updatedDocBuffer]), `BarangayDocument.docx`);
     } catch (error) {
       console.error("Error generating document", error);
     }
@@ -175,7 +174,7 @@ function ResidentAndHousehold() {
       const updatedDocBuffer = docx.getZip().generate({ type: "uint8array" });
 
       // Save the updated document with a new name
-      saveAs(new Blob([updatedDocBuffer]), `${name}_document.docx`);
+      saveAs(new Blob([updatedDocBuffer]), `BarangayDocument.docx`);
     } catch (error) {
       console.error("Error generating document", error);
     }
@@ -200,7 +199,7 @@ function ResidentAndHousehold() {
       const updatedDocBuffer = docx.getZip().generate({ type: "uint8array" });
 
       // Save the updated document with a new name
-      saveAs(new Blob([updatedDocBuffer]), `${name}_document.docx`);
+      saveAs(new Blob([updatedDocBuffer]), `BarangayDocument.docx`);
     } catch (error) {
       console.error("Error generating document", error);
     }
@@ -277,14 +276,12 @@ function ResidentAndHousehold() {
       const updatedDocBuffer = docx.getZip().generate({ type: "uint8array" });
 
       // Save the updated document with a new name
-      saveAs(new Blob([updatedDocBuffer]), `${name}_document.docx`);
+      saveAs(new Blob([updatedDocBuffer]), `BarangayDocument.docx`);
     } catch (error) {
       console.error("Error generating document", error);
     }
     */
   };
-
-
 
   const handleOpenModal = () => {
     setOpenModal(true);
