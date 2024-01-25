@@ -57,7 +57,7 @@ function Basic({ handlingLogin }) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(loginEmail)) {
       Swal.fire({
-        text: "Wrong email",
+        text: "Wrong Credentials",
         icon: "error",
       });
       return;
@@ -69,7 +69,7 @@ function Basic({ handlingLogin }) {
       handlingLogin(enteringresonse.data);
     } else {
       Swal.fire({
-        text: "Wrong Password ",
+        text: "Wrong Credentials",
         icon: "error",
       });
     }
