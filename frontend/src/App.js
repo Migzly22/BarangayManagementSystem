@@ -168,12 +168,23 @@ export default function App() {
       setAuthInfo(jsonObject);
       setAccessLevel(jsonObject.access);
 
-      if (
-        currentPathname === "/authentication/sign-in" ||
-        currentPathname === "/authentication/sign-up"
-      ) {
-        <Route path="*" element={<Navigate to="/dashboard" />} />;
-        navigate("./dashboard");
+      if (jsonObject.access === "USERS") {
+        if (
+          currentPathname === "/authentication/sign-in" ||
+          currentPathname === "/authentication/sign-up" ||
+          currentPathname === "/dashboard"
+        ) {
+          <Route path="*" element={<Navigate to="/barangaydocumentv2" />} />;
+          navigate("./barangaydocumentv2");
+        }
+      } else {
+        if (
+          currentPathname === "/authentication/sign-in" ||
+          currentPathname === "/authentication/sign-up"
+        ) {
+          <Route path="*" element={<Navigate to="/dashboard" />} />;
+          navigate("./dashboard");
+        }
       }
     } else if (authInfo == null) {
       if (

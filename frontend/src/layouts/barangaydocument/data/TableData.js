@@ -103,14 +103,6 @@ export default function data(datafromdb, { handleEditModal, handlePrint }) {
                 <MDButton
                   variant="contained"
                   size="medium"
-                  color="info"
-                  onClick={() => Editbtn("Edit User", resident)}
-                >
-                  <Icon fontSize="large">edit</Icon>
-                </MDButton>
-                <MDButton
-                  variant="contained"
-                  size="medium"
                   color="success"
                   onClick={() => Printbtn(resident)}
                 >

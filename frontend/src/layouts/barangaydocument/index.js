@@ -231,8 +231,6 @@ function ResidentAndHousehold() {
         setDbData(result);
 
         await Swal.fire("Saved!", "", "success");
-      } else {
-        handleEditModal();
       }
     });
   };
