@@ -84,6 +84,7 @@ export default function data(datafromdb, { handlingDelete1, handleOpenModal }) {
             >
               <Icon fontSize="large">edit</Icon>
             </MDButton>
+            {/*
             <MDButton
               variant="contained"
               size="medium"
@@ -95,8 +96,10 @@ export default function data(datafromdb, { handlingDelete1, handleOpenModal }) {
                 )
               }
             >
+      
               <Icon fontSize="medium">delete</Icon>
             </MDButton>
+*/}
           </Stack>
         </MDTypography>
       ),
