@@ -148,7 +148,7 @@ function ResidentAndHousehold() {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Numbers only in phone number",
+        text: "Use Philippine number only.",
       });
       return;
     }
