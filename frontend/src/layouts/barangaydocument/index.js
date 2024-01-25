@@ -125,11 +125,87 @@ function ResidentAndHousehold() {
     console.log("gwww1", doc1);
   }, [doc1]);
 
-  const generateDocument = (name) => {};
-  //TEXT
-  const handlePrint = async (jsonData = null) => {
-    const Docxtemplater = require("docxtemplater");
+  const [d1, setd1] = useState(false);
+  const [d2, setd2] = useState(false);
+  const [d3, setd3] = useState(false);
 
+  useEffect(() => {
+    // Load your .docx template (you may need to adjust the path)
+    console.log("gwww1", doc);
+    console.log("gwww1", d1);
+    const Docxtemplater = require("docxtemplater");
+    try {
+      const zip = new PizZip(doc);
+      const docx = new Docxtemplater(zip);
+
+      // Replace placeholders in the template with dynamic data
+
+      docx.setData(d1);
+
+      // Render the document
+      docx.render();
+
+      // Get the modified document as a buffer
+      const updatedDocBuffer = docx.getZip().generate({ type: "uint8array" });
+
+      // Save the updated document with a new name
+      saveAs(new Blob([updatedDocBuffer]), `${name}_document.docx`);
+    } catch (error) {
+      console.error("Error generating document", error);
+    }
+  }, [d1]);
+  useEffect(() => {
+    // Load your .docx template (you may need to adjust the path)
+    console.log("gwww1", doc1);
+    console.log("gwww1", d2);
+    const Docxtemplater = require("docxtemplater");
+    try {
+      const zip = new PizZip(doc1);
+      const docx = new Docxtemplater(zip);
+
+      // Replace placeholders in the template with dynamic data
+
+      docx.setData(d2);
+
+      // Render the document
+      docx.render();
+
+      // Get the modified document as a buffer
+      const updatedDocBuffer = docx.getZip().generate({ type: "uint8array" });
+
+      // Save the updated document with a new name
+      saveAs(new Blob([updatedDocBuffer]), `${name}_document.docx`);
+    } catch (error) {
+      console.error("Error generating document", error);
+    }
+  }, [d2]);
+  useEffect(() => {
+    // Load your .docx template (you may need to adjust the path)
+    console.log("gwww1", doc2);
+    console.log("gwww1", d3);
+    const Docxtemplater = require("docxtemplater");
+    try {
+      const zip = new PizZip(doc2);
+      const docx = new Docxtemplater(zip);
+
+      // Replace placeholders in the template with dynamic data
+
+      docx.setData(d3);
+
+      // Render the document
+      docx.render();
+
+      // Get the modified document as a buffer
+      const updatedDocBuffer = docx.getZip().generate({ type: "uint8array" });
+
+      // Save the updated document with a new name
+      saveAs(new Blob([updatedDocBuffer]), `${name}_document.docx`);
+    } catch (error) {
+      console.error("Error generating document", error);
+    }
+  }, [d3]);
+
+  const handlePrint = (jsonData = null) => {
     // Load the DOCX file content (assuming 'insert.docx' is in the public folder)
 
     var birthdate = new Date(jsonData[1]["dateOfBirth"]);
@@ -154,9 +230,9 @@ function ResidentAndHousehold() {
     let data32 = {};
     var formattedDate = month + "/" + day + "/" + year;
     let heaven = "";
+
     switch (jsonData[0]["documentName"]) {
       case "Barangay Clearance":
-        heaven = doc;
         data32 = {
           NAME: `${jsonData[1]["firstName"]} ${jsonData[1]["middleName"]} ${jsonData[1]["lastName"]}`,
           AGE: age,
@@ -164,30 +240,33 @@ function ResidentAndHousehold() {
           ADDRESS: jsonData[2]["address"],
           DATETODAY: formattedDate,
         };
+        setd1(data32);
         break;
       case "Certificate of Recidency":
-        heaven = doc2;
         data32 = {
           NAME: `${jsonData[1]["firstName"]} ${jsonData[1]["middleName"]} ${jsonData[1]["lastName"]}`,
           AGE: age,
           ADDRESS: jsonData[2]["address"],
           DATETODAY: formattedDate,
         };
+        setd2(data32);
         break;
       case "Barangay Indigency":
-        heaven = doc1;
         data32 = {
           NAME: `${jsonData[1]["firstName"]} ${jsonData[1]["middleName"]} ${jsonData[1]["lastName"]}`,
           BIRTHDATE: age,
           ADDRESS: jsonData[2]["address"],
         };
+        setd3(data32);
         break;
     }
+    /*
     try {
       const zip = new PizZip(heaven);
       const docx = new Docxtemplater(zip);
 
       // Replace placeholders in the template with dynamic data
+
       docx.setData(data32);
 
       // Render the document
@@ -201,7 +280,9 @@ function ResidentAndHousehold() {
     } catch (error) {
       console.error("Error generating document", error);
     }
+    */
   };
+
   const handleOpenModal = () => {
     setOpenModal(true);
   };
